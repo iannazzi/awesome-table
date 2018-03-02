@@ -3,6 +3,8 @@ Number Formatter
 
 A small library that adds commas to numbers
 
+[![Build Status](https://travis-ci.org/iannazzi/awesome-table.svg?branch=master)](https://travis-ci.org/iannazzi/awesome-table)
+
 ## Installation
 
   `npm install @jdaudier/number-formatter`
