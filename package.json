@@ -1,0 +1,23 @@
+{
+  "name": "awesome-table",
+  "version": "1.0.0",
+  "description": "javascript table to display, create, list, sort, search records",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iannazzi/awesome-table.git"
+  },
+  "keywords": [
+    "javascript",
+    "table"
+  ],
+  "author": "Craig Iannazzi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iannazzi/awesome-table/issues"
+  },
+  "homepage": "https://github.com/iannazzi/awesome-table#readme"
+}
