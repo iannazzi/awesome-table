@@ -1,0 +1,37 @@
+.search_table {
+  margin: 5px 0px 5px 0px;
+
+  @extend .table;
+  @extend .table-condensed;
+  @extend .table-bordered;
+}
+.search_buttons {
+
+}
+.search_buttons button {
+  @extend .btn ;
+  @extend .btn-default;
+  @extend .btn-lg;
+  margin: 5px 5px 5px 0px;
+}
+.search_buttons  .search {
+  @extend .btn-primary;
+
+}
+
+.search_buttons  i {
+  display: inline-block;
+  vertical-align:middle;
+  padding-right: 5px;
+}
+.search_buttons  p {
+  display: inline-block;
+  text-align: center;
+  margin: auto;
+}
+
+.search_buttons   .reset {
+
+  @extend .btn-danger-light;
+
+}

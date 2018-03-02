@@ -1,0 +1,62 @@
+.recordTableView .btn-new
+{
+  @extend .btn-lg;
+}
+.record_table {
+  width: 600px;
+  @extend .table-condensed;
+  @extend .table-bordered;
+  @extend .table-hover;
+  margin: 5px 0px 5px 0px;
+}
+
+.record_table tbody td {
+  white-space: pre-wrap;
+  input {
+    width: 100%;
+  }
+  textarea{
+    width:100%;
+  }
+
+}
+
+
+
+
+.record_table_buttons button {
+  @extend .btn ;
+  @extend .btn-default;
+  @extend .btn-lg;
+  margin: 5px 5px 5px 0px;
+
+}
+.record_table_buttons .edit {
+  @extend .btn-primary;
+  margin: 5px 5px 5px 0px;
+}
+.record_table_buttons .save {
+  @extend .btn-primary;
+  margin: 5px 5px 5px 0px;
+}
+.record_table_buttons .cancel {
+  @extend .btn-danger-light;
+  margin: 5px 5px 5px 0px;
+}
+.record_table_buttons .delete {
+  @extend .btn-danger-light;
+  margin: 5px 5px 5px 0px;
+}
+
+
+//modal
+
+.modal-dialog{
+  width: 650px;
+}
+.modal-dialog  .record_table_div .record_table{
+  margin: 0 auto;
+}
+.modal-dialog .record_table_div .record_table{
+  margin: 0 auto;
+}

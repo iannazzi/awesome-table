@@ -1,0 +1,65 @@
+.data_table {
+  @extend .table;
+  @extend .table-condensed;
+  @extend .table-bordered;
+  @extend .table-hover;
+  margin: 5px 0px 5px 0px;
+  a {
+    text-decoration: underline;
+  }
+}
+.data_table th{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+}
+
+.data_table th p {
+  display: inline-block;
+  text-align: center;
+  margin: auto;
+}
+.data_table th i {
+  float: right;
+  display: inline-block;
+  vertical-align:middle;
+  padding-left: 5px;
+}
+
+.data_table tbody tr:nth-child(even){
+  background: RGB(240,240,240);
+}
+.data_table tbody tr:nth-child(odd){
+  background: RGB(255,255,255);
+}
+.data_table tbody tr:hover{
+  background: RGB(210,210,210);
+}
+ .thHighlight
+ {
+   background-color: $magic-yellow;
+ }
+
+.data_table_edit_buttons button {
+  @extend .btn ;
+  @extend .btn-default;
+  @extend .btn-lg;
+  margin: 5px 5px 5px 0px;
+
+}
+.data_table_edit_buttons .edit {
+  @extend .btn-primary;
+  margin: 5px 5px 5px 0px;
+}
+.data_table_edit_buttons .save {
+  @extend .btn-primary;
+  margin: 5px 5px 5px 0px;
+}
+.data_table_edit_buttons .cancel {
+  @extend .btn-danger-light;
+  margin: 5px 5px 5px 0px;
+}
+.data_table_edit_buttons .delete {
+  @extend .btn-danger-light;
+  margin: 5px 5px 5px 0px;
+}
