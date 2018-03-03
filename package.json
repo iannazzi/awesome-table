@@ -1,6 +1,6 @@
 {
   "name": "awesome-table",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "javascript table to display, create, list, sort, search records",
   "main": "src/Awesome.js",
   "scripts": {
