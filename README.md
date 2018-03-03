@@ -1,13 +1,13 @@
-Number Formatter
+Awesome Table
 =========
 
-A small library that adds commas to numbers
+A face melting mvc javascript/jquery table for creating, updating, deleting, displaying, sorting, and searching
 
 [![Build Status](https://travis-ci.org/iannazzi/awesome-table.svg?branch=master)](https://travis-ci.org/iannazzi/awesome-table)
 
 ## Installation
 
-  `npm install @jdaudier/number-formatter`
+  `npm install awesome-table`
 
 ## Usage
 

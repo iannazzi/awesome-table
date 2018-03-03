@@ -2,7 +2,7 @@
  * Created by embrasse-moi on 1/19/17.
  */
 import {TableEvent} from './TableEvent'
-import {isValueInArray} from '../../lib/array_help';
+import {isValueInArray} from '../lib/array_help';
 export class TableModel {
     /*
      table model takes the table def and data

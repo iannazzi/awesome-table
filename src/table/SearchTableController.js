@@ -1,5 +1,5 @@
 import {CollectionTableController} from './CollectionTableController'
-import {parseQuery} from '../../lib/url'
+import {parseQuery} from '../lib/url'
 import {SearchTableEvents} from './SearchTableEvents';
 
 export class SearchTableController extends CollectionTableController {
