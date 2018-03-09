@@ -4,10 +4,10 @@
 import {myParseFloat, round2, isNumber} from './math';
 
 import { TableEvent } from './TableEvent';
-import {ErrorModal} from '../modal/ErrorModal'
-import {FormModal} from '../modal/FormModal'
-import {createWaitModal} from '../modal/waitModal'
-import {createConfirmModal} from '../modal/confirmModal'
+// import {ErrorModal} from '../modal/ErrorModal'
+// import {FormModal} from '../modal/FormModal'
+// import {createWaitModal} from '../modal/waitModal'
+// import {createConfirmModal} from '../modal/confirmModal'
 
 
 

@@ -115,19 +115,7 @@ export class RecordTableController extends TableController {
     {
         return ! this.checkWrite();
     }
-    makeEditable(){
-        this.model.td.table_view = 'edit';
-        this.model.td.access = 'write';
-        this.view.updateTable();
-        this.view.updateButtons();
-        this.setFocusToFirstInput();
-    }
-    makeReadable(){
-        this.model.td.table_view = 'edit';
-        this.model.td.access = 'read';
-        this.view.updateTable();
-        this.view.updateButtons();
-    }
+
 
 
 }

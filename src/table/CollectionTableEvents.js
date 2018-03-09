@@ -72,16 +72,7 @@ export class CollectionTableEvents extends TableEvents{
             }
         );
 
-        //##################   SAVE
-        view.onSaveClick = new TableEvent(view);
-        controller.view.onSaveClick.attach(
-            function () {
-                if(typeof controller.model.td.onSaveClick === 'function'){
-                    controller.model.td.onSaveClick();
-                }
 
-            }
-        );
         //##################   SAVE SUCCESS
         controller.onSaveSuccess = new TableEvent(controller);
         controller.onSaveSuccess.attach(

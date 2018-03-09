@@ -1,11 +1,13 @@
 export class UriController{
     constructor(controller){
         this.controller=controller;
-        let name = controller.model.td.name;
-        this.stored_search_key = name + '_search';
-        this.stored_sort_key = name + '_sort';
     }
-
+    getStoredSortName(){
+        return this.controller.model.td.name + '_sort';
+    }
+    getStoredSearchName(){
+        return this.controller.model.td.name + '_search';
+    }
     getUri(){
         let sort_data = this.getSortUri();
         let search_data = this.getSearchUrlData();
@@ -19,10 +21,6 @@ export class UriController{
         url_data['table_name'] = this.controller.view.name;
         return url_data;
     }
-
-
-
-
     checkUri(search_query) {
         let uri = new JsUri(search_query)
         for (let i = 0; i < this.controller.view.search_elements.length; i++) {
@@ -32,10 +30,6 @@ export class UriController{
         }
         return false;
     }
-
-
-
-
     loadFromUri(search_query){
         console.log('loading from uri')
         this.loadSearchValuesFromUri(search_query)
@@ -53,7 +47,6 @@ export class UriController{
         })
 
     }
-
     onSort(args, search_query){
         // console.log('uri on sort')
         //coming in from click the header
@@ -95,7 +88,7 @@ export class UriController{
                 this.addSort(name, 'desc')
                 break;
         }
-        sessionStorage[this.stored_sort_key] = JSON.stringify(this.controller.model.sort);
+        sessionStorage[this.getStoredSortName()] = JSON.stringify(this.controller.model.sort);
         // this was bad.... this.pushState(uri);
 
 
@@ -130,23 +123,21 @@ export class UriController{
 
     }
     checkStorage() {
-        // console.log('checkStorageForSearch ' + this.stored_search_key);
-        return window.storage[this.stored_search_key]
+        // console.log('checkStorageForSearch ' + this.getStoredSearchName());
+        return window.storage[this.getStoredSearchName()]
 
     }
-
     retrieveSearch() {
-        return JSON.parse(window.storage[this.stored_search_key]);
+        return JSON.parse(window.storage[this.getStoredSearchName()]);
     }
-
     storeSearch() {
         let search_values = this.controller.getSearchFormValues();
-        window.storage[this.stored_search_key] = JSON.stringify(search_values);
-        //sessionStorage[this.stored_search_key] = JSON.stringify(search_values);
+        window.storage[this.getStoredSearchName()] = JSON.stringify(search_values);
+        //sessionStorage[this.getStoredSearchName()] = JSON.stringify(search_values);
     }
     loadSearchFromStorage() {
         console.log('loading search values from storage')
-        console.log(window.storage[this.stored_search_key])
+        console.log(window.storage[this.getStoredSearchName()])
         let stored_values = this.retrieveSearch();
         this.controller.view.search_elements.forEach(element => {
             if (stored_values[element.name]) {
@@ -157,7 +148,6 @@ export class UriController{
 
 
     }
-
     addSort(name, value) {
         let save = {};
         save[name] = value;
@@ -176,8 +166,8 @@ export class UriController{
     //     })
     // }
     loadSortFromStorage() {
-        if(window.storage[this.stored_sort_key]){
-            this.controller.model.sort = JSON.parse(window.storage[this.stored_sort_key]);
+        if(window.storage[this.getStoredSortName()]){
+            this.controller.model.sort = JSON.parse(window.storage[this.getStoredSortName()]);
         }
     }
     removeSort(name) {
@@ -188,7 +178,6 @@ export class UriController{
             return keys[0] !== name;
         });
     }
-
     onReset(){
 
         //let uri = new JsUri(window.location.href)
@@ -196,8 +185,8 @@ export class UriController{
         //this.removeSortFromUri(uri);
         //console.log('pushing ' + uri.toString())
         //this.pushState(uri);
-        delete window.storage[this.stored_search_key];
-        delete window.storage[this.stored_sort_key];
+        delete window.storage[this.getStoredSearchName()];
+        delete window.storage[this.getStoredSortName()];
         this.resetStoredSort();
 
         //this callback should send it
@@ -208,8 +197,6 @@ export class UriController{
     resetStoredSort(){
         this.controller.model.sort = [];
     }
-
-
 
 
     //uri

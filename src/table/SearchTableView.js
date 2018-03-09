@@ -86,7 +86,7 @@ createSearchButtons(){
 
     updateSearchThead(thead) {
         let tr = thead.insertRow();
-        this.cdo.forEach(col_def => {
+        this.model.cdo.forEach(col_def => {
             if (typeof col_def['search'] !== 'undefined') {
 
                 let th_width = '';
@@ -126,7 +126,7 @@ createSearchButtons(){
         let tr = tbody.insertRow();
         let col_counter = 0;
         this.search_elements = [];
-        this.cdo.forEach(col_def => {
+        this.model.cdo.forEach(col_def => {
             if (typeof col_def['search'] != 'undefined') {
                 let th_width = '';
                 let cell_html = '';

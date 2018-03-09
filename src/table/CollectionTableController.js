@@ -3,7 +3,6 @@
  */
 import {TableController} from './TableController';
 import {CollectionTableEvents} from './CollectionTableEvents'
-import {UriController} from './UriController';
 
 
 export class CollectionTableController extends TableController {
@@ -12,7 +11,6 @@ export class CollectionTableController extends TableController {
         this.view = view;
         this.cdo = this.model.cdo;
 
-        this.uri = new UriController(this);
 
         this.collectionTableEvents = new CollectionTableEvents(this);
 
@@ -115,7 +113,7 @@ export class CollectionTableController extends TableController {
         let tbody = this.view.tbody;
         let rowCount = tbody.rows.length;
         for (let r = 0; r < rowCount; r++) {
-            this.cdo.forEach((col_def) => {
+            this.model.cdo.forEach((col_def) => {
                 if (col_def['show_on_list']) {
                     if (typeof col_def.array !== 'undefined' && col_def.array) {
                         col_def.caption[0].forEach((caption_row, col) => {
@@ -155,23 +153,23 @@ export class CollectionTableController extends TableController {
         //this should be the same function as above, but check each row....
         errors = '';
 
-        for (i = 0; i < this.cdo.length; i++) {
-            if (typeof this.cdo[i]['db_field'] !== 'undefined') {
-                if (typeof this.cdo[i]['validate'] !== 'undefined') {
+        for (i = 0; i < this.model.cdo.length; i++) {
+            if (typeof this.model.cdo[i]['db_field'] !== 'undefined') {
+                if (typeof this.model.cdo[i]['validate'] !== 'undefined') {
                     // go through each row
-                    var elements = document.getElementsByName(this.cdo[i]['db_field'] + '[]');
+                    var elements = document.getElementsByName(this.model.cdo[i]['db_field'] + '[]');
                     for (el = 0; el < elements.length; el++) {
-                        if (typeof this.cdo[i]['validate']['not_blank_or_zero_or_false_or_null'] !== 'undefined') {
+                        if (typeof this.model.cdo[i]['validate']['not_blank_or_zero_or_false_or_null'] !== 'undefined') {
                             if (elements[el].value == '' ||
                                 round2(elements[el].value, 0) == 0 || elements[el].value == 'false' || elements[el].value == 'NULL') {
-                                errors += 'Bad Value For ' + this.cdo[i]['caption'] + ' Row ' + (el + 1) + newline();
+                                errors += 'Bad Value For ' + this.model.cdo[i]['caption'] + ' Row ' + (el + 1) + newline();
                             }
                         }
-                        else if (typeof this.cdo[i]['validate']['acceptable_values'] !== 'undefined') {
-                            acceptable_values = this.cdo[i]['validate']['acceptable_values'][0];
+                        else if (typeof this.model.cdo[i]['validate']['acceptable_values'] !== 'undefined') {
+                            acceptable_values = this.model.cdo[i]['validate']['acceptable_values'][0];
                             if (acceptable_value == 'number') {
                                 if (isNaN(elements[el].value)) {
-                                    errors += this.cdo[i]['db_field'] + ' needs to be a value.' + newline();
+                                    errors += this.model.cdo[i]['db_field'] + ' needs to be a value.' + newline();
                                     elements[el].focus();
                                 }
                             }
@@ -223,8 +221,8 @@ export class CollectionTableController extends TableController {
         let column = -1;
         let table_data_array_column = 0;
         let html_column_counter = 0;
-        for (i = 0; i < this.cdo.length; i++) {
-            if (!this.cdo[i]['show_on_list']) {
+        for (i = 0; i < this.model.cdo.length; i++) {
+            if (!this.model.cdo[i]['show_on_list']) {
                 html_column_counter = html_column_counter + 1;
             }
             table_data_array_column = table_data_array_column + 1;

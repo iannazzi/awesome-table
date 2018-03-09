@@ -16,14 +16,7 @@ export class RecordTableEvents extends TableEvents {
             }
         );
 
-        //##################   INPUT CHANGED
-        view.inputChanged = new TableEvent(view);
-        controller.view.inputChanged.attach(
-            function () {
-                console.log('input changed');
-                controller.copyTable()
-            }
-        );
+
         view.individualSelectChanged = new TableEvent(view);
         controller.view.individualSelectChanged.attach(
             function () {
@@ -32,6 +25,17 @@ export class RecordTableEvents extends TableEvents {
                 //controller.view.updateIndividualSelectOptions();
             }
         );
+
+        //##################   INPUT CHANGED
+        view.inputChanged = new TableEvent(view);
+        controller.view.inputChanged.attach(
+            function () {
+                console.log('input changed');
+                controller.copyTable()
+            }
+        );
+
+
 
         //##################   EDIT CLICKED
         view.onEditClick = new TableEvent(view);
@@ -98,17 +102,7 @@ export class RecordTableEvents extends TableEvents {
             }
         );
 
-        //##################   SAVE CLICKED
-        view.onSaveClick = new TableEvent(view);
-        controller.view.onSaveClick.attach(
-            function () {
 
-                if (typeof controller.model.td.onSaveClick === 'function') {
-                    controller.model.td.onSaveClick();
-                }
-
-            }
-        );
 
         //##################   SAVE SUCCESS
         controller.onSaveSuccess = new TableEvent(controller);
@@ -177,37 +171,42 @@ export class RecordTableEvents extends TableEvents {
         //##################   DELETE CLICKED
         view.onDeleteClick = new TableEvent(view);
         view.onDeleteClick.attach(function () {
-            controller.getConfirm('Are you sure about that delete?', function (result) {
-                if (result) {
-                    let self = controller;
-                    controller.view.showWaitModal(true);
-                    //let self2 = self;
-                    let post_data = {_method: 'delete', data: {id: self.model.tdo[0]['id']['data']}};
-                    //console.log(JSON.stringify(data));
-                    if (typeof controller.model.td.onDeleteClick === 'function') {
-                        controller.model.td.onDeleteClick();
-                    }
 
-
-                    controller.model.td.getData(
-                        {
-                            method: 'post',
-                            url: controller.model.td.route,
-                            entity: post_data,
-                            onSuccess(response) {
-                                self.view.showWaitModal(false);
-                                if (typeof controller.model.td.onDeleteSuccess === 'function') {
-                                    controller.model.td.onDeleteSuccess();
-                                }
-                            },
-                            onError(response){
-
-                            }
-                        }
-                    );
-                }
-
-            });
+            if (typeof controller.model.td.onDeleteClick === 'function') {
+                controller.model.td.onDeleteClick();
+            }
+            //this has to move
+            // controller.getConfirm('Are you sure about that delete?', function (result) {
+            //     if (result) {
+            //         let self = controller;
+            //         controller.view.showWaitModal(true);
+            //         //let self2 = self;
+            //         let post_data = {_method: 'delete', data: {id: self.model.tdo[0]['id']['data']}};
+            //         //console.log(JSON.stringify(data));
+            //         if (typeof controller.model.td.onDeleteClick === 'function') {
+            //             controller.model.td.onDeleteClick();
+            //         }
+            //
+            //
+            //         controller.model.td.getData(
+            //             {
+            //                 method: 'post',
+            //                 url: controller.model.td.route,
+            //                 entity: post_data,
+            //                 onSuccess(response) {
+            //                     self.view.showWaitModal(false);
+            //                     if (typeof controller.model.td.onDeleteSuccess === 'function') {
+            //                         controller.model.td.onDeleteSuccess();
+            //                     }
+            //                 },
+            //                 onError(response){
+            //
+            //                 }
+            //             }
+            //         );
+            //     }
+            //
+            // });
         });
 
     }

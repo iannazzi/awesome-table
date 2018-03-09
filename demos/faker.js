@@ -2,7 +2,7 @@ export function faker(){
     var faker = require('faker');
 
     let data = [];
-    for(let i=0;i<100;i++){
+    for(let i=0;i<10;i++){
         data[i] = {
             "id":i+1,
             "name": faker.name.findName()

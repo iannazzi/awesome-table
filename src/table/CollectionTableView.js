@@ -23,9 +23,11 @@ export class CollectionTableView extends TableView {
         this.collectionTableDiv.appendChild(this.table_modify_div);
         this.edit_button_div = this.createEditButtonDiv();
         this.collectionTableDiv.appendChild(this.edit_button_div);
-        this.collectionTableDiv.appendChild(this.waitModal);
-        this.collectionTableDiv.appendChild(this.confirmModal);
-        this.collectionTableDiv.appendChild(this.errorModal.createErrorModal());
+
+        //what to do about the modals?
+        // this.collectionTableDiv.appendChild(this.waitModal);
+        // this.collectionTableDiv.appendChild(this.confirmModal);
+        // this.collectionTableDiv.appendChild(this.errorModal.createErrorModal());
 
         this.updateButtons();
         this.updateTable();
@@ -73,7 +75,7 @@ export class CollectionTableView extends TableView {
             tr[i] = this.thead.insertRow();
         }
         let caption = ''
-        this.cdo.forEach(col_def => {
+        this.model.cdo.forEach(col_def => {
 
             if (col_def['show_on_list']) {
                 if (!(!this.checkWrite() && col_def.type == 'row_checkbox')) {
@@ -171,7 +173,7 @@ export class CollectionTableView extends TableView {
     checkTHeaderArray() {
         //an array can be n rows by n columns... we need to figure that out
         this.header_row_span = 1;
-        this.cdo.forEach((col_def, col) => {
+        this.model.cdo.forEach((col_def, col) => {
             if (col_def['show_on_list']) {
                 if (typeof col_def.array !== 'undefined' && col_def.array) {
                     this.header_row_span = col_def.caption.length;
@@ -192,7 +194,7 @@ export class CollectionTableView extends TableView {
     updateTotalsBody() {
         this.total_tbody.innerHTML = '';
         let totals_row = false;
-        this.cdo.forEach(col_def => {
+        this.model.cdo.forEach(col_def => {
             if (typeof col_def['total'] != 'undefined') {
                 totals_row = true;
             }
@@ -204,7 +206,7 @@ export class CollectionTableView extends TableView {
             tr.style.backgroundColor = 'yellow';
             let total_place = false;
             let col_counter = 0;
-            this.cdo.forEach(col_def => {
+            this.model.cdo.forEach(col_def => {
                 if (col_def['show_on_list']) {
                     if (!(!this.checkWrite() && col_def.type == 'row_checkbox')) {
                         if (typeof col_def.array !== 'undefined' && col_def.array) {
@@ -261,7 +263,7 @@ export class CollectionTableView extends TableView {
             //     eval('tr.' + index + '= ' + data_row['_data_row'][index] + ';');
             // }
             let col_counter = 0;
-            this.cdo.forEach((col_def) => {
+            this.model.cdo.forEach((col_def) => {
 
                 if (col_def['show_on_list']) {
                     if (!(!this.checkWrite() && col_def.type == 'row_checkbox')) {
@@ -330,7 +332,7 @@ export class CollectionTableView extends TableView {
     updateIndividualSelectOptions() {
 
         this.model.tdo.forEach((data_row, r) => {
-            this.cdo.forEach((col_def) => {
+            this.model.cdo.forEach((col_def) => {
                 if (col_def['type'] == 'select') {
                     if (typeof col_def['individual_select_options'] !== 'undefined') {
                         let element = this.elements[r][col_def.db_field];

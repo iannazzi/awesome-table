@@ -1,13 +1,17 @@
 import {CollectionTableController} from './CollectionTableController'
 import {parseQuery} from '../lib/url'
 import {SearchTableEvents} from './SearchTableEvents';
+import {UriController} from './UriController';
+
 
 export class SearchTableController extends CollectionTableController {
     constructor(model, view) {
         super(model, view)
         let self = this;
         this.show_records_autmatically_below = 50;
-        this.number_of_records_available = model.td.number_of_records_available;
+
+        this.uri = new UriController(this);
+
 
         this.searchTableEvents = new SearchTableEvents(this);
 
