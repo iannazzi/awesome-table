@@ -5,13 +5,13 @@ export class SearchTableView extends CollectionTableView {
         super(model);
 
     }
-    createSearchTable() {
+    createSearchTable(name) {
         this.searchDiv = this.createSearchDiv();
-        this.searchTableElement = this.createSearchTableElement();
+        this.searchTableElement = this.createSearchTableElement(name);
         this.searchDiv.appendChild(this.searchTableElement);
-        this.searchThead = this.createSearchThead();
+        this.searchThead = this.createSearchThead(name);
         this.searchTableElement.appendChild(this.searchThead);
-        this.searchTbody = this.createSearchTbody();
+        this.searchTbody = this.createSearchTbody(name);
         this.searchTableElement.appendChild(this.searchTbody);
         this.updateSearchTable();
         this.searchDiv.appendChild(this.createSearchButtons())
@@ -61,23 +61,23 @@ createSearchButtons(){
         return div;
     }
 
-    createSearchTableElement() {
+    createSearchTableElement(name) {
 
         let tbl = document.createElement('table');
-        tbl.id = this.id + '_search';
+        tbl.id = name + '_search';
         tbl.className = 'search_table';
         return tbl;
     }
 
-    createSearchThead() {
+    createSearchThead(name) {
         let thead = document.createElement('thead');
-        thead.id = this.id + '_search_thead';
+        thead.id = name + '_search_thead';
         return thead;
     }
 
-    createSearchTbody() {
+    createSearchTbody(name) {
         let tbody = document.createElement('tbody');
-        tbody.id = this.id + '_search_tbody';
+        tbody.id = name + '_search_tbody';
         return tbody;
     }
     createDataTableDiv(){

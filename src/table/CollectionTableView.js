@@ -1,4 +1,4 @@
-/**
+ /**
  * Created by embrasse-moi on 1/18/17.
  */
 import {TableView} from './TableView';
@@ -15,9 +15,9 @@ export class CollectionTableView extends TableView {
 
     }
 
-    createCollectionTable() {
+    createCollectionTable(name) {
         this.collectionTableDiv = this.createCollectionTableDiv();
-        this.table = this.createTable();
+        this.table = this.createTable(name);
         this.collectionTableDiv.appendChild(this.table);
         this.table_modify_div = this.createTableModifyButtons()
         this.collectionTableDiv.appendChild(this.table_modify_div);
@@ -43,19 +43,19 @@ export class CollectionTableView extends TableView {
         return div;
     }
 
-    createTable() {
+    createTable(name) {
         let tbl = document.createElement('table');
-        tbl.id = this.id;
+        tbl.id = name + '_table';
         tbl.className = 'data_table';
-        tbl.appendChild(this.createThead());
-        tbl.appendChild(this.createTotalsBody());
-        this.createTBody();
+        tbl.appendChild(this.createThead(name));
+        tbl.appendChild(this.createTotalsBody(name));
+        this.createTBody(name);
         tbl.appendChild(this.tbody);
-        tbl.appendChild(this.createTFoot());
+        tbl.appendChild(this.createTFoot(name));
         return tbl;
     }
 
-    createThead() {
+    createThead(name) {
         //create the header
         let thead = document.createElement('thead');
         //thead.id = this.id + '_data_thead';
@@ -181,9 +181,9 @@ export class CollectionTableView extends TableView {
         })
     }
 
-    createTotalsBody() {
+    createTotalsBody(name) {
         this.total_tbody = document.createElement('tbody');
-        this.total_tbody.id = this.id + '_data_totals_tbody';
+        this.total_tbody.id = name + '_data_totals_tbody';
         // this.updateTotalsBody();
         return this.total_tbody;
 
@@ -241,9 +241,9 @@ export class CollectionTableView extends TableView {
         }
     }
 
-    createTBody() {
+    createTBody(name) {
         this.tbody = document.createElement('tbody');
-        this.tbody.id = this.id + '_data_tbody';
+        this.tbody.id = name + '_data_tbody';
         // this.updateTBody();
         return this.tbody;
     }
@@ -304,10 +304,10 @@ export class CollectionTableView extends TableView {
         }
     }
 
-    createTFoot() {
+    createTFoot(name) {
 
         let tfoot = document.createElement('tfoot');
-        tfoot.id = this.id + '_data_footer';
+        tfoot.id = name + '_data_footer';
         this.tfoot = tfoot;
         return tfoot;
     }

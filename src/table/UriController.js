@@ -201,8 +201,8 @@ export class UriController{
         this.resetStoredSort();
 
         //this callback should send it
-        if(typeof this.controller.model.options.onResetClick === 'function'){
-            this.controller.model.options.onResetClick();
+        if(typeof this.controller.model.td.onResetClick === 'function'){
+            this.controller.model.td.onResetClick();
         }
     }
     resetStoredSort(){

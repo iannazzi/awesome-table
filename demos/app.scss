@@ -1,0 +1,30 @@
+
+
+/*
+ * Bootstrap CSS...
+ */
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+
+//@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "bootstrap_custom";
+@import "../src/table/table.scss";
+
+html {
+  min-height: 100%;
+  position: relative;
+}
+
+body {
+  font-weight: 300;
+  margin-bottom: 80px;
+  padding-top: 75px;
+  background-color: white;
+}
+
+[v-cloak] {
+  display: none;
+}
+
+
+
+

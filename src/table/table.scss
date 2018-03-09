@@ -1,6 +1,6 @@
-@import "table/CollectionTable";
-@import "table/recordTable";
-@import "table/searchTable";
+@import "./CollectionTable";
+@import "./recordTable";
+@import "./searchTable";
 
 .table td input {
   width: 100%;

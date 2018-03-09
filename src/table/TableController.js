@@ -81,7 +81,7 @@ export class TableController {
         let postData = [];
         this.model.tdo.forEach((row,r) => {
             postData[r] = {};
-            this.cdo.forEach((col,c) => {
+            this.model.cdo.forEach((col,c) => {
                 if (typeof col['post'] !== 'undefined' && ! col['post']) {
                     //post no
                 }

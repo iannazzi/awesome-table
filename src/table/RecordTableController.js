@@ -9,13 +9,10 @@ export class RecordTableController extends TableController {
     constructor(model, view) {
         super(model)
         this.view = view;
-        this.cdo = this.model.cdo;
 
         this.events = new RecordTableEvents(this);
 
-        if (this.model.tdo.length == 0) {
-            this.model.addNewRow();
-        }
+
 
     }
 
@@ -40,7 +37,7 @@ export class RecordTableController extends TableController {
         return return_value;
     }
     copyTable() {
-        this.cdo.forEach((col_def) => {
+        this.model.cdo.forEach((col_def) => {
             let element = this.view.elements[col_def.db_field];
             switch (this.model.td.table_view) {
                 case 'create':
@@ -117,6 +114,19 @@ export class RecordTableController extends TableController {
     checkRead()
     {
         return ! this.checkWrite();
+    }
+    makeEditable(){
+        this.model.td.table_view = 'edit';
+        this.model.td.access = 'write';
+        this.view.updateTable();
+        this.view.updateButtons();
+        this.setFocusToFirstInput();
+    }
+    makeReadable(){
+        this.model.td.table_view = 'edit';
+        this.model.td.access = 'read';
+        this.view.updateTable();
+        this.view.updateButtons();
     }
 
 

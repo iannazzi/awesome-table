@@ -1,16 +1,26 @@
 {
-  "name": "awesome-table",
+  "name": "@iannazzi/awesome-table",
   "version": "1.0.1",
   "description": "javascript table to display, create, list, sort, search records",
-  "main": "src/Awesome.js",
+  "main": "dist/awesome-table.cjs.js",
+  "module": "dist/awesome-table.esm.js",
+  "browser": "dist/awesome-table.umd.js",
   "scripts": {
-    "test": "mocha --reporter spec",
-    "build": "webpack"
+    "start": "webpack-dev-server --env development --config ./build/webpack2.config.js",
+    "build": "webpack --env production",
+    "demo": "webpack --config ./build/webpack2.config.js --mode development",
+    "dist": "webpack --config ./build/webpack.config.js --mode production",
+    "watch": "webpack --config ./build/webpack2.config.js --mode development --watch",
+    "test": "mocha --compilers js:babel-register --require babel-polyfill ./test/*",
+    "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/*"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/iannazzi/awesome-table.git"
   },
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "javascript",
     "table"
@@ -21,10 +31,42 @@
     "url": "https://github.com/iannazzi/awesome-table/issues"
   },
   "homepage": "https://github.com/iannazzi/awesome-table#readme",
+  "dependencies": {
+    "jquery": "2 - 3",
+    "moment": "^2.21.0"
+  },
   "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "bootstrap-sass": "^3.3.7",
     "chai": "^4.1.2",
+    "coveralls": "^3.0.0",
+    "css-loader": "^0.28.10",
+    "del": "^3.0.0",
+    "faker": "^4.1.0",
+    "gulp": "^3.9.1",
+    "gulp-filter": "^5.1.0",
+    "gulp-modify-file": "^1.0.1",
+    "gulp-uglify": "^3.0.0",
+    "html-webpack-plugin": "^3.0.5",
+    "istanbul": "^0.4.5",
+    "jest": "^22.4.2",
     "mocha": "^5.0.1",
-    "webpack": "^4.0.1",
-    "webpack-cli": "^2.0.10"
+    "node-sass": "^4.7.2",
+    "rollup": "^0.50.0",
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "sass-loader": "^6.0.7",
+    "style-loader": "^0.20.2",
+    "thenby": "^1.2.3",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.10",
+    "webpack-dev-server": "^3.1.0",
+    "webpack-merge": "^4.1.2",
+    "webpack-stream": "^4.0.2"
   }
 }

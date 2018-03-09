@@ -28,10 +28,10 @@ export class CollectionTableEvents extends TableEvents{
         view.onEditClick = new TableEvent(view);
         controller.view.onEditClick.attach(
             function () {
-                console.log(controller.model.options)
-                if (typeof controller.model.options.onEditClick === 'function'){
+                console.log(controller.model.td)
+                if (typeof controller.model.td.onEditClick === 'function'){
                     console.log('hi thiere')
-                    controller.model.options.onEditClick();
+                    controller.model.td.onEditClick();
                 }
                 else{
                     console.log('hi thiereeerer ')
@@ -52,16 +52,16 @@ export class CollectionTableEvents extends TableEvents{
 
                 controller.model.loadOriginalData();
 
-                if (controller.model.options.edit_display == 'on_page') {
+                if (controller.model.td.edit_display == 'on_page') {
                     controller.model.td.access = 'read';
                     view.updateTable();
 
                 }
-                else if (controller.model.options.edit_display == 'modal') {
-                    controller.model.options.onCancelClick();
+                else if (controller.model.td.edit_display == 'modal') {
+                    controller.model.td.onCancelClick();
                 }
-                else if (controller.model.options.edit_display == 'modal_only') {
-                    controller.model.options.onCancelClick();
+                else if (controller.model.td.edit_display == 'modal_only') {
+                    controller.model.td.onCancelClick();
                 }
 
 
@@ -76,8 +76,8 @@ export class CollectionTableEvents extends TableEvents{
         view.onSaveClick = new TableEvent(view);
         controller.view.onSaveClick.attach(
             function () {
-                if(typeof controller.model.options.onSaveClick === 'function'){
-                    controller.model.options.onSaveClick();
+                if(typeof controller.model.td.onSaveClick === 'function'){
+                    controller.model.td.onSaveClick();
                 }
 
             }
@@ -87,19 +87,19 @@ export class CollectionTableEvents extends TableEvents{
         controller.onSaveSuccess.attach(
             function (sender, result) {
 
-                if (controller.model.options.edit_display == 'on_page') {
+                if (controller.model.td.edit_display == 'on_page') {
                     controller.model.td.access = 'read';
                     view.updateTable();
                     controller.model.original_data = controller.getPostData();
                 }
-                else if (controller.model.options.edit_display == 'modal') {
-                    if(typeof controller.model.options.onSaveSuccess === 'function'){
-                        controller.model.options.onSaveSuccess(result.id);
+                else if (controller.model.td.edit_display == 'modal') {
+                    if(typeof controller.model.td.onSaveSuccess === 'function'){
+                        controller.model.td.onSaveSuccess(result.id);
 
                     }
 
                 }
-                else if (controller.model.options.edit_display == 'modal_only') {
+                else if (controller.model.td.edit_display == 'modal_only') {
 
                     console.log(result);
                     console.log(JSON.stringify(controller.getPostData()))
@@ -108,7 +108,7 @@ export class CollectionTableEvents extends TableEvents{
                     console.log(JSON.stringify(controller.model.tdo))
                     console.log(result.id)
 
-                    controller.model.options.onSaveSuccess(result.id);
+                    controller.model.td.onSaveSuccess(result.id);
                 }
             }
         )

@@ -12,18 +12,18 @@ export class RecordTableView extends TableView {
 
 
 
-    createRecordTable() {
+    createRecordTable(name) {
         this.recordTableDiv = this.createRecordTableDiv();
-        this.table = this.createTableElement();
+        this.table = this.createTableElement(name);
 
         this.recordTableDiv.appendChild(this.table);
 
         this.recordTableDiv.appendChild(this.createButtons());
 
-
-        this.recordTableDiv.appendChild(this.waitModal);
-        this.recordTableDiv.appendChild(this.confirmModal);
-        this.recordTableDiv.appendChild(this.errorModal.createErrorModal());
+        //what to do about the modals?
+        // this.recordTableDiv.appendChild(this.waitModal);
+        // this.recordTableDiv.appendChild(this.confirmModal);
+        // this.recordTableDiv.appendChild(this.errorModal.createErrorModal());
 
         // if (this.checkWrite()) {
         //     this.setFocusToFirstInput();
@@ -61,10 +61,10 @@ export class RecordTableView extends TableView {
         return div;
     }
 
-    createTableElement() {
+    createTableElement(name) {
 
         let tbl = document.createElement('table');
-        tbl.id = this.id;
+        tbl.id = name + '_table';
         tbl.className = 'record_table';
 
         return tbl;
@@ -80,7 +80,7 @@ export class RecordTableView extends TableView {
         let tbody = document.createElement('tbody');
         tbl.appendChild(tbody);
         this.tbody = tbody;
-        this.cdo.forEach((col_def) => {
+        this.model.cdo.forEach((col_def) => {
 
             switch (this.model.td.table_view) {
                 case 'create':

@@ -7,7 +7,7 @@ export class SearchTableController extends CollectionTableController {
         super(model, view)
         let self = this;
         this.show_records_autmatically_below = 50;
-        this.number_of_records_available = model.options.number_of_records_available;
+        this.number_of_records_available = model.td.number_of_records_available;
 
         this.searchTableEvents = new SearchTableEvents(this);
 
@@ -85,9 +85,9 @@ export class SearchTableController extends CollectionTableController {
 
     getAndRenderSearch(){
         let controller = this;
-        controller.model.options.getData({
+        controller.model.td.getData({
             method: 'post',
-            url: '/' + controller.model.options.search_route,
+            url: '/' + controller.model.td.search_route,
             entity: controller.getSearchPostData(),
             onSuccess: function (response) {
 
@@ -103,8 +103,8 @@ export class SearchTableController extends CollectionTableController {
 
 
                 }
-                if(typeof controller.model.options.onLoadPageComplete === 'function'){
-                    controller.model.options.onLoadPageComplete();
+                if(typeof controller.model.td.onLoadPageComplete === 'function'){
+                    controller.model.td.onLoadPageComplete();
                 }
                 controller.setFocusToFirstInputOfSearch()
 

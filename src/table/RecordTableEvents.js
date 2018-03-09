@@ -12,13 +12,7 @@ export class RecordTableEvents extends TableEvents {
         controller.loadPageEvent = new TableEvent(controller);
         controller.loadPageEvent.attach(
             function () {
-
                 console.log('load page event...')
-
-
-                //view.updateTable();
-
-
             }
         );
 
@@ -43,20 +37,18 @@ export class RecordTableEvents extends TableEvents {
         view.onEditClick = new TableEvent(view);
         controller.view.onEditClick.attach(
             function () {
-                if (typeof controller.model.options.onEditClick == 'function') {
+                if (typeof controller.model.td.onEditClick == 'function') {
 
-                    controller.model.options.onEditClick();
+                    controller.model.td.onEditClick();
                     console.log('using custom onEditClick')
-                    console.log(controller.model.options)
+                    console.log(controller.model.td)
 
                 }
                 else {
                     console.log('using reg onEditClick')
-                    controller.model.td.table_view = 'edit';
-                    controller.model.td.access = 'write';
-                    view.updateTable();
-                    view.updateButtons();
-                    controller.setFocusToFirstInput();
+
+                    controller.makeEditable();
+
                 }
 
 
@@ -75,7 +67,7 @@ export class RecordTableEvents extends TableEvents {
                     case 'edit':
                         controller.model.loadOriginalData();
 
-                        if (controller.model.options.edit_display == 'on_page') {
+                        if (controller.model.td.edit_display == 'on_page') {
 
                             controller.model.td.table_view = 'show';
                             controller.model.td.access = 'read';
@@ -83,11 +75,11 @@ export class RecordTableEvents extends TableEvents {
                             //set the original data to the new data
 
                         }
-                        else if (controller.model.options.edit_display == 'modal') {
-                            controller.model.options.onCancelClick();
+                        else if (controller.model.td.edit_display == 'modal') {
+                            controller.model.td.onCancelClick();
                         }
-                        else if (controller.model.options.edit_display == 'modal_only') {
-                            controller.model.options.onCancelClick();
+                        else if (controller.model.td.edit_display == 'modal_only') {
+                            controller.model.td.onCancelClick();
                         }
 
                         break;
@@ -111,8 +103,8 @@ export class RecordTableEvents extends TableEvents {
         controller.view.onSaveClick.attach(
             function () {
 
-                if (typeof controller.model.options.onSaveClick === 'function') {
-                    controller.model.options.onSaveClick();
+                if (typeof controller.model.td.onSaveClick === 'function') {
+                    controller.model.td.onSaveClick();
                 }
 
             }
@@ -127,8 +119,8 @@ export class RecordTableEvents extends TableEvents {
 
                 switch (controller.model.td.table_view) {
                     case 'create':
-                        if (typeof controller.model.options.onCreateSaved === "function") {
-                            controller.model.options.onCreateSaved(result.id);
+                        if (typeof controller.model.td.onCreateSaved === "function") {
+                            controller.model.td.onCreateSaved(result.id);
                         }
                         else {
                             alert('add onCreate to table options');
@@ -137,7 +129,7 @@ export class RecordTableEvents extends TableEvents {
                         break;
                     case 'edit':
                         //modal or not
-                        if (controller.model.options.edit_display == 'on_page') {
+                        if (controller.model.td.edit_display == 'on_page') {
                             console.log(result);
 
                             controller.model.td.table_view = 'show';
@@ -147,12 +139,12 @@ export class RecordTableEvents extends TableEvents {
                             view.updateTable();
 
                         }
-                        else if (controller.model.options.edit_display == 'modal') {
+                        else if (controller.model.td.edit_display == 'modal') {
 
-                            controller.model.options.onSaveSuccess(result.id);
+                            controller.model.td.onSaveSuccess(result.id);
 
                         }
-                        else if (controller.model.options.edit_display == 'modal_only') {
+                        else if (controller.model.td.edit_display == 'modal_only') {
 
                             console.log(result);
                             console.log(JSON.stringify(controller.getPostData()))
@@ -164,7 +156,7 @@ export class RecordTableEvents extends TableEvents {
 
 
                             console.log(result.id)
-                            controller.model.options.onSaveSuccess(result.id);
+                            controller.model.td.onSaveSuccess(result.id);
 
 
                         }
@@ -192,20 +184,20 @@ export class RecordTableEvents extends TableEvents {
                     //let self2 = self;
                     let post_data = {_method: 'delete', data: {id: self.model.tdo[0]['id']['data']}};
                     //console.log(JSON.stringify(data));
-                    if (typeof controller.model.options.onDeleteClick === 'function') {
-                        controller.model.options.onDeleteClick();
+                    if (typeof controller.model.td.onDeleteClick === 'function') {
+                        controller.model.td.onDeleteClick();
                     }
 
 
-                    controller.model.options.getData(
+                    controller.model.td.getData(
                         {
                             method: 'post',
                             url: controller.model.td.route,
                             entity: post_data,
                             onSuccess(response) {
                                 self.view.showWaitModal(false);
-                                if (typeof controller.model.options.onDeleteSuccess === 'function') {
-                                    controller.model.options.onDeleteSuccess();
+                                if (typeof controller.model.td.onDeleteSuccess === 'function') {
+                                    controller.model.td.onDeleteSuccess();
                                 }
                             },
                             onError(response){

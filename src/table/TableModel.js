@@ -5,23 +5,21 @@ import {TableEvent} from './TableEvent'
 import {isValueInArray} from '../lib/array_help';
 export class TableModel {
     /*
-     table model takes the table def and data
+     table model takes the column and data
      and delivers a 2d array back
-     the model can have more info than the view
+     which models how the view should look....
      */
-    constructor(options) {
-        //this.data = data; //may or may not be needed....
+    constructor(name) {
 
-        this.original_data = options.data;
-        this.options = options;
-        this.td = this.table_definition = options;
-        this.tdo = [];
-        this.data = this.tdo;
-        this.rdo = {};
-        this.cdo = this.options.column_definition;
+        //first by is used for sorting.....
+        this.firstBy = require('thenby');
         this.sort = []; //[{name:'asc'},{name:'desc'}....]
 
 
+        //the row data object holds information about how to treat entire row... for example highlight a row
+        this.rdo = {};
+
+        //here are a few table events
         this.modelChanged = new TableEvent(this);
         this.newRow = new TableEvent(this);
 
@@ -31,18 +29,21 @@ export class TableModel {
 
         });
 
-        //this.addDataLoadedEvent = new TableEvent(this);
-        this.loadData(options.data);
 
     }
 
-    loadOriginalData() {
-        this.loadData(this.original_data);
+    loadColumnDefinition(column_definition) {
+        //the column definition has view properties and data properties
+        //I feel it is mostly related to the model
+        this.cdo = column_definition;
     }
+
     loadData(data) {
+        this.original_data = data;
         this.tdo = [];
         // console.log('data');
         //  console.log(data);
+
         for (let i = 0; i < data.length; i++) {
             this.addDataRow(data[i]);
         }
@@ -50,6 +51,17 @@ export class TableModel {
         //this.modelChanged.notify();
         this.sortData();
         this.original_data = data;
+
+        //pulled this from the controller creation.... not sure if it is needed?
+        if (this.tdo.length == 0) {
+            this.addNewRow();
+        }
+
+
+    }
+
+    loadOriginalData() {
+        this.loadData(this.original_data);
     }
 
 
@@ -67,7 +79,6 @@ export class TableModel {
 
     sortData() {
         //TODO fix sort it kinda works but not really....
-
 
 
         //sort_array looks like [{db_field:'asc'},etc...]
@@ -89,26 +100,25 @@ export class TableModel {
         // })
 
 
-        let sort_stack = firstBy(function (v1, v2) { return 0 });
+        let sort_stack = this.firstBy(function (v1, v2) {
+            return 0
+        });
         this.sort.forEach(sort => {
             let keys = Object.keys(sort);
             let name = keys[0];
-            if(sort[keys[0]] =='asc')
-            {
-                sort_stack = sort_stack.thenBy(function (v1) { return v1[name].data; });
+            if (sort[keys[0]] == 'asc') {
+                sort_stack = sort_stack.thenBy(function (v1) {
+                    return v1[name].data;
+                });
             }
-            else
-            {
-                sort_stack = sort_stack.thenBy(function (v1) { return v1[name].data ; },-1);
+            else {
+                sort_stack = sort_stack.thenBy(function (v1) {
+                    return v1[name].data;
+                }, -1);
             }
         })
 
         this.tdo.sort(sort_stack);
-
-
-
-
-
 
 
     }

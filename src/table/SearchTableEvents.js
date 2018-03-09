@@ -50,19 +50,19 @@ export class SearchTableEvents {
 
 
 
-                if (controller.uri.checkUri(controller.model.options.search_query)) {
+                if (controller.uri.checkUri(controller.model.td.search_query)) {
                     console.log('there is data on the uri')
-                    if (typeof controller.model.options.onLoadPageStart === 'function') {
-                        controller.model.options.onLoadPageStart();
+                    if (typeof controller.model.td.onLoadPageStart === 'function') {
+                        controller.model.td.onLoadPageStart();
                     }
 
                     //this loads data to the search table fields
                     //and the sort array
-                    controller.uri.loadFromUri(controller.model.options.search_query);
+                    controller.uri.loadFromUri(controller.model.td.search_query);
                     controller.uri.storeSearch();
 
-                    if(typeof controller.model.options.onSearching=== 'function'){
-                        controller.model.options.onSearching();
+                    if(typeof controller.model.td.onSearching=== 'function'){
+                        controller.model.td.onSearching();
                     }
                     controller.getAndRenderSearch();
 
@@ -71,8 +71,8 @@ export class SearchTableEvents {
 
 
 
-                    // if(typeof controller.model.options.onLoadPage === 'function'){
-                    //     controller.model.options.onLoadPage()
+                    // if(typeof controller.model.td.onLoadPage === 'function'){
+                    //     controller.model.td.onLoadPage()
                     // }
                 }
 
@@ -83,8 +83,8 @@ export class SearchTableEvents {
                     console.log('loading search from storage');
                     let search_fields = controller.uri.loadSearchFromStorage();
                     controller.uri.loadSortFromStorage();
-                    if (typeof controller.model.options.loadPageFromStorage === 'function') {
-                        controller.model.options.loadPageFromStorage(search_fields);
+                    if (typeof controller.model.td.loadPageFromStorage === 'function') {
+                        controller.model.td.loadPageFromStorage(search_fields);
                     }
 
 
@@ -93,12 +93,12 @@ export class SearchTableEvents {
                     //no search set, we should NOW hit the server for Data
                     console.log('no search set, populate defaults then get records')
                     controller.populateSearchValuesFromDefaultValues();
-                    if(controller.model.options.number_of_records_available <= controller.model.options.number_of_records_to_automatically_get)
+                    if(controller.model.td.number_of_records_available <= controller.model.td.number_of_records_to_automatically_get)
                     {
                         controller.getAndRenderSearch();
                     }
                     else{
-                        let message = "There are " + controller.model.options.number_of_records_available + " records available, please search to limit the results.";
+                        let message = "There are " + controller.model.td.number_of_records_available + " records available, please search to limit the results.";
                         controller.view.addMessageInsteadOfTable(message)
                         controller.setFocusToFirstInputOfSearch()
 

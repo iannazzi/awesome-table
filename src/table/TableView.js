@@ -3,7 +3,7 @@
  */
 import {myParseFloat, round2, isNumber} from './math';
 
-import { TableEvents } from './TableEvent';
+import { TableEvent } from './TableEvent';
 import {ErrorModal} from '../modal/ErrorModal'
 import {FormModal} from '../modal/FormModal'
 import {createWaitModal} from '../modal/waitModal'
@@ -16,14 +16,16 @@ export class TableView {
 
     constructor(model){
         this.model = model;
-        this.cdo = model.td.column_definition;
-        this.id = this.model.td.name;
-        this.errorModal = new ErrorModal(this.model.td.name + '_error_modal');
-        this.formModal = new FormModal(this.model.td.name + '_form_modal');
-        this.waitModal = createWaitModal();
-        this.confirmModal = createConfirmModal();
 
-        this.name = this.id;
+        // this.id = this.model.td.name;
+
+        //modals need to move out.....
+        // this.errorModal = new ErrorModal(this.model.td.name + '_error_modal');
+        // this.formModal = new FormModal(this.model.td.name + '_form_modal');
+        // this.waitModal = createWaitModal();
+        // this.confirmModal = createConfirmModal();
+
+        // this.name = this.id;
     }
     checkWrite()
     {
@@ -40,11 +42,11 @@ export class TableView {
     createModalTable(table_dom_object){
 
 
-        if (this.model.options.edit_display == 'modal') {
+        if (this.model.td.edit_display == 'modal') {
 
 
         }
-        else if (this.model.options.edit_display == 'modal_only') {
+        else if (this.model.td.edit_display == 'modal_only') {
 
 
         }
@@ -75,15 +77,15 @@ export class TableView {
         }
         else {
 
-            if (this.model.options.edit_display == 'on_page') {
+            if (this.model.td.edit_display == 'on_page') {
                 this.edit_button_div.appendChild(this.createSaveButton());
                 this.edit_button_div.appendChild(this.createCancelButton());
             }
-            else if (this.model.options.edit_display == 'modal') {
+            else if (this.model.td.edit_display == 'modal') {
             //differnet instantiation
 
             }
-            else if (this.model.options.edit_display == 'modal_only') {
+            else if (this.model.td.edit_display == 'modal_only') {
 
             }
 
