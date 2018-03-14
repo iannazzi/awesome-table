@@ -39,30 +39,30 @@ export class TableView {
         return ! this.checkWrite();
     }
 
-    createModalTable(table_dom_object){
-
-
-        if (this.model.td.edit_display == 'modal') {
-
-
-        }
-        else if (this.model.td.edit_display == 'modal_only') {
-
-
-        }
-        this.formModal.setBody(table_dom_object);
-        let div = document.createElement('div');
-        div.appendChild(this.createSaveButton());
-        div.appendChild(this.createCancelButton());
-        this.formModal.setFooter(div);
-        return this.formModal.get();
-    }
-    showModalTable(){
-        this.formModal.show();
-    }
-    hideModalTable(){
-        this.formModal.hide();
-    }
+    // createModalTable(table_dom_object){
+    //
+    //
+    //     if (this.model.td.edit_display == 'modal') {
+    //
+    //
+    //     }
+    //     else if (this.model.td.edit_display == 'modal_only') {
+    //
+    //
+    //     }
+    //     this.formModal.setBody(table_dom_object);
+    //     let div = document.createElement('div');
+    //     div.appendChild(this.createSaveButton());
+    //     div.appendChild(this.createCancelButton());
+    //     this.formModal.setFooter(div);
+    //     return this.formModal.get();
+    // }
+    // showModalTable(){
+    //     this.formModal.show();
+    // }
+    // hideModalTable(){
+    //     this.formModal.hide();
+    // }
 
     updateButtons() {
 
@@ -76,18 +76,23 @@ export class TableView {
             }
         }
         else {
-
-            if (this.model.td.edit_display == 'on_page') {
+            if (this.model.td.table_buttons.includes('edit')) {
                 this.edit_button_div.appendChild(this.createSaveButton());
                 this.edit_button_div.appendChild(this.createCancelButton());
             }
-            else if (this.model.td.edit_display == 'modal') {
-            //differnet instantiation
 
-            }
-            else if (this.model.td.edit_display == 'modal_only') {
 
-            }
+            // if (this.model.td.edit_display == 'on_page') {
+            //     this.edit_button_div.appendChild(this.createSaveButton());
+            //     this.edit_button_div.appendChild(this.createCancelButton());
+            // }
+            // else if (this.model.td.edit_display == 'modal') {
+            // //differnet instantiation
+            //
+            // }
+            // else if (this.model.td.edit_display == 'modal_only') {
+            //
+            // }
 
 
 
@@ -500,6 +505,14 @@ export class TableView {
         }
     }
     createDataTableSelect(col_def, data){
+
+        if( typeof col_def.select_values ==='undefined'){
+            console.log('select_values are not defined');
+            return document.createTextNode('error select_values are not defined');
+        }
+
+
+
         if(this.checkWrite())
         {
             let element = this.createSelect(col_def)

@@ -12,7 +12,8 @@ export class RecordTableView extends TableView {
 
 
 
-    createRecordTable(name) {
+    createRecordTable() {
+        let name = this.model.td.name;
         this.recordTableDiv = this.createRecordTableDiv();
         this.table = this.createTableElement(name);
 
@@ -84,22 +85,22 @@ export class RecordTableView extends TableView {
 
             switch (this.model.td.table_view) {
                 case 'create':
-                    if (col_def['show_on_create']) {
+                    if (col_def['show_on_create'] !== false) {
                         this.addRow(tbody, col_def);
                     }
                     break;
                 case 'edit':
-                    if (col_def['show_on_edit']) {
+                    if (col_def['show_on_edit'] !== false) {
                         this.addRow(tbody, col_def);
                     }
                     break;
                 case 'show':
-                    if (col_def['show_on_view']) {
+                    if (col_def['show_on_view'] !== false) {
                         this.addRow(tbody, col_def);
                     }
                     break;
                 default:
-                    console.log('error in the column definition');
+                    console.log('error in the column definition - table_view was not set....');
             }
         })
         this.updateButtons();

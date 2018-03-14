@@ -70,21 +70,24 @@ export class RecordTableEvents extends TableEvents {
                 switch (controller.model.td.table_view) {
                     case 'edit':
                         controller.model.loadOriginalData();
+                        controller.model.td.table_view = 'show';
+                        controller.model.td.access = 'read';
+                        view.updateTable();
 
-                        if (controller.model.td.edit_display == 'on_page') {
-
-                            controller.model.td.table_view = 'show';
-                            controller.model.td.access = 'read';
-                            view.updateTable();
-                            //set the original data to the new data
-
-                        }
-                        else if (controller.model.td.edit_display == 'modal') {
-                            controller.model.td.onCancelClick();
-                        }
-                        else if (controller.model.td.edit_display == 'modal_only') {
-                            controller.model.td.onCancelClick();
-                        }
+                        // if (controller.model.td.edit_display == 'on_page') {
+                        //
+                        //     controller.model.td.table_view = 'show';
+                        //     controller.model.td.access = 'read';
+                        //     view.updateTable();
+                        //     //set the original data to the new data
+                        //
+                        // }
+                        // else if (controller.model.td.edit_display == 'modal') {
+                        //     controller.model.td.onCancelClick();
+                        // }
+                        // else if (controller.model.td.edit_display == 'modal_only') {
+                        //     controller.model.td.onCancelClick();
+                        // }
 
                         break;
 
@@ -117,43 +120,50 @@ export class RecordTableEvents extends TableEvents {
                             controller.model.td.onCreateSaved(result.id);
                         }
                         else {
-                            alert('add onCreate to table options');
+                            alert('add onCreateSaved to table options');
                         }
                         //window.location.href = controller.model.td.route + '/' + result.id;
                         break;
                     case 'edit':
+                        controller.model.td.table_view = 'show';
+                        controller.model.td.access = 'read';
+                        //set the original data to the new data
+                        controller.model.original_data = controller.getPostData();
+                        view.updateTable();
+
                         //modal or not
-                        if (controller.model.td.edit_display == 'on_page') {
-                            console.log(result);
-
-                            controller.model.td.table_view = 'show';
-                            controller.model.td.access = 'read';
-                            //set the original data to the new data
-                            controller.model.original_data = controller.getPostData();
-                            view.updateTable();
-
-                        }
-                        else if (controller.model.td.edit_display == 'modal') {
-
-                            controller.model.td.onSaveSuccess(result.id);
-
-                        }
-                        else if (controller.model.td.edit_display == 'modal_only') {
-
-                            console.log(result);
-                            console.log(JSON.stringify(controller.getPostData()))
-                            console.log(controller.model.td.table_view);
-                            console.log(controller.model.td.edit_display);
 
 
-                            console.log(JSON.stringify(controller.model.tdo))
-
-
-                            console.log(result.id)
-                            controller.model.td.onSaveSuccess(result.id);
-
-
-                        }
+                        // if (controller.model.td.edit_display == 'on_page') {
+                        //
+                        //     controller.model.td.table_view = 'show';
+                        //     controller.model.td.access = 'read';
+                        //     //set the original data to the new data
+                        //     controller.model.original_data = controller.getPostData();
+                        //     view.updateTable();
+                        //
+                        // }
+                        // else if (controller.model.td.edit_display == 'modal') {
+                        //
+                        //     controller.model.td.onSaveSuccess(result.id);
+                        //
+                        // }
+                        // else if (controller.model.td.edit_display == 'modal_only') {
+                        //
+                        //     console.log(result);
+                        //     console.log(JSON.stringify(controller.getPostData()))
+                        //     console.log(controller.model.td.table_view);
+                        //     console.log(controller.model.td.edit_display);
+                        //
+                        //
+                        //     console.log(JSON.stringify(controller.model.tdo))
+                        //
+                        //
+                        //     console.log(result.id)
+                        //     controller.model.td.onSaveSuccess(result.id);
+                        //
+                        //
+                        // }
 
 
                         break;

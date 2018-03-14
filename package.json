@@ -6,12 +6,15 @@
   "module": "dist/awesome-table.esm.js",
   "browser": "dist/awesome-table.umd.js",
   "scripts": {
-    "start": "webpack-dev-server --env development --config ./build/webpack2.config.js",
+    "start": "webpack-dev-server --env development --config ./tasks/webpack2.config.js",
     "build": "webpack --env production",
-    "demo": "webpack --config ./build/webpack2.config.js --mode development",
-    "dist": "webpack --config ./build/webpack.config.js --mode production",
-    "watch": "webpack --config ./build/webpack2.config.js --mode development --watch",
-    "test": "mocha --compilers js:babel-register --require babel-polyfill ./test/*",
+    "demo": "webpack --config ./tasks/webpack2.config.js --mode development",
+    "dist": "webpack --config ./tasks/webpack.config.js --mode production",
+    "watch": "webpack --config ./tasks/webpack2.config.js --mode development --watch",
+    "testBuild": "webpack --config ./tasks/webpack.test.config.js --mode development",
+
+    "karma": "karma start --single-run --browsers ChromeHeadless karma.conf.js",
+    "jest": "jest",
     "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/*"
   },
   "repository": {
@@ -55,6 +58,10 @@
     "html-webpack-plugin": "^3.0.5",
     "istanbul": "^0.4.5",
     "jest": "^22.4.2",
+    "karma": "^2.0.0",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-mocha": "^1.3.0",
     "mocha": "^5.0.1",
     "node-sass": "^4.7.2",
     "rollup": "^0.50.0",

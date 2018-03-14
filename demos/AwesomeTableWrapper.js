@@ -162,6 +162,7 @@ export class AwesomeTableWrapper
 
             },
             onSearchClick(query){
+
                 console.log('awesome table wrapper on search click query will only change if url changes')
                 //console.log(query);
                 component.$router.push({ path: '/' + component.route , query:query } )

@@ -27,7 +27,7 @@ export class SearchTableController extends CollectionTableController {
     getSearchPostData(){
         let post_data = {};
         post_data['search_fields'] = {};
-        post_data['table_name'] = this.view.name;
+        post_data['table_name'] = this.model.td.name;
         this.view.search_elements.forEach(element => {
             post_data.search_fields[element.name] = element.value;
         })
@@ -138,14 +138,13 @@ export class SearchTableController extends CollectionTableController {
 
     getSearchFormValues() {
         let search_values = {};
-        let name = this.view.name + '_search';
-        //search_values[name] = 'true';
 
         this.view.search_elements.forEach(element => {
             switch (element.type) {
                 case 'text':
                 case 'number':
                 case 'date':
+                    console.log(element);
                     name = element.name
                     search_values[name] = element.value;
                     if (element.value != '') {

@@ -5,7 +5,7 @@ const modify = require('gulp-modify-file') //not a big hitter.....
 const uglify = require('gulp-uglify')
 const webpack = require('webpack-stream')
 const packageConfig = require('../package.json')
-const webpackConfig = require('../build/webpack.config.js')
+const webpackConfig = require('webpack.config.js')
 
 
 gulp.task('webpack', function() {

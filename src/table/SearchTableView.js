@@ -5,7 +5,8 @@ export class SearchTableView extends CollectionTableView {
         super(model);
 
     }
-    createSearchTable(name) {
+    createSearchTable() {
+        let name = this.model.td.name;
         this.searchDiv = this.createSearchDiv();
         this.searchTableElement = this.createSearchTableElement(name);
         this.searchDiv.appendChild(this.searchTableElement);
@@ -136,7 +137,7 @@ createSearchButtons(){
                 if (col_def['type'] == 'date') {
                     let element = document.createElement('input');
                     element.type = 'date';
-                    element.name = this.name + '_' + col_def['db_field'] + '_date_start';
+                    element.name = this.model.td.name + '_' + col_def['db_field'] + '_date_start';
                     cell.appendChild(element);
                     this.search_elements.push(element)
                     col_def['search_element'] = [];
@@ -150,7 +151,7 @@ createSearchButtons(){
 
                     let element2 = document.createElement('input');
                     element2.type = 'date';
-                    element2.name = this.name + '_' + col_def['db_field'] + '_date_end';
+                    element2.name = this.model.td.name + '_' + col_def['db_field'] + '_date_end';
                     cell.appendChild(element2);
                     this.search_elements.push(element2)
                     col_def['search_element'][1] = element;
@@ -159,7 +160,7 @@ createSearchButtons(){
                 }
                 else if (col_def['type'] == 'checkbox') {
                     let element = document.createElement('select');
-                    element.name = this.name + '_' + col_def['db_field']
+                    element.name = this.model.td.name + '_' + col_def['db_field']
                     let option = document.createElement('option');
                     option.value = 'null';
                     option.appendChild(document.createTextNode("Either"));
@@ -178,7 +179,7 @@ createSearchButtons(){
                 }
                 else if (col_def['type'] == 'select') {
                     let element = this.createSelect(col_def);
-                    element.name = this.name + '_' + col_def['db_field']
+                    element.name = this.model.td.name + '_' + col_def['db_field']
                     cell.appendChild(element);
                     this.search_elements.push(element)
                     col_def['search_element'] = element;
@@ -186,7 +187,7 @@ createSearchButtons(){
                 }
                 else if (col_def['type'] == 'tree_select') {
                     let element = this.createTreeSelect(col_def);
-                    element.name = this.name + '_' + col_def['db_field']
+                    element.name = this.model.td.name + '_' + col_def['db_field']
                     cell.appendChild(element);
                     this.search_elements.push(element)
                     col_def['search_element'] = element;
@@ -195,7 +196,7 @@ createSearchButtons(){
                 else {
                     let element = document.createElement('input');
                     element.type = col_def.type;
-                    element.name = this.name + '_' + col_def['db_field']
+                    element.name = this.model.td.name + '_' + col_def['db_field']
                     cell.appendChild(element);
                     this.search_elements.push(element)
                     col_def['search_element'] = element;

@@ -18,7 +18,7 @@ export class UriController{
         this.controller.view.search_elements.forEach(element => {
             url_data[element.name] = element.value;
         })
-        url_data['table_name'] = this.controller.view.name;
+        url_data['table_name'] = this.controller.model.td.name;
         return url_data;
     }
     checkUri(search_query) {
@@ -132,7 +132,7 @@ export class UriController{
     }
     storeSearch() {
         let search_values = this.controller.getSearchFormValues();
-        window.storage[this.getStoredSearchName()] = JSON.stringify(search_values);
+        window.localStorage[this.getStoredSearchName()] = JSON.stringify(search_values);
         //sessionStorage[this.getStoredSearchName()] = JSON.stringify(search_values);
     }
     loadSearchFromStorage() {

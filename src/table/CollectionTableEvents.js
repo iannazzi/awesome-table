@@ -51,18 +51,21 @@ export class CollectionTableEvents extends TableEvents{
             function () {
 
                 controller.model.loadOriginalData();
+                controller.model.td.access = 'read';
+                view.updateTable();
 
-                if (controller.model.td.edit_display == 'on_page') {
-                    controller.model.td.access = 'read';
-                    view.updateTable();
 
-                }
-                else if (controller.model.td.edit_display == 'modal') {
-                    controller.model.td.onCancelClick();
-                }
-                else if (controller.model.td.edit_display == 'modal_only') {
-                    controller.model.td.onCancelClick();
-                }
+                // if (controller.model.td.edit_display == 'on_page') {
+                //     controller.model.td.access = 'read';
+                //     view.updateTable();
+                //
+                // }
+                // else if (controller.model.td.edit_display == 'modal') {
+                //     controller.model.td.onCancelClick();
+                // }
+                // else if (controller.model.td.edit_display == 'modal_only') {
+                //     controller.model.td.onCancelClick();
+                // }
 
 
 
@@ -77,30 +80,32 @@ export class CollectionTableEvents extends TableEvents{
         controller.onSaveSuccess = new TableEvent(controller);
         controller.onSaveSuccess.attach(
             function (sender, result) {
-
-                if (controller.model.td.edit_display == 'on_page') {
-                    controller.model.td.access = 'read';
-                    view.updateTable();
-                    controller.model.original_data = controller.getPostData();
-                }
-                else if (controller.model.td.edit_display == 'modal') {
-                    if(typeof controller.model.td.onSaveSuccess === 'function'){
-                        controller.model.td.onSaveSuccess(result.id);
-
-                    }
-
-                }
-                else if (controller.model.td.edit_display == 'modal_only') {
-
-                    console.log(result);
-                    console.log(JSON.stringify(controller.getPostData()))
-                    console.log(controller.model.td.table_view);
-                    console.log(controller.model.td.edit_display);
-                    console.log(JSON.stringify(controller.model.tdo))
-                    console.log(result.id)
-
-                    controller.model.td.onSaveSuccess(result.id);
-                }
+                controller.model.td.access = 'read';
+                view.updateTable();
+                controller.model.original_data = controller.getPostData();
+            //     if (controller.model.td.edit_display == 'on_page') {
+            //         controller.model.td.access = 'read';
+            //         view.updateTable();
+            //         controller.model.original_data = controller.getPostData();
+            //     }
+            //     else if (controller.model.td.edit_display == 'modal') {
+            //         if(typeof controller.model.td.onSaveSuccess === 'function'){
+            //             controller.model.td.onSaveSuccess(result.id);
+            //
+            //         }
+            //
+            //     }
+            //     else if (controller.model.td.edit_display == 'modal_only') {
+            //
+            //         console.log(result);
+            //         console.log(JSON.stringify(controller.getPostData()))
+            //         console.log(controller.model.td.table_view);
+            //         console.log(controller.model.td.edit_display);
+            //         console.log(JSON.stringify(controller.model.tdo))
+            //         console.log(result.id)
+            //
+            //         controller.model.td.onSaveSuccess(result.id);
+            //     }
             }
         )
 

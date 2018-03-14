@@ -114,7 +114,7 @@ export class CollectionTableController extends TableController {
         let rowCount = tbody.rows.length;
         for (let r = 0; r < rowCount; r++) {
             this.model.cdo.forEach((col_def) => {
-                if (col_def['show_on_list']) {
+                if (col_def['show_on_list'] !== false) {
                     if (typeof col_def.array !== 'undefined' && col_def.array) {
                         col_def.caption[0].forEach((caption_row, col) => {
                             let element = this.view.elements[r][col_def.db_field][col];
@@ -222,7 +222,7 @@ export class CollectionTableController extends TableController {
         let table_data_array_column = 0;
         let html_column_counter = 0;
         for (i = 0; i < this.model.cdo.length; i++) {
-            if (!this.model.cdo[i]['show_on_list']) {
+            if (this.model.cdo[i]['show_on_list'] === false) {
                 html_column_counter = html_column_counter + 1;
             }
             table_data_array_column = table_data_array_column + 1;

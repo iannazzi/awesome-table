@@ -41,12 +41,12 @@ export class RecordTableController extends TableController {
             let element = this.view.elements[col_def.db_field];
             switch (this.model.td.table_view) {
                 case 'create':
-                    if (col_def['show_on_create']){
+                    if (col_def['show_on_create'] !== false){
                         this.copyElementValueToModel(element, col_def, 0);
                     }
                     break;
                 case 'edit':
-                    if (col_def['show_on_edit']){
+                    if (col_def['show_on_edit'] !== false){
                         this.copyElementValueToModel(element, col_def, 0);
                     }
                     break;

@@ -34,10 +34,53 @@ export class AwesomeTable {
         }
     }
     loadConfiguration(options){
-        console.log(options)
         this.model.td=options;
         this.model.loadColumnDefinition(options.column_definition);
-        this.model.loadData(options.data);
+        //if there is data load it....
+        if(options.data !== 'undefined'){
+            this.model.loadData(options.data);
+        }
+
+        //the table type is used to show/hide columns on edit, create, view ....
+        switch (this.type) {
+            case 'record':
+                this.model.td.table_view='show';
+                break;
+            case 'collection':
+                this.model.td.table_view='index';
+                break;
+            case 'searchable':
+                this.model.td.table_view='index';
+                break;
+            default:
+                console.log('missed the type in the table definition');
+        }
+
+
+        return this;
+    }
+
+
+
+    addTo(div_id) {
+        this.div = document.getElementById(div_id);
+        this.div.appendChild(this.getTable());
+    }
+
+    getTable(){
+        switch (this.type) {
+            case 'record':
+                return this.view.createRecordTable();
+                break;
+            case 'collection':
+                return this.view.createCollectionTable();
+                break;
+            case 'searchable':
+                return this.view.createSearchTable();
+                break;
+            default:
+                console.log('missed the type in the table definition');
+        }
     }
 
     clone(obj) {
@@ -74,39 +117,25 @@ export class AwesomeTable {
         throw new Error("Unable to copy obj! Its type isn't supported.");
     }
 
-    addTo(div_id) {
-        this.div = document.getElementById(div_id);
-        switch (this.type) {
-            case 'record':
-                this.div.appendChild(this.view.createRecordTable(div_id));
-                break;
-            case 'collection':
-                this.div.appendChild(this.view.createCollectionTable(div_id));
-                break;
-            case 'searchable':
-                this.div.appendChild(this.view.createSearchTable(div_id));
-                break;
-            default:
-                console.log('missed the type in the table definition');
-        }
-    }
-
-
     setValue(column, row, value){
-        if(this.options.edit_display == 'on_page'){
-            this.controller.updateCellValue(column, value, row)
-        }
-        else{
-            this.controllerModal.updateCellValue(column, value, row)
-        }
+
+        this.controller.updateCellValue(column, value, row)
+
+        // if(this.options.edit_display == 'on_page'){
+        //     this.controller.updateCellValue(column, value, row)
+        // }
+        // else{
+        //     this.controllerModal.updateCellValue(column, value, row)
+        // }
     }
     getValue(column_name, row_number){
-        if(this.options.edit_display == 'on_page'){
-            return this.model.tdo[row_number][column_name].data
-        }
-        else{
-            return this.modelModal.tdo[row_number][column_name].data
-        }
+        return this.model.tdo[row_number][column_name].data
+        // if(this.options.edit_display == 'on_page'){
+        //     return this.model.tdo[row_number][column_name].data
+        // }
+        // else{
+        //     return this.modelModal.tdo[row_number][column_name].data
+        // }
 
     }
     getSelectName(column, value){
@@ -114,9 +143,6 @@ export class AwesomeTable {
         return this.controller.getSelectValueName(column,value );
 
     }
-
-
-
 
     updateSearchPage(){
         this.searchController.loadPageEvent.notify();

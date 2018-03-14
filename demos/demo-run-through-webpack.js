@@ -1,4 +1,5 @@
    import {AwesomeTable}  from '../src/table/AwesomeTable';
+
    import $ from 'jquery';
    import './app.scss';
    window.jQuery = $;
@@ -11,15 +12,13 @@
    import {faker} from './faker';
    let data = faker();
 
-
    let recordTable = new AwesomeTable('record');
    let config =  {
+       name: 'recordTable',
        data: [data[0]], //data1.data.records,
        column_definition: cd1(),
        table_buttons: ['edit', 'delete'],
-       table_view: 'show', //index, create, edit, and show pages: columns respond differnetly to
        access: 'read', //read vs write
-       edit_display: 'on_page', //ok this is to get the table buttons.... hmmmmmm probably do not need this after I get modal under control.....
        getData:function(){
            alert('this is the part where I go to the server.....');
            //show a modal
@@ -46,22 +45,24 @@
        onCreateSaved(id){
            alert('deleted');
        },
+       onCancelClick(){
+           //cancel create, cancel edit, anything else?
+           alert('canceled');
+       },
        onCancelCreateClick(){
            alert('canceled');
        }
 
    }
-   recordTable.loadConfiguration(config);
-   recordTable.addTo('recordTableOnPageEdit')
+   recordTable.loadConfiguration(config).addTo('recordTableOnPageEdit');
 
    let collectionTable = new AwesomeTable('collection');
    let config2 =  {
+       name: 'collectionTable',
        data: data, //data1.data.records,
        column_definition: cd1(),
        table_buttons: [],
-       table_view: 'show', //index, create, edit, and show pages: columns respond differnetly to
        access: 'read', //read vs write
-       edit_display: 'on_page', //ok this is to get the table buttons.... hmmmmmm probably do not need this after I get modal under control.....
        getData:function(){
            alert('this is the part where I go to the server.....');
            //show a modal
@@ -98,12 +99,11 @@
 
    let collectionTableEditable = new AwesomeTable('collection');
    let config3 =  {
+       name: 'collectionTableEditable',
        data: data, //data1.data.records,
        column_definition: cd1(),
-       table_buttons: ['edit', 'delete'],
-       table_view: 'show', //index, create, edit, and show pages: columns respond differnetly to
+       table_buttons: ['edit'],
        access: 'read', //read vs write
-       edit_display: 'on_page', //ok this is to get the table buttons.... hmmmmmm probably do not need this after I get modal under control.....
        getData:function(){
            alert('this is the part where I go to the server.....');
            //show a modal
@@ -140,12 +140,11 @@
 
    let searchabletable = new AwesomeTable('searchable');
    let config4 =  {
+       name: 'searchabletable',
        data: data, //data1.data.records,
        column_definition: cd1(),
        table_buttons: ['edit', 'delete'],
-       table_view: 'show', //index, create, edit, and show pages: columns respond differnetly to
        access: 'read', //read vs write
-       edit_display: 'on_page', //ok this is to get the table buttons.... hmmmmmm probably do not need this after I get modal under control.....
        getData:function(){
            alert('this is the part where I go to the server.....');
            //show a modal
@@ -174,13 +173,60 @@
        },
        onCancelCreateClick(){
            alert('canceled');
+       },
+       onSearchClick(query){
+
+            let return_data = [];
+            let field;
+            for(let i = 0; i<data.length; i++){
+                if(data[i].name.search(query.searchabletable_name)>-1){
+                    return_data.push(data[i]);
+                }
+            }
+
+           //the bad news is there is a ton of code to consider here...
+           //hitting the server for the data
+           //storing the search
+
+           searchabletable.model.loadData(return_data);
+           searchabletable.view.addDataTable();
+
+
+
+
+       },
+       onSearchResetClick(){
+
        }
 
    }
    searchabletable.loadConfiguration(config4);
    searchabletable.addTo('searchableTableNotEditable')
 
+   //this should automatically have a row checkbox..... wrong...
+   let adjustableRow = new AwesomeTable('collection');
+   let config5 =  {
+       name: 'adjustableRow',
+       data: [], //data1.data.records,
+       column_definition: cd1(),
+       table_buttons: ['addRow','deleteRow','copyRows','moveRows','deleteAllRows'],
+       access: 'write', //read vs write
 
+
+   }
+   adjustableRow.loadConfiguration(config5);
+   adjustableRow.addTo('adjustableRow')
+
+   let adjustableColumn = new AwesomeTable('collection');
+   let config6 =  {
+       name: 'adjustableColumn',
+       data: [], //data1.data.records,
+       column_definition: cd1(),
+       table_buttons: ['addColumn','deleteColumn'],
+       access: 'write', //read vs write
+   }
+   adjustableColumn.loadConfiguration(config6);
+   adjustableColumn.addTo('adjustableColumn')
 
 
 

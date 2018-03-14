@@ -15,7 +15,8 @@ export class CollectionTableView extends TableView {
 
     }
 
-    createCollectionTable(name) {
+    createCollectionTable() {
+        let name = this.model.td.name;
         this.collectionTableDiv = this.createCollectionTableDiv();
         this.table = this.createTable(name);
         this.collectionTableDiv.appendChild(this.table);
@@ -77,7 +78,7 @@ export class CollectionTableView extends TableView {
         let caption = ''
         this.model.cdo.forEach(col_def => {
 
-            if (col_def['show_on_list']) {
+            if (col_def['show_on_list'] !== false) {
                 if (!(!this.checkWrite() && col_def.type == 'row_checkbox')) {
 
                     if (typeof col_def['caption'] !== 'undefined') {
@@ -174,7 +175,7 @@ export class CollectionTableView extends TableView {
         //an array can be n rows by n columns... we need to figure that out
         this.header_row_span = 1;
         this.model.cdo.forEach((col_def, col) => {
-            if (col_def['show_on_list']) {
+            if (col_def['show_on_list'] !== false) {
                 if (typeof col_def.array !== 'undefined' && col_def.array) {
                     this.header_row_span = col_def.caption.length;
                     this.array_col = col;
@@ -207,7 +208,7 @@ export class CollectionTableView extends TableView {
             let total_place = false;
             let col_counter = 0;
             this.model.cdo.forEach(col_def => {
-                if (col_def['show_on_list']) {
+                if (col_def['show_on_list'] !== false) {
                     if (!(!this.checkWrite() && col_def.type == 'row_checkbox')) {
                         if (typeof col_def.array !== 'undefined' && col_def.array) {
 
@@ -265,7 +266,7 @@ export class CollectionTableView extends TableView {
             let col_counter = 0;
             this.model.cdo.forEach((col_def) => {
 
-                if (col_def['show_on_list']) {
+                if (col_def['show_on_list'] !== false) {
                     if (!(!this.checkWrite() && col_def.type == 'row_checkbox')) {
                         let data = data_row[col_def.db_field].data;
                         if (typeof col_def.array !== 'undefined' && col_def.array == true) {
