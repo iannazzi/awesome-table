@@ -80,7 +80,7 @@ export class CollectionTableView extends TableView {
 
             if (col_def['show_on_list'] !== false) {
                 if (!(!this.checkWrite() && col_def.type == 'row_checkbox')) {
-
+                    caption = ''
                     if (typeof col_def['caption'] !== 'undefined') {
                         caption = col_def['caption'];
                     }

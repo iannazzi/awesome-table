@@ -152,7 +152,7 @@ export class TableView {
                 return this.createLink(col_def,data);
                 break;
             default:
-                return document.createTextNode('no type coded for ' + col_def.type + ' type should be set to html date text number checkbox select tree_select button link textarea');
+                return document.createTextNode('type "' + col_def.type + '" has not been coded');
 
 
         }
