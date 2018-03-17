@@ -306,6 +306,19 @@ export class CollectionTableView extends TableView {
 
         }
     }
+    updateTableValues(r) {
+
+        // console.log(this.elements);
+
+        for (let db_field in this.elements[r]) {
+            //might need a hasOwnProperty thingy......
+            if (this.elements[r].hasOwnProperty(db_field)) {
+                let col_def = this.model.getColDef(db_field);
+                let data = this.model.tdo[r][db_field].data;
+                this.writeElementValue(this.elements[r][db_field], col_def, data)
+            }
+        }
+    }
 
     createTFoot(name) {
 

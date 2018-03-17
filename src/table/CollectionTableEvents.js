@@ -204,6 +204,10 @@ export class CollectionTableEvents extends TableEvents{
                 console.log('inputChanged Event...  copyTable then updateTotalsBody ... then the cd event');
                 self.copyTable()
                 self.view.updateTotalsBody()
+                if (typeof controller.model.td.onChange === 'function') {
+                    //this callback has router
+                    controller.model.td.onChange();
+                }
             }
         );
         controller.view.individualSelectChanged.attach(

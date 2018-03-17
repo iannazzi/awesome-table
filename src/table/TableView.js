@@ -27,6 +27,23 @@ export class TableView {
 
         // this.name = this.id;
     }
+    writeElementValue(element, col_def, value) {
+        //read vs write different values to write
+        if (col_def['type'] == 'row_checkbox'
+            || col_def['type'] == 'checkbox'
+            || col_def['type'] == 'radio') {
+            if (value == 1) {
+                element.checked = true;
+            }
+            else {
+                element.checked = false;
+            }
+
+        }
+        else {
+            element.value = value;
+        }
+    }
     checkWrite()
     {
         let write = false;
@@ -165,7 +182,7 @@ export class TableView {
             let element = document.createElement("TEXTAREA");
             let self = this;
             element.addEventListener("keyup", function(){
-                self.inputChanged.notify()
+                self.inputChanged.notify({element, col_def})
             });
             this.addEvents(col_def, element);
             this.addProperties(col_def, element);
@@ -191,7 +208,7 @@ export class TableView {
         //element.id = col_def.db_field + '_search';
         let self = this;
         element.addEventListener("click", function(){
-            self.inputChanged.notify()
+            self.inputChanged.notify({element, col_def})
         });
         this.addEvents(col_def, element);
         //element.onclick = function(){self.inputChanged.notify()}
@@ -222,7 +239,7 @@ export class TableView {
             }
             let self = this;
             element.addEventListener("onclick", function(){
-                self.inputChanged.notify()
+                self.inputChanged.notify({element, col_def})
             });
             this.addEvents(col_def, element);
             this.addProperties(col_def, element);
@@ -248,13 +265,13 @@ export class TableView {
             element.pattern="[0-9. -]*"
             let self = this;
             element.addEventListener("keyup", function(){
-                self.inputChanged.notify()
+                self.inputChanged.notify({element, col_def})
             });
             element.addEventListener("click", function(){
-                self.inputChanged.notify()
+                self.inputChanged.notify({element, col_def})
             });
             element.addEventListener("change", function(){
-                self.inputChanged.notify()
+                self.inputChanged.notify({element, col_def})
             });
             this.addEvents(col_def, element);
             //do not mess with user input.... try to let the browser handle it
@@ -322,7 +339,7 @@ export class TableView {
 
             let self = this;
             element.addEventListener("keyup", function(){
-                self.inputChanged.notify()
+                self.inputChanged.notify({element, col_def})
             });
             this.addEvents(col_def, element);
             // element.onkeyup = function(){self.inputChanged.notify()}
@@ -348,7 +365,7 @@ export class TableView {
 
             let self = this;
             element.addEventListener("keyup", function(){
-                self.inputChanged.notify()
+                self.inputChanged.notify({element, col_def})
             });
             this.addEvents(col_def, element);
             // element.onkeyup = function(){self.inputChanged.notify()}
@@ -367,10 +384,13 @@ export class TableView {
             element.type = 'date';
             //element.name = 'element_' + cell.id;
             //element.id = element.name;
+            if (typeof col_def.placeholder != 'undefined' && col_def.placeholder){
+                element.placeholder = col_def.placeholder;
+            }
             element.value = data;
             let self = this;
             element.addEventListener("onchange", function(){
-                self.inputChanged.notify()
+                self.inputChanged.notify({element, col_def})
             });
             this.addEvents(col_def, element);
             element.onchange = function(){self.inputChanged.notify()}
@@ -442,7 +462,7 @@ export class TableView {
         element.name = col_def['db_field'] + '[]';
         let self = this;
         element.addEventListener("onclick", function(){
-            self.inputChanged.notify()
+            self.inputChanged.notify({element, col_def})
         });
         this.addEvents(col_def, element);
 
@@ -694,6 +714,11 @@ export class TableView {
         button.innerHTML = '<i class="fa fa-plus" aria-hidden="true"></i>'+msg;
         return button;
     }
+
+
+
+
+
     showWaitModal(show = true){
         if(show){
             $(this.waitModal).modal('show');
@@ -704,6 +729,14 @@ export class TableView {
         }
 
     }
+
+
+
+
+
+
+
+    //all this goes.......
     showConfirmModal(show = true)
     {
         if(show){

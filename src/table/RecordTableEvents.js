@@ -29,9 +29,13 @@ export class RecordTableEvents extends TableEvents {
         //##################   INPUT CHANGED
         view.inputChanged = new TableEvent(view);
         controller.view.inputChanged.attach(
-            function () {
+            function (sender, args) {
                 console.log('input changed');
-                controller.copyTable()
+                controller.copyTable();
+                if (typeof controller.model.td.onChange === 'function') {
+                    //this callback has router
+                    controller.model.td.onChange(args);
+                }
             }
         );
 
@@ -72,7 +76,7 @@ export class RecordTableEvents extends TableEvents {
                         controller.model.loadOriginalData();
                         controller.model.td.table_view = 'show';
                         controller.model.td.access = 'read';
-                        view.updateTable();
+                        view.drawTable();
 
                         // if (controller.model.td.edit_display == 'on_page') {
                         //
@@ -129,7 +133,7 @@ export class RecordTableEvents extends TableEvents {
                         controller.model.td.access = 'read';
                         //set the original data to the new data
                         controller.model.original_data = controller.getPostData();
-                        view.updateTable();
+                        view.drawTable();
 
                         //modal or not
 

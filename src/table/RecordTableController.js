@@ -18,7 +18,7 @@ export class RecordTableController extends TableController {
 
     updateCellValue(column_name, val, row = 0){
         this.model.tdo[row][column_name]['data'] = val;
-        this.view.updateTable();
+        this.view.updateTableValues();
     }
     getSelectValueName(column_name, value){
         value = parseInt(value);
@@ -37,20 +37,25 @@ export class RecordTableController extends TableController {
         return return_value;
     }
     copyTable() {
+        //for the record table igonore row_number and row_checkbox columns
+
         this.model.cdo.forEach((col_def) => {
-            let element = this.view.elements[col_def.db_field];
-            switch (this.model.td.table_view) {
-                case 'create':
-                    if (col_def['show_on_create'] !== false){
-                        this.copyElementValueToModel(element, col_def, 0);
-                    }
-                    break;
-                case 'edit':
-                    if (col_def['show_on_edit'] !== false){
-                        this.copyElementValueToModel(element, col_def, 0);
-                    }
-                    break;
+            if(col_def.type != 'row_checkbox' && col_def.type != 'row_number'){
+                let element = this.view.elements[col_def.db_field];
+                switch (this.model.td.table_view) {
+                    case 'create':
+                        if (col_def['show_on_create'] !== false){
+                            this.copyElementValueToModel(element, col_def, 0);
+                        }
+                        break;
+                    case 'edit':
+                        if (col_def['show_on_edit'] !== false){
+                            this.copyElementValueToModel(element, col_def, 0);
+                        }
+                        break;
+                }
             }
+
         })
     }
 

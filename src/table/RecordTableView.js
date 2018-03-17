@@ -4,12 +4,10 @@
 import {TableView} from './TableView';
 
 
-
 export class RecordTableView extends TableView {
     constructor(model) {
         super(model);
     }
-
 
 
     createRecordTable() {
@@ -29,7 +27,7 @@ export class RecordTableView extends TableView {
         // if (this.checkWrite()) {
         //     this.setFocusToFirstInput();
         // }
-        this.updateTable();
+        this.drawTable();
 
         return this.recordTableDiv;
     }
@@ -44,8 +42,6 @@ export class RecordTableView extends TableView {
         return div;
 
     }
-
-
 
 
     createRecordTableDiv() {
@@ -73,7 +69,7 @@ export class RecordTableView extends TableView {
     }
 
 
-    updateTable() {
+    drawTable() {
         let tbl = this.table;
         tbl.innerHTML = '';
         this.elements = {};
@@ -105,6 +101,23 @@ export class RecordTableView extends TableView {
         })
         this.updateButtons();
 
+    }
+
+
+
+    updateTableValues() {
+        //say i modify the model and i just want to update the values of each element....
+
+        //update the elements...
+
+        for (let db_field in this.elements) {
+            //might need a hasOwnProperty thingy......
+            if (this.elements.hasOwnProperty(db_field)) {
+                let col_def = this.model.getColDef(db_field);
+                let data = this.model.tdo[0][db_field].data;
+                this.writeElementValue(this.elements[db_field], col_def, data)
+            }
+        }
     }
 
     addRow(tbody, col_def) {

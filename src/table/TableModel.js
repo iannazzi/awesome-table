@@ -25,6 +25,7 @@ export class TableModel {
 
         let self = this;
         this.modelChanged.attach(function () {
+            console.log('model changed....')
             self.updateTableObjectLineNumbers()
 
         });
@@ -48,7 +49,6 @@ export class TableModel {
             this.addDataRow(data[i]);
         }
 
-        //this.modelChanged.notify();
         this.sortData();
         this.original_data = data;
 
@@ -56,6 +56,7 @@ export class TableModel {
         if (this.tdo.length == 0) {
             this.addNewRow();
         }
+        this.modelChanged.notify();
 
 
     }
@@ -129,7 +130,7 @@ export class TableModel {
             //console.log(col_definition);
             this.addItem(col_definition, data_row, row_number);
         })
-        this.updateTableObjectLineNumbers();
+        //this.updateTableObjectLineNumbers();
         //this should render the view but the view may not exist
         this.modelChanged.notify();
         return row_number;
@@ -191,6 +192,8 @@ export class TableModel {
         }
         if (typeof col['row_number'] !== 'undefined') {
             data = this.tdo.length;
+            console.log('setting row number to ' + data )
+
         }
         else {
 
@@ -203,15 +206,17 @@ export class TableModel {
     }
 
     updateTableObjectLineNumbers() {
-        //seems pointless but needed for post data...
         //db_field has to be 'row_number' for this to work
         //we need to loop through the tbody cells and set the value of the column name bla bla
         let col = this.getCDOColumnNumberFromName('row_number');
+        console.log('column ' + col)
         if (col != -1) {
             for (let row = 0; row < this.tdo.length; row++) {
                 this.tdo[row]['row_number']['data'] = row + 1;
+                console.log(this.tdo[row]['row_number']['data']);
             }
         }
+
     }
 
     getCDOColumnNumberFromName(name) {
@@ -223,6 +228,9 @@ export class TableModel {
 
         })
         return column;
+    }
+    getColDef(name){
+        return this.cdo[this.getCDOColumnNumberFromName(name)];
     }
 
     rowCount() {

@@ -7,11 +7,19 @@
   <body>
   <div class="container">
     <h1>Record Table with On Page Edit</h1>
+    <p>This is a table for editing a single record out of a collection. </p>
+    <p>Check the following functions work</p>
+    <ul>
+      <li>Tree View Select drop down is staggered</li>
+      <li>Link is read only</li>
+      <li>Placeholders</li>
+      <li>Entering text copies it to textarea == problem input looses focus because the table is re-written.... I should only update the value</li>
+      <li>row number and row checkbox do not show up</li>
+      <li>Input changed logs the table as a string</li>
+
+    </ul>
     <div id="recordTableOnPageEdit"></div>
-  </div>
-  <div class="container">
-    <h1>Record Table with Modal Edit</h1>
-    <div id="recordTableModalPageEdit"></div>
+    <button id="recordTableWriteAccess">Make Table Writable</button>
   </div>
   <div class="container">
     <h1>Collection Table Not Editable</h1>
