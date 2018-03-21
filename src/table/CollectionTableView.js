@@ -85,13 +85,14 @@ export class CollectionTableView extends TableView {
                         caption = col_def['caption'];
                     }
                     if (typeof col_def.array !== 'undefined' && col_def.array == true) {
+                        //this.CreateTheadArray(col_def,);
+
                         col_def.caption.forEach((caption_row, row) => {
                             caption_row.forEach(caption_entry => {
+
                                 let th = document.createElement('th');
                                 th.innerHTML = caption_entry;
-                                if (typeof col_def['th_width'] != 'undefined') {
-                                    th.style.width = col_def['th_width'];
-                                }
+                                this.th_width(col_def, th);
 
                                 tr[row].appendChild(th);
                             })
@@ -114,9 +115,7 @@ export class CollectionTableView extends TableView {
                         i1.className = 'fa fa-sort';
                         th.appendChild(i1);
 
-                        if (typeof col_def['th_width'] != 'undefined') {
-                            th.style.width = col_def['th_width'];
-                        }
+                        this.th_width(col_def, th);
 
                         th.rowSpan = this.header_row_span;
                         tr[0].appendChild(th);
@@ -134,7 +133,11 @@ export class CollectionTableView extends TableView {
         this.updateHeaderSortView()
 
     }
-
+    th_width(col_def, th){
+        if (typeof col_def['th_width'] != 'undefined') {
+            th.style.width = col_def['th_width'];
+        }
+    }
     updateHeaderSortView() {
         //read the sort array and set the visuals
         let self = this;
@@ -268,7 +271,7 @@ export class CollectionTableView extends TableView {
 
                 if (col_def['show_on_list'] !== false) {
                     if (!(!this.checkWrite() && col_def.type == 'row_checkbox')) {
-                        let data = data_row[col_def.db_field].data;
+                        let data = data_row[col_def.db_field].data; //data can be an array.....
                         if (typeof col_def.array !== 'undefined' && col_def.array == true) {
                             this.elements[r][col_def.db_field] = [];
                             //this.elements_array[r][col_counter] = [];
@@ -277,6 +280,9 @@ export class CollectionTableView extends TableView {
                                 let cell = tr.insertCell(-1);
                                 let element = this.createElement(data[col], col_def);
                                 element.name = 'element_r' + r + 'c' + col_counter;
+                                element.awesomeTable = {};
+                                element.awesomeTable.col_def = col_def;
+                                element.awesomeTable.row = r;
                                 this.elements[r][col_def.db_field][col] = element;
                                 this.elements_array[r][col_counter] = element;
 
@@ -314,7 +320,10 @@ export class CollectionTableView extends TableView {
             //might need a hasOwnProperty thingy......
             if (this.elements[r].hasOwnProperty(db_field)) {
                 let col_def = this.model.getColDef(db_field);
-                let data = this.model.tdo[r][db_field].data;
+                //might be an array.....
+
+                let data = this.model.getData(db_field, r);
+
                 this.writeElementValue(this.elements[r][db_field], col_def, data)
             }
         }

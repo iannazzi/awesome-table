@@ -25,14 +25,18 @@ export class TableModel {
 
         let self = this;
         this.modelChanged.attach(function () {
-            console.log('model changed....')
             self.updateTableObjectLineNumbers()
 
         });
 
 
     }
-
+    getData(db_field, r, c){
+        if(typeof this.model.tdo[r][db_field].data === 'array'){
+            return this.model.tdo[r][db_field].data[c];
+        }
+        return this.model.tdo[r][db_field].data;
+    }
     loadColumnDefinition(column_definition) {
         //the column definition has view properties and data properties
         //I feel it is mostly related to the model
@@ -209,11 +213,9 @@ export class TableModel {
         //db_field has to be 'row_number' for this to work
         //we need to loop through the tbody cells and set the value of the column name bla bla
         let col = this.getCDOColumnNumberFromName('row_number');
-        console.log('column ' + col)
         if (col != -1) {
             for (let row = 0; row < this.tdo.length; row++) {
                 this.tdo[row]['row_number']['data'] = row + 1;
-                console.log(this.tdo[row]['row_number']['data']);
             }
         }
 

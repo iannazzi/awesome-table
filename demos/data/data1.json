@@ -1,0 +1,16 @@
+{
+  "success": true,
+  "message": "search returned",
+  "data": {
+    "records": [
+      {
+        "id": 1,
+        "name": "fred"
+      },
+      {
+        "id": 2,
+        "name": "oscar"
+      }
+    ]
+  }
+}

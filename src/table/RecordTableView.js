@@ -133,6 +133,8 @@ export class RecordTableView extends TableView {
             let data = this.model.tdo[0][col_def.db_field].data;
             let cell = tr.insertCell(-1);
             let element = this.createElement(data, col_def);
+            element.awesomeTable = {};
+            element.awesomeTable.col_def = col_def;
             this.elements[col_def.db_field] = element;
             this.elements_array.push(element);
             cell.appendChild(element);

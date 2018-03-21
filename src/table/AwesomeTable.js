@@ -5,6 +5,7 @@ import {CollectionTableController}  from './CollectionTableController';
 import {TableModel}  from './TableModel';
 import {SearchTableView}  from './SearchTableView';
 import {SearchTableController}  from './SearchTableController';
+import './app.scss';
 
 export class AwesomeTable {
     constructor(type,name) {
