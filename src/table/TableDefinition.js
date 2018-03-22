@@ -3,8 +3,8 @@
  */
 
 export default class TableDefinition {
-    tree_select(){
-        let select_values = [
+    select_values(){
+        return [
             {
                 'value': 1,
                 'name': 'liliana'
@@ -35,7 +35,10 @@ export default class TableDefinition {
                 'name': 'nine'
             },
         ]
-        let tree_select = [
+
+    }
+    tree_values_values(){
+       return [
             {
                 "name": "one",
                 "value": "1",
@@ -72,25 +75,29 @@ export default class TableDefinition {
     cd() {
         let td = {
             "db_field": 'replace',
-            "caption": "replace",
+            "caption": "replace", //this can also be a 2-d array to match data that is in an array
             "type": "html date time password text number textarea row_checkbox row_number checkbox select tree_select button link radio",
-            "route": "needed for link",
-            'array': "true or not set caption has to then be set in 2d array [[]]",
+            'select_values': this.select_values(), //or this.tree_select_values();
+            'individual_select_options':true, //in a collection table this will limit the choices
             'default_value': 'default value is set',
             "show_on_list": true,  //true or ommitted, false
             "show_on_view": true, //true or ommitted, false
             "show_on_create": true, //true or ommitted, false
             "show_on_edit": true, //true or ommitted, false
-
             "th_width": 10,
+            "search": "LIKE ANY BETWEEN EXACT",
+            "search_default" : "",
+            "total": 0,
+            "round": 0,
+
+
+
+//unverified shit.....
+            "route": "needed for link",
             "td_tags": '',
             "class": '',
             "events": [],
-            "search": "LIKE ANY BETWEEN EXACT",
-            "search_default" : "",
             "properties": [],
-            "total": 0,
-            "round": 0,
             'word_wrap': true,
             'post': true
         };

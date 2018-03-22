@@ -52,13 +52,10 @@ export class ColumnDefinition {
         }
     }
     sizes(awesomeTable) {
-
         return [{
             "db_field": "sizes",
             "caption": [["XS", "S", "M", "L", ""], ["40", "42", "44", "46", ""], ["1", "2", "3", "4", "5"]],
-            //caption should be json or decoded json
             "type": "text",
-            "array": true,
             "default_value": '1',
             "show_on_list": true,
             "show_on_view": true,
@@ -85,7 +82,6 @@ export class ColumnDefinition {
 
                 }
             }],
-            "search": "LIKE ANY BETWEEN EXACT",
             "properties": [],
             "word_wrap": true
         },
@@ -232,8 +228,6 @@ export class ColumnDefinition {
         };
     }
 
-
-
     date() {
         return {
             "db_field": "date",
@@ -335,7 +329,6 @@ export class ColumnDefinition {
 
             }]
     }
-
 
     row_number() {
         return {

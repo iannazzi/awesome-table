@@ -20,7 +20,7 @@ export class CollectionTableView extends TableView {
         this.collectionTableDiv = this.createCollectionTableDiv();
         this.table = this.createTable(name);
         this.collectionTableDiv.appendChild(this.table);
-        this.table_modify_div = this.createTableModifyButtons()
+        this.table_modify_div = this.createTableModifyButtons(name)
         this.collectionTableDiv.appendChild(this.table_modify_div);
         this.edit_button_div = this.createEditButtonDiv();
         this.collectionTableDiv.appendChild(this.edit_button_div);
@@ -179,7 +179,7 @@ export class CollectionTableView extends TableView {
         this.header_row_span = 1;
         this.model.cdo.forEach((col_def, col) => {
             if (col_def['show_on_list'] !== false) {
-                if (typeof col_def.array !== 'undefined' && col_def.array) {
+                                        if (typeof col_def.caption !== 'undefined' && col_def.caption.constructor === Array) {
                     this.header_row_span = col_def.caption.length;
                     this.array_col = col;
                 }
@@ -213,7 +213,7 @@ export class CollectionTableView extends TableView {
             this.model.cdo.forEach(col_def => {
                 if (col_def['show_on_list'] !== false) {
                     if (!(!this.checkWrite() && col_def.type == 'row_checkbox')) {
-                        if (typeof col_def.array !== 'undefined' && col_def.array) {
+                        if (typeof col_def.caption !== 'undefined' && col_def.caption.constructor === Array) {
 
                             col_def.caption[0].forEach((caption_row, col) => {
                                 let cell = tr.insertCell(col_counter);
@@ -262,56 +262,60 @@ export class CollectionTableView extends TableView {
             this.elements[r] = {};
             this.elements_array[r] = [];
             let tr = this.tbody.insertRow();
+
             //set the row properties
             // for (var index in data_row['_data_row']) {
             //     eval('tr.' + index + '= ' + data_row['_data_row'][index] + ';');
             // }
             let col_counter = 0;
             this.model.cdo.forEach((col_def) => {
-
-                if (col_def['show_on_list'] !== false) {
-                    if (!(!this.checkWrite() && col_def.type == 'row_checkbox')) {
-                        let data = data_row[col_def.db_field].data; //data can be an array.....
-                        if (typeof col_def.array !== 'undefined' && col_def.array == true) {
-                            this.elements[r][col_def.db_field] = [];
-                            //this.elements_array[r][col_counter] = [];
-
-                            col_def.caption[0].forEach((caption_row, col) => {
-                                let cell = tr.insertCell(-1);
-                                let element = this.createElement(data[col], col_def);
-                                element.name = 'element_r' + r + 'c' + col_counter;
-                                element.awesomeTable = {};
-                                element.awesomeTable.col_def = col_def;
-                                element.awesomeTable.row = r;
-                                this.elements[r][col_def.db_field][col] = element;
-                                this.elements_array[r][col_counter] = element;
-
-                                cell.appendChild(element);
-                                col_counter++;
-
-                            });
-                        }
-                        else {
-
-                            let cell = tr.insertCell(-1);
-                            let element = this.createElement(data, col_def);
-                            element.name = 'element_r' + r + 'c' + col_counter;
-                            this.elements[r][col_def.db_field] = element;
-                            this.elements_array[r][col_counter] = element;
-
-                            cell.appendChild(element);
-                            col_counter++;
-
-                        }
-                    }
-                }
+                this.createColumn(tr, r, data_row, col_def, col_counter);
+                col_counter++;
             })
         })
         if (this.checkWrite()) {
             this.updateIndividualSelectOptions();
-
         }
     }
+
+    createColumn(tr, r, data_row, col_def, col_counter){
+        if (col_def['show_on_list'] !== false) {
+            if (!(!this.checkWrite() && col_def.type == 'row_checkbox')) {
+                let data = data_row[col_def.db_field].data; //data can be an array.....
+                // if (typeof col_def.array !== 'undefined' && col_def.array == true) {
+                if (typeof col_def.caption !== 'undefined' && col_def.caption.constructor === Array) {
+
+                    this.elements[r][col_def.db_field] = [];
+                    //this.elements_array[r][col_counter] = [];
+                    col_def.caption[0].forEach((caption_row, col) => {
+
+                        let element = this.createCell(tr,col_def,data[col]);
+                        this.elements[r][col_def.db_field][col] = element;
+                        this.elements_array[r][col_counter] = element;
+
+
+                    });
+                }
+                else {
+
+                    let element = this.createCell(tr,col_def,data);
+                    this.elements[r][col_def.db_field] = element;
+                    this.elements_array[r][col_counter] = element;
+
+                }
+            }
+        }
+    }
+    createCell(tr,col_def,data){
+        let cell = tr.insertCell(-1);
+        let element = this.createElement(data, col_def);
+        //element.name = 'element_r' + r + 'c' + col_counter;
+        cell.appendChild(element);
+        return element;
+    }
+
+
+
     updateTableValues(r) {
 
         // console.log(this.elements);
@@ -431,10 +435,10 @@ export class CollectionTableView extends TableView {
 
     }
 
-    createTableModifyButtons() {
+    createTableModifyButtons(name) {
 
         let div = document.createElement('div');
-        div.id = this.id + '_buttons';
+        div.id = name + '_buttons';
         div.className = 'data_table_buttons';
 
         let table_modify_div = document.createElement('div');
@@ -451,6 +455,7 @@ export class CollectionTableView extends TableView {
         if (buttons.includes('addRow')) {
             element = document.createElement('button');
             element.innerHTML = 'Add Row';
+            element.id = name + '_add_row';
             element.addEventListener('click', function () {
                 self.addRowClicked.notify();
             });
@@ -459,6 +464,8 @@ export class CollectionTableView extends TableView {
         if (buttons.includes('deleteRow')) {
             element = document.createElement('button');
             element.innerHTML = 'Delete Row(s)';
+            element.id = name + 'delete_row';
+
             element.addEventListener('click', function () {
                 self.deleteRowClicked.notify();
             });
@@ -467,6 +474,8 @@ export class CollectionTableView extends TableView {
         if (buttons.includes('copyRows')) {
             element = document.createElement('button');
             element.innerHTML = 'Copy Row(s)';
+            element.id = name + 'copy_row';
+
             element.addEventListener('click', function () {
                 self.copyRowClicked.notify();
             });
@@ -475,6 +484,8 @@ export class CollectionTableView extends TableView {
         if (buttons.includes('moveRows')) {
             element = document.createElement('button');
             element.innerHTML = 'Move Row(s) Up';
+            element.id = name + 'move_row_up';
+
             element.addEventListener('click', function () {
                 self.moveRowUpClicked.notify();
             });
@@ -482,6 +493,8 @@ export class CollectionTableView extends TableView {
 
             element = document.createElement('button');
             element.innerHTML = 'Move Row(s) Down';
+            element.id = name + 'move_row_down';
+
             element.addEventListener('click', function () {
                 self.moveRowDownClicked.notify();
             });
@@ -490,6 +503,8 @@ export class CollectionTableView extends TableView {
         if (buttons.includes('deleteAllRows')) {
             element = document.createElement('button');
             element.innerHTML = 'Delete All Rows';
+            element.id = name + 'delete_all_rows';
+
             element.addEventListener('click', function () {
                 self.deleteAllClicked.notify();
             });
@@ -498,19 +513,26 @@ export class CollectionTableView extends TableView {
         if (buttons.includes('addColumn')) {
             element = document.createElement('button');
             element.innerHTML = 'Add Column';
+            element.id = name + 'add_column';
+
             element.addEventListener('click', function () {
                 self.addColumnClicked.notify();
             });
             table_modify_div.appendChild(element);
+
         }
         if (buttons.includes('deleteColumn')) {
             element = document.createElement('button');
             element.innerHTML = 'Delete Column';
+            element.id = name + 'delete_column';
+
             element.addEventListener('click', function () {
                 self.deleteColumnClicked.notify();
             });
             table_modify_div.appendChild(element);
+
         }
+
 
 
         return div

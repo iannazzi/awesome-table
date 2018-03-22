@@ -114,18 +114,19 @@ export class CollectionTableController extends TableController {
         let rowCount = tbody.rows.length;
         for (let r = 0; r < rowCount; r++) {
             this.model.cdo.forEach((col_def) => {
-                if (col_def['show_on_list'] !== false) {
-                    if (typeof col_def.array !== 'undefined' && col_def.array) {
-                        col_def.caption[0].forEach((caption_row, col) => {
-                            let element = this.view.elements[r][col_def.db_field][col];
-                            this.copyElementValueToModel(element, col_def, r, col);
-                        });
+                if (! col_def['show_on_list']) {
+                    if (typeof col_def.caption !== 'undefined' && col_def.caption.constructor === Array) {
+                            col_def.caption[0].forEach((caption_row, col) => {
+                                let element = this.view.elements[r][col_def.db_field][col];
+
+                                this.copyElementValueToModel(element, col_def, r, col);
+                            });
+                        }
+                        else {
+                            let element = this.view.elements[r][col_def.db_field]
+                            this.copyElementValueToModel(element, col_def, r);
+                        }
                     }
-                    else {
-                        let element = this.view.elements[r][col_def.db_field]
-                        this.copyElementValueToModel(element, col_def, r);
-                    }
-                }
             })
         }
     }
