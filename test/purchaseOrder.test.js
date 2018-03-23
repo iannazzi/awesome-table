@@ -42,13 +42,34 @@ describe('sizes', function () {
         await page.waitFor(selector);
         page.click(selector);
 
-        console.log(await page.evaluate(() => new AwesomeTable.AwesomeTable('collection')));
+        //console.log(await page.evaluate(() => new AwesomeTable.AwesomeTable('collection')));
       //  expect(await page.$$('adjustableColumn_data_tbody')).to.have.lengthOf(1);
 
+    });
+    it('should update quantity', async function () {
+        const selector = '#adjustableColumn_r0c3';
+        // await page.waitFor(selector);
+        // page.click(selector);
+        await page.waitFor(selector);
+        await page.$eval(selector, el => el.value = '2');
+        // const val = await page.evaluate(() => {
+        //     //const anchor = document.getElementById('#adjustableColumn_r0c7');
+        //     return document.querySelector('#adjustableColumn_r0c3').textContent
+        //     //console.log(anchor);
+        //     //return anchor.value;
+        // });
 
+        let input = await page.$('#adjustableColumn_r0c3');
+        let valueHandle = await input.getProperty('value');
+
+        assert.equal(await valueHandle.jsonValue(), '2')
+        // expect( valueHandle.jsonValue()).to.equal('2');
+
+        // expect.assert.equal(valueHandle,2);
 
 
     });
+
 
 
 

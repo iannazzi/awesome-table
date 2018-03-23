@@ -1,7 +1,7 @@
 /**
  * Created by embrasse-moi on 1/20/17.
  */
-import { trim } from '../lib/strings';
+import { trim } from './strings';
 export function round(num, dec)
 {
     var result = Math.round(num*Math.pow(10,dec))/Math.pow(10,dec);

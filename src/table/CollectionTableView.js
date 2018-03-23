@@ -3,7 +3,7 @@
  */
 import {TableView} from './TableView';
 
-import {myParseFloat, round2} from './math';
+import {myParseFloat, round2} from '../lib/math';
 export class CollectionTableView extends TableView {
     constructor(model) {
 
@@ -269,8 +269,7 @@ export class CollectionTableView extends TableView {
             // }
             let col_counter = 0;
             this.model.cdo.forEach((col_def) => {
-                this.createColumn(tr, r, data_row, col_def, col_counter);
-                col_counter++;
+                col_counter = this.createColumn(tr, r, data_row, col_def, col_counter);
             })
         })
         if (this.checkWrite()) {
@@ -279,6 +278,7 @@ export class CollectionTableView extends TableView {
     }
 
     createColumn(tr, r, data_row, col_def, col_counter){
+        let element;
         if (col_def['show_on_list'] !== false) {
             if (!(!this.checkWrite() && col_def.type == 'row_checkbox')) {
                 let data = data_row[col_def.db_field].data; //data can be an array.....
@@ -286,30 +286,31 @@ export class CollectionTableView extends TableView {
                 if (typeof col_def.caption !== 'undefined' && col_def.caption.constructor === Array) {
 
                     this.elements[r][col_def.db_field] = [];
-                    //this.elements_array[r][col_counter] = [];
                     col_def.caption[0].forEach((caption_row, col) => {
 
-                        let element = this.createCell(tr,col_def,data[col]);
+                        element = this.createCell(tr,col_def,data[col]);
+                        element.id = this.model.td.name + '_r' + r + 'c' + col_counter;
+                        col_counter++;
                         this.elements[r][col_def.db_field][col] = element;
                         this.elements_array[r][col_counter] = element;
-
-
                     });
                 }
                 else {
 
-                    let element = this.createCell(tr,col_def,data);
+                    element = this.createCell(tr,col_def,data);
+                    element.id = this.model.td.name + '_r' + r + 'c' + col_counter;
+                    col_counter++;
                     this.elements[r][col_def.db_field] = element;
                     this.elements_array[r][col_counter] = element;
-
                 }
+
             }
         }
+        return col_counter;
     }
     createCell(tr,col_def,data){
         let cell = tr.insertCell(-1);
         let element = this.createElement(data, col_def);
-        //element.name = 'element_r' + r + 'c' + col_counter;
         cell.appendChild(element);
         return element;
     }
@@ -456,6 +457,7 @@ export class CollectionTableView extends TableView {
             element = document.createElement('button');
             element.innerHTML = 'Add Row';
             element.id = name + '_add_row';
+            element.classList.add("button");
             element.addEventListener('click', function () {
                 self.addRowClicked.notify();
             });
@@ -464,7 +466,8 @@ export class CollectionTableView extends TableView {
         if (buttons.includes('deleteRow')) {
             element = document.createElement('button');
             element.innerHTML = 'Delete Row(s)';
-            element.id = name + 'delete_row';
+            element.id = name + '_delete_row';
+            element.classList.add("button");
 
             element.addEventListener('click', function () {
                 self.deleteRowClicked.notify();
@@ -475,6 +478,7 @@ export class CollectionTableView extends TableView {
             element = document.createElement('button');
             element.innerHTML = 'Copy Row(s)';
             element.id = name + 'copy_row';
+            element.classList.add("button");
 
             element.addEventListener('click', function () {
                 self.copyRowClicked.notify();
@@ -485,6 +489,7 @@ export class CollectionTableView extends TableView {
             element = document.createElement('button');
             element.innerHTML = 'Move Row(s) Up';
             element.id = name + 'move_row_up';
+            element.classList.add("button");
 
             element.addEventListener('click', function () {
                 self.moveRowUpClicked.notify();
@@ -494,6 +499,7 @@ export class CollectionTableView extends TableView {
             element = document.createElement('button');
             element.innerHTML = 'Move Row(s) Down';
             element.id = name + 'move_row_down';
+            element.classList.add("button");
 
             element.addEventListener('click', function () {
                 self.moveRowDownClicked.notify();
@@ -504,6 +510,7 @@ export class CollectionTableView extends TableView {
             element = document.createElement('button');
             element.innerHTML = 'Delete All Rows';
             element.id = name + 'delete_all_rows';
+            element.classList.add("button");
 
             element.addEventListener('click', function () {
                 self.deleteAllClicked.notify();
@@ -514,6 +521,7 @@ export class CollectionTableView extends TableView {
             element = document.createElement('button');
             element.innerHTML = 'Add Column';
             element.id = name + 'add_column';
+            element.classList.add("button");
 
             element.addEventListener('click', function () {
                 self.addColumnClicked.notify();
@@ -525,6 +533,7 @@ export class CollectionTableView extends TableView {
             element = document.createElement('button');
             element.innerHTML = 'Delete Column';
             element.id = name + 'delete_column';
+            element.classList.add("button");
 
             element.addEventListener('click', function () {
                 self.deleteColumnClicked.notify();

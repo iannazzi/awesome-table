@@ -1,7 +1,7 @@
 /**
  * Created by embrasse-moi on 1/20/17.
  */
-import {myParseFloat, round2, isNumber} from './math';
+import {myParseFloat, round2, isNumber} from '../lib/math';
 
 import { TableEvent } from './TableEvent';
 // import {ErrorModal} from '../modal/ErrorModal'
