@@ -61,16 +61,22 @@ describe('sizes', function () {
 
         let input = await page.$('#adjustableColumn_r0c3');
         let valueHandle = await input.getProperty('value');
-
+        let value = valueHandle.jsonValue()
+        console.log(await getValue('#adjustableColumn_r0c3'));
         assert.equal(await valueHandle.jsonValue(), '2')
         // expect( valueHandle.jsonValue()).to.equal('2');
 
         // expect.assert.equal(valueHandle,2);
-
+        //assert.equal(await , 'some text')
 
     });
 
-
+    async function getValue(selector) {
+        let value = await page.evaluate((sel) => {
+            return document.querySelector(sel).value
+        }, selector)
+        return value
+    }
 
 
 

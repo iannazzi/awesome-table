@@ -68,8 +68,7 @@ export class ColumnDefinition {
                 "keyup": function (event) {
                     //update the quantities and totals....
                     //log the element and the row.....
-                    console.log();
-                    console.log();
+                    console.log('key up event on sizes');
 
                     //do things like
                     let col_def = event.target.awesomeTable.col_def;

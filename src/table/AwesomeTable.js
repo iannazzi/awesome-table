@@ -129,14 +129,45 @@ export class AwesomeTable {
         //     this.controllerModal.updateCellValue(column, value, row)
         // }
     }
-    getValue(column_name, row_number){
+    developerAlert(msg){
+        alert('Developer Alert! \n' + msg);
+
+    }
+    checkRowNumber(row_number){
+        if(typeof this.model.tdo[row_number] === 'undefined'){
+            this.developerAlert('the row number ' + row_number+' is undefined, fix your call....')
+            return false;
+        }
+        return true;
+    }
+    checkColumnName(column_name){
+        if(typeof this.model.tdo[0][column_name] === 'undefined'){
+            this.developerAlert('the column name ' + column_name+' is undefined, fix your call....')
+            return
+        }
+        return true;
+    }
+    getValue(column_name, row_number, array_index){
+        //check row number and column_name
+        if ( ! this.checkRowNumber(row_number)) return
+        if ( ! this.checkColumnName(column_name)) return
+
+
+
         return this.model.tdo[row_number][column_name].data
-        // if(this.options.edit_display == 'on_page'){
-        //     return this.model.tdo[row_number][column_name].data
-        // }
-        // else{
-        //     return this.modelModal.tdo[row_number][column_name].data
-        // }
+        if(typeof array_index !== 'undefined'){
+            return this.model.tdo[row_number][column_name].data[array_index]
+        }
+        else{
+            return this.model.tdo[row_number][column_name].data
+        }
+
+        if(this.options.edit_display == 'on_page'){
+            return this.model.tdo[row_number][column_name].data
+        }
+        else{
+            return this.modelModal.tdo[row_number][column_name].data
+        }
 
     }
     getSelectName(column, value){

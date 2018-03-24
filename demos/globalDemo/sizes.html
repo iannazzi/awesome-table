@@ -13,22 +13,127 @@
 <body>
     <h1>Purchase Order</h1>
     <div id='table'></div>
-
+    <h1>Testing Results</h1>
+    <div id='test_div'></div>
 </body>
 <script>
 
-
+    //setup
     let adjustableColumn = new AwesomeTable.AwesomeTable('collection');
     let column_definition = new ColumnDefinition.ColumnDefinition();
     let config6 = {
         name: 'adjustableColumn',
         data: [], //data1.data.records,
+        onChange: function (args) {
+            //the element comes back from the onChange event....
+            //attached to the element is array_index for the array...
+            //what is the row?
+          console.log(args.element.array_index);
+        },
         column_definition: column_definition.adjustableColumn(adjustableColumn),
         table_buttons: ['addRow','deleteRow','deleteAllRows', 'moveRows','copyRows', 'edit'],
         access: 'write', //read vs write
     }
     adjustableColumn.loadConfiguration(config6);
     adjustableColumn.addTo('table')
+
+    //size.onChange updateQuantitty
+    //
+
+    //to update quantity I would need to
+    //find the row in question....
+    //get the sum of an array
+    //update quantity
+    //update the column totals and any footers....
+
+    //this makes an event like size changed, updates the view, then copies the entire table.... seems lame
+//    adjustableColumn.view.updateQuantity = new TableEvent(adjustableColumn.view);
+//    adjustableColumn.view.updateQuantity.attach(
+//        function (sender, event) {
+//            //third attempt. After the view renders calculate row totals
+//            console.log('updateQuantityEvent');
+//            view.elements.forEach((row, r) => {
+//                let sum = 0;
+//                row.sizes.forEach(size => {
+//                    sum += math.myParseFloat(size.value);
+//                })
+//                view.elements[r]['qty'].value = sum;
+//            });
+//            //unfortunately we need to update the header/footer again....
+//
+//            controller.copyTable();
+//            view.updateTotalsBody();
+//
+//
+//            // method one to find the element
+//            //on model change sum up the rows
+//            //this will not work because....
+//            //addrow from controller
+//            //add row to model
+//            //model notifies the change
+//            //this code then goes through the view which has not changed
+//            //controller updates the view
+//
+//            //therefore we need to operate on the model itself
+//            //but the model re-renders the view and we do not want to touch that..... hmmmm
+//
+//
+//            // let element = event.target;
+//            // let row = controller.getElementRow(element);
+//            // let sum = 0;
+//            // controller.view.elements[row]['sizes'].forEach(size =>{
+//            //     sum += math.myParseFloat(size.value);
+//            // });
+//            // controller.view.elements[row]['qty'].value = sum;
+//            // controller.copyTable();
+//
+//
+//            //we could update the view, but we should update the model
+//            //Method 1 - interferes with user input
+//            //controller.copyTable() is already fired onkeyup
+//            // controller.model.tdo[row].sizes.data.forEach(size =>{
+//            //     sum += math.myParseFloat(size);
+//            // });
+//            // controller.model.tdo[row]['qty']['data'] = sum;
+//            // controller.model.modelChanged.notify(); //re-render of the table will occur
+//
+//            //method 2... works like a charm
+//
+//
+//        }
+//    );
+//    view.dataTableChanged.attach(function () {
+//        console.log('datatable changed')
+//        //this should fire whenever we say updateTable
+//        //there are no elements...
+//        view.updateQuantity.notify();
+//    });
+
+
+
+
+
+
+
+    //test
+    //get a value on the page
+    let value = document.getElementById('adjustableColumn_r0c3').value;
+    //get the same value from the model
+    let value2 = adjustableColumn.getValue('sizes', 0);
+
+    console.log(value2);
+    let p = document.createElement('p');
+    p.id = 'test1';
+    p.innerHTML = value;
+    test_div.appendChild(p);
+
+    //add a row
+    adjustableColumn.view.addRowClicked.notify();
+
+    //now check the quantity
+
+
+
 
 </script>
 </html>

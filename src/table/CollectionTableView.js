@@ -289,6 +289,7 @@ export class CollectionTableView extends TableView {
                     col_def.caption[0].forEach((caption_row, col) => {
 
                         element = this.createCell(tr,col_def,data[col]);
+                        element.array_index = col;
                         element.id = this.model.td.name + '_r' + r + 'c' + col_counter;
                         col_counter++;
                         this.elements[r][col_def.db_field][col] = element;

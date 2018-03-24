@@ -161,12 +161,10 @@ export class CollectionTableEvents extends TableEvents{
         )
         controller.view.addRowClicked.attach(
             function () {
-                //adds a row to the table model
-                controller.addRow()
-                //table model notifies that it has changed
-                //at controller point we can perform calculation directly on the model so that it will render
+                controller.copyTable();
+                let row = controller.model.addNewRow();
                 controller.view.updateTable();
-
+                return row;
             }
         );
         controller.view.deleteRowClicked.attach(
@@ -200,13 +198,15 @@ export class CollectionTableEvents extends TableEvents{
             }
         );
         controller.view.inputChanged.attach(
-            function () {
+            function (sender, args) {
                 console.log('inputChanged Event...  copyTable then updateTotalsBody ... then the cd event');
+                console.log(sender);
+                console.log(args);
                 self.copyTable()
                 self.view.updateTotalsBody()
                 if (typeof controller.model.td.onChange === 'function') {
                     //this callback has router
-                    controller.model.td.onChange();
+                    controller.model.td.onChange(args);
                 }
             }
         );

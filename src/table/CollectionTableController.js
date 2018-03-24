@@ -19,10 +19,7 @@ export class CollectionTableController extends TableController {
 
 
 
-    addRow() {
-        this.copyTable();
-        this.model.addNewRow();
-    }
+
 
     deleteRow(check = true) {
         if (check) {
