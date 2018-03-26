@@ -27,6 +27,7 @@ export class TableView {
 
         // this.name = this.id;
     }
+
     writeElementValue(element, col_def, value) {
         //read vs write different values to write
         if (col_def['type'] == 'row_checkbox'
@@ -207,7 +208,8 @@ export class TableView {
         //element.name = col_def.db_field + '[]';
         //element.id = col_def.db_field + '_search';
         let self = this;
-        element.addEventListener("click", function(){
+        element.addEventListener("change", function(){
+            console.log('checkbox click');
             self.inputChanged.notify({element, col_def})
         });
         this.addEvents(col_def, element);
@@ -308,6 +310,9 @@ export class TableView {
             //     //self.inputChanged.notify()
             // };
             this.addProperties(col_def, element);
+
+            this.addMinMax(col_def,element);
+
             if (typeof col_def['round'] != 'undefined') {
                 //if(isNumber(data)) {
                     data = myParseFloat(data);
@@ -324,6 +329,14 @@ export class TableView {
                 data = round2(data, col_def['round']);
             }
             return document.createTextNode(data);
+        }
+    }
+    addMinMax(col_def,element){
+        if (typeof col_def['min'] != 'undefined') {
+            element.min = col_def['min'];
+        }
+        if (typeof col_def['max'] != 'undefined') {
+            element.max = col_def['max'];
         }
     }
     createTextInput(col_def, data){
@@ -484,17 +497,25 @@ export class TableView {
     {
         if (typeof col_def['events'] !== 'undefined')
         {
-            col_def.events.forEach(event => {
-                for (let index in event)
-                {
-                    let self = this;
-                    // element.addEventListener(index, function(e){
-                    //     e = e || window.event;
-                    //     self[event[index]].notify(e);
-                    // });
-                    element.addEventListener(index, event[index]);
+            for (var key in col_def['events']) {
+                if (col_def['events'].hasOwnProperty(key)) {
+                    console.log(key + " -> " + col_def['events'][key]);
+                    element.addEventListener(key, col_def['events'][key], );
                 }
-            });
+            }
+
+
+            // col_def.events.forEach(event => {
+            //     for (let index in event)
+            //     {
+            //         let self = this;
+            //         // element.addEventListener(index, function(e){
+            //         //     e = e || window.event;
+            //         //     self[event[index]].notify(e);
+            //         // });
+            //         element.addEventListener(index, event[index], );
+            //     }
+            // });
         }
     }
     addProperties(col_def, element){

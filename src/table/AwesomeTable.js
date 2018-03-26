@@ -118,9 +118,9 @@ export class AwesomeTable {
         throw new Error("Unable to copy obj! Its type isn't supported.");
     }
 
-    setValue(column, row, value){
+    setValue(column_name, row, value){
 
-        this.controller.updateCellValue(column, value, row)
+        this.controller.updateCellValue(column_name, row, value)
 
         // if(this.options.edit_display == 'on_page'){
         //     this.controller.updateCellValue(column, value, row)
@@ -128,6 +128,15 @@ export class AwesomeTable {
         // else{
         //     this.controllerModal.updateCellValue(column, value, row)
         // }
+    }
+    getRow(element){
+        let rc = this.controller.findElement(element);
+        return rc[0];
+
+    }
+
+    sumArray(column_name,row){
+       return this.model.sumArray(column_name,row);
     }
     developerAlert(msg){
         alert('Developer Alert! \n' + msg);

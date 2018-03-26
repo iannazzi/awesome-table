@@ -77,6 +77,9 @@ export default class TableDefinition {
             "db_field": 'replace',
             "caption": "replace", //this can also be a 2-d array to match data that is in an array
             "type": "html date time password text number textarea row_checkbox row_number checkbox select tree_select button link radio",
+            'min': 1,   //add a minimum value
+            'max': '2018-01-12', //add a maximum value for the browser to handle
+            'readonly': true,
             'select_values': this.select_values(), //or this.tree_select_values();
             'individual_select_options':true, //in a collection table this will limit the choices
             'default_value': 'default value is set',

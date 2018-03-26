@@ -200,13 +200,20 @@ export class CollectionTableEvents extends TableEvents{
         controller.view.inputChanged.attach(
             function (sender, args) {
                 console.log('inputChanged Event...  copyTable then updateTotalsBody ... then the cd event');
-                console.log(sender);
-                console.log(args);
+                let element = args.element;
+
+                //what is the elments row and column?
+                let cell=element.parentNode;
+                let c = cell.cellIndex;
+
+                let row = cell.parentNode;
+                let r = row.sectionRowIndex;
+
                 self.copyTable()
                 self.view.updateTotalsBody()
                 if (typeof controller.model.td.onChange === 'function') {
                     //this callback has router
-                    controller.model.td.onChange(args);
+                    controller.model.td.onChange(args, r, c);
                 }
             }
         );

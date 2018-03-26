@@ -16,10 +16,7 @@ export class RecordTableController extends TableController {
 
     }
 
-    updateCellValue(column_name, val, row = 0){
-        this.model.tdo[row][column_name]['data'] = val;
-        this.view.updateTableValues();
-    }
+
     getSelectValueName(column_name, value){
         value = parseInt(value);
         let return_value = false;

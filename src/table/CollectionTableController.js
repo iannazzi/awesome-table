@@ -111,11 +111,11 @@ export class CollectionTableController extends TableController {
         let rowCount = tbody.rows.length;
         for (let r = 0; r < rowCount; r++) {
             this.model.cdo.forEach((col_def) => {
-                if (! col_def['show_on_list']) {
-                    if (typeof col_def.caption !== 'undefined' && col_def.caption.constructor === Array) {
+                if (typeof col_def['show_on_list'] === 'undefined' || col_def['show_on_list']) {
+
+                    if (typeof col_def.caption !== 'undefined' && Array.isArray(col_def.caption)) {
                             col_def.caption[0].forEach((caption_row, col) => {
                                 let element = this.view.elements[r][col_def.db_field][col];
-
                                 this.copyElementValueToModel(element, col_def, r, col);
                             });
                         }

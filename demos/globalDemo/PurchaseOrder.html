@@ -11,6 +11,7 @@
     <script src='globalDemoDist/column-defintion.js'></script>
 </head>
 <body>
+    <a href="index.html">Home</a>
     <h1>Purchase Order</h1>
     <div id='table'></div>
     <h1>Testing Results</h1>
@@ -19,23 +20,68 @@
 <script>
 
     //setup
-    let adjustableColumn = new AwesomeTable.AwesomeTable('collection');
+    let purchaseOrderTable = new AwesomeTable.AwesomeTable('collection');
     let column_definition = new ColumnDefinition.ColumnDefinition();
-    let config6 = {
-        name: 'adjustableColumn',
+    //we need a few events... these can attach to the column definition.....
+
+    let updateTotal = function(event){
+        //update total whenever quantity is changed or cost is changed....
+        let r = purchaseOrderTable.getRow(event.srcElement);
+
+        let qty = purchaseOrderTable.getValue('qty', r);
+        let cost = purchaseOrderTable.getValue('cost', r);
+        let total = qty*cost;
+        purchaseOrderTable.setValue('total', r, total);
+    }
+    let updateQuantity = function(event){
+        //update quantity whenever a size array value changes
+        let r = purchaseOrderTable.getRow(event.srcElement);
+        let sum = purchaseOrderTable.model.sumArray('sizes',r);
+        //now set a value....
+        purchaseOrderTable.setValue('qty', r, sum);
+        //call update total..... how?
+        updateTotal(event);
+    }
+    let config = {
+        name: 'purchaseOrderTable',
         data: [], //data1.data.records,
-        onChange: function (args) {
-            //the element comes back from the onChange event....
-            //attached to the element is array_index for the array...
-            //what is the row?
-          console.log(args.element.array_index);
+        onChange: function (args, r, c) {
+            //we have access to this for any table changes....
+
+
+//            console.log('active row using one method.... ' + purchaseOrderTable.view.activeRow);
+//            console.log('row ' + r);
+//            console.log('col ' + c);
+//
+//            //here is the element that changed....
+//            console.log('index of array : ' + args.element.array_index);
+//            // I also have the column definition
+//            console.log(args.col_def);
+
+            //we can update quantites when the table changes
+
+
+//            let sum = purchaseOrderTable.model.sumArray('sizes',r);
+//            //now set a value....
+//            purchaseOrderTable.setValue('qty', r, sum);
+//            //now update the total for the line...
+//            let cost = purchaseOrderTable.getValue('cost', r);
+//            let total = sum*cost;
+//            purchaseOrderTable.setValue('total', r, total);
+
+
         },
-        column_definition: column_definition.adjustableColumn(adjustableColumn),
+        column_definition: column_definition.purchaseOrder(purchaseOrderTable, updateQuantity, updateTotal),
         table_buttons: ['addRow','deleteRow','deleteAllRows', 'moveRows','copyRows', 'edit'],
         access: 'write', //read vs write
     }
-    adjustableColumn.loadConfiguration(config6);
-    adjustableColumn.addTo('table')
+    console.log(config);
+    purchaseOrderTable.loadConfiguration(config);
+    purchaseOrderTable.addTo('table')
+
+
+
+
 
     //size.onChange updateQuantitty
     //
@@ -47,8 +93,8 @@
     //update the column totals and any footers....
 
     //this makes an event like size changed, updates the view, then copies the entire table.... seems lame
-//    adjustableColumn.view.updateQuantity = new TableEvent(adjustableColumn.view);
-//    adjustableColumn.view.updateQuantity.attach(
+//    purchaseOrderTable.view.updateQuantity = new TableEvent(purchaseOrderTable.view);
+//    purchaseOrderTable.view.updateQuantity.attach(
 //        function (sender, event) {
 //            //third attempt. After the view renders calculate row totals
 //            console.log('updateQuantityEvent');
@@ -117,9 +163,9 @@
 
     //test
     //get a value on the page
-    let value = document.getElementById('adjustableColumn_r0c3').value;
+    let value = document.getElementById('purchaseOrderTable_r0c3').value;
     //get the same value from the model
-    let value2 = adjustableColumn.getValue('sizes', 0);
+    let value2 = purchaseOrderTable.getValue('sizes', 0);
 
     console.log(value2);
     let p = document.createElement('p');
@@ -128,7 +174,7 @@
     test_div.appendChild(p);
 
     //add a row
-    adjustableColumn.view.addRowClicked.notify();
+    purchaseOrderTable.view.addRowClicked.notify();
 
     //now check the quantity
 

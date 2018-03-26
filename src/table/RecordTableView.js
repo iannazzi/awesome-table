@@ -107,7 +107,6 @@ export class RecordTableView extends TableView {
 
     updateTableValues() {
         //say i modify the model and i just want to update the values of each element....
-
         //update the elements...
 
         for (let db_field in this.elements) {
@@ -118,6 +117,9 @@ export class RecordTableView extends TableView {
                 this.writeElementValue(this.elements[db_field], col_def, data)
             }
         }
+
+
+
     }
 
     addRow(tbody, col_def) {

@@ -7,7 +7,10 @@ export class TableController {
 
         //i need to get the value of an element....
     }
-
+    updateCellValue(column_name, row, val){
+        this.model.tdo[row][column_name]['data'] = val;
+        this.view.updateTableValues(row);
+    }
     findElement(element) {
         let arr = this.view.elements_array;
         let col;

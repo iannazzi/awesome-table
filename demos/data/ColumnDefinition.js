@@ -27,12 +27,15 @@ export class ColumnDefinition {
         return cd;
     }
 
-    adjustableColumn(awesomeTable) {
+    purchaseOrder(awesomeTable,  updateQuantity, updateTotal) {
         var cd = [];
         cd.push(this.row_checkbox());
         cd.push(this.row_number());
-        cd = cd.concat(this.sizes(awesomeTable));
+        cd.push(this.style());
+        cd = cd.concat(this.sizes(awesomeTable,updateQuantity));
+        cd.push(this.cost(updateTotal));
         cd.push(this.total());
+        console.log(cd);
         return cd;
 
     }
@@ -44,19 +47,36 @@ export class ColumnDefinition {
             "caption": "Style"
         }
     }
+    cost(updateTotal) {
+        return {
+            "db_field": "cost",
+            "type": "number",
+            "caption": "Cost",
+            "events":{
+                "change": updateTotal,
+                "keyup": updateTotal,
+                "click":updateTotal,
+                }
+        }
+    }
     total() {
         return {
             "db_field": "total",
             "type": "text",
-            "caption": "Total"
+            "properties": [{"readOnly": true}],
+            "caption": "Total",
+            "total":2
         }
     }
-    sizes(awesomeTable) {
+    sizes(awesomeTable,updateQuantity) {
         return [{
             "db_field": "sizes",
             "caption": [["XS", "S", "M", "L", ""], ["40", "42", "44", "46", ""], ["1", "2", "3", "4", "5"]],
-            "type": "text",
-            "default_value": '1',
+            "array":true,
+            'min':0,
+            //'max':5,
+            "type": "number",
+            "default_value": '',
             "show_on_list": true,
             "show_on_view": true,
             "show_on_edit": true,
@@ -64,23 +84,36 @@ export class ColumnDefinition {
             th_width: '50px',
             "td_tags": "",
             "class": "",
-            "events": [{
-                "keyup": function (event) {
-                    //update the quantities and totals....
-                    //log the element and the row.....
-                    console.log('key up event on sizes');
+            "events": {
+                "keyup": updateQuantity,
+                "click":updateQuantity,
+                "change":updateQuantity,
 
-                    //do things like
-                    let col_def = event.target.awesomeTable.col_def;
-                    let row = event.target.awesomeTable.row;
-                    let array_sum =  awesomeTable.sumArrayRow('sizes', row);
-                    //awesomeTable.setValue('quantity', event.target.awesomeTable.row,
-                    //don't redraw the entire table....
-                    let column_sum =  awesomeTable.sumColumn('quantity');
-                    awesomeTable.updateTotals();
 
-                }
-            }],
+                    // function(event){
+                    //
+                    // //we can update the quantity and total when the
+                    // //order quantites change
+                    // //however if the cost changes we need to update again....
+                    //
+                    // let rc = awesomeTable.controller.findElement(event.srcElement);
+                    // let r = rc[0];
+                    // let c = rc[1];
+                    //
+                    //
+                    // let sum = adjustableColumn.model.sumArray('sizes',r);
+                    // //now set a value....
+                    // adjustableColumn.setValue('qty', r, sum);
+                    // //now update the total for the line...
+                    // let cost = adjustableColumn.getValue('cost', r);
+                    // let total = sum*cost;
+                    // adjustableColumn.setValue('total', r, total);
+
+
+
+
+                //}
+            },
             "properties": [],
             "word_wrap": true
         },
@@ -88,7 +121,6 @@ export class ColumnDefinition {
                 "db_field": "qty",
                 "caption": "Quantity",
                 "type": "text",
-                "array": false,
                 "default_value": '',
                 "show_on_list": true,
                 "show_on_view": true,
@@ -100,8 +132,8 @@ export class ColumnDefinition {
                 "events": [],
                 "search": "LIKE ANY BETWEEN EXACT",
                 "properties": [{"readOnly": true}],
-                "total": 2,
-                "round": 2,
+                "total": 0,
+                "round": 0,
                 "word_wrap": true
             },];
     }
@@ -331,17 +363,18 @@ export class ColumnDefinition {
 
     row_number() {
         return {
-            "type": "row_checkbox",
-            "db_field": "row_checkbox",
-        }
-    }
-
-    row_checkbox() {
-        return {
             "type": "row_number",
             "db_field": "row_number",
             "caption": "row",
         };
+    }
+
+    row_checkbox() {
+
+        return {
+            "type": "row_checkbox",
+            "db_field": "row_checkbox",
+        }
 
     }
 

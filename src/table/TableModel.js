@@ -3,6 +3,8 @@
  */
 import {TableEvent} from './TableEvent'
 import {isValueInArray} from '../lib/array_help';
+import {myParseFloat, isNumber} from '../lib/math';
+
 export class TableModel {
     /*
      table model takes the column and data
@@ -32,10 +34,26 @@ export class TableModel {
 
     }
     getData(db_field, r, c){
-        if(typeof this.model.tdo[r][db_field].data === 'array'){
-            return this.model.tdo[r][db_field].data[c];
+        if(Array.isArray(this.tdo[r][db_field].data)){
+            return this.tdo[r][db_field].data[c];
         }
-        return this.model.tdo[r][db_field].data;
+        return this.tdo[r][db_field].data;
+    }
+    sumArray(db_field, r){
+
+        if(Array.isArray(this.tdo[r][db_field].data)){
+
+            let sum = 0;
+            for (let i = 0; i < this.tdo[r][db_field].data.length; i++) {
+                sum += myParseFloat(this.tdo[r][db_field].data[i]);
+            }
+            return sum;
+            //return this.tdo[r][db_field].data.reduce((a, b) => a + b, 0);
+        }
+        else{
+            alert('Developer Error\n You are asking for an array sum for non array')
+
+        }
     }
     loadColumnDefinition(column_definition) {
         //the column definition has view properties and data properties

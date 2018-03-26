@@ -17,6 +17,7 @@ export class CollectionTableView extends TableView {
 
     createCollectionTable() {
         let name = this.model.td.name;
+        this.activeRow = 0;
         this.collectionTableDiv = this.createCollectionTableDiv();
         this.table = this.createTable(name);
         this.collectionTableDiv.appendChild(this.table);
@@ -78,7 +79,7 @@ export class CollectionTableView extends TableView {
         let caption = ''
         this.model.cdo.forEach(col_def => {
 
-            if (col_def['show_on_list'] !== false) {
+            if (typeof col_def['show_on_list'] === 'undefined' || col_def['show_on_list']) {
                 if (!(!this.checkWrite() && col_def.type == 'row_checkbox')) {
                     caption = ''
                     if (typeof col_def['caption'] !== 'undefined') {
@@ -262,6 +263,10 @@ export class CollectionTableView extends TableView {
             this.elements[r] = {};
             this.elements_array[r] = [];
             let tr = this.tbody.insertRow();
+            tr.addEventListener("click", function(){
+                //handle the active row setting on the element....
+               // console.log(this.sectionRowIndex);
+            });
 
             //set the row properties
             // for (var index in data_row['_data_row']) {
@@ -310,8 +315,12 @@ export class CollectionTableView extends TableView {
         return col_counter;
     }
     createCell(tr,col_def,data){
+        let self = this;
         let cell = tr.insertCell(-1);
         let element = this.createElement(data, col_def);
+        element.addEventListener("focus", function(){
+            self.activeRow = tr.sectionRowIndex
+        });
         cell.appendChild(element);
         return element;
     }
@@ -329,10 +338,11 @@ export class CollectionTableView extends TableView {
                 //might be an array.....
 
                 let data = this.model.getData(db_field, r);
-
                 this.writeElementValue(this.elements[r][db_field], col_def, data)
             }
         }
+        this.updateTotalsBody()
+
     }
 
     createTFoot(name) {
