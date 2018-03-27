@@ -82,7 +82,7 @@ export class RecordTableEvents extends TableEvents {
                         //
                         //     controller.model.td.table_view = 'show';
                         //     controller.model.td.access = 'read';
-                        //     view.updateTable();
+                        //     view.drawTable();
                         //     //set the original data to the new data
                         //
                         // }
@@ -144,7 +144,7 @@ export class RecordTableEvents extends TableEvents {
                         //     controller.model.td.access = 'read';
                         //     //set the original data to the new data
                         //     controller.model.original_data = controller.getPostData();
-                        //     view.updateTable();
+                        //     view.drawTable();
                         //
                         // }
                         // else if (controller.model.td.edit_display == 'modal') {

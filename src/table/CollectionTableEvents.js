@@ -37,7 +37,7 @@ export class CollectionTableEvents extends TableEvents{
                     console.log('hi thiereeerer ')
 
                     controller.model.td.access = 'write';
-                    view.updateTable();
+                    view.drawTable();
                     view.updateButtons();
 
                 }
@@ -52,7 +52,16 @@ export class CollectionTableEvents extends TableEvents{
 
                 controller.model.loadOriginalData();
                 controller.model.td.access = 'read';
-                view.updateTable();
+
+                //I would call this a re-draw
+
+
+                //updateTableValues
+                //updateTotals
+                //drawTable
+
+
+                view.drawTable();
 
 
                 // if (controller.model.td.edit_display == 'on_page') {
@@ -81,11 +90,11 @@ export class CollectionTableEvents extends TableEvents{
         controller.onSaveSuccess.attach(
             function (sender, result) {
                 controller.model.td.access = 'read';
-                view.updateTable();
+                view.drawTable();
                 controller.model.original_data = controller.getPostData();
             //     if (controller.model.td.edit_display == 'on_page') {
             //         controller.model.td.access = 'read';
-            //         view.updateTable();
+            //         view.drawTable();
             //         controller.model.original_data = controller.getPostData();
             //     }
             //     else if (controller.model.td.edit_display == 'modal') {
@@ -137,7 +146,8 @@ export class CollectionTableEvents extends TableEvents{
 
                     controller.model.sortData()
                     controller.view.updateHeaderSortView();
-                    controller.view.updateTable();
+                //this function sucks, i think you want updateTableValues();
+                    //controller.view.drawTable();
 
 
 
@@ -150,56 +160,56 @@ export class CollectionTableEvents extends TableEvents{
         controller.view.addColumnClicked.attach(
             function () {
                 controller.model.addColumnToArray(controller.view.array_col);
-                controller.view.updateTable();
+                controller.view.drawTable();
             }
         )
         controller.view.deleteColumnClicked.attach(
             function () {
                 controller.model.deleteColumnFromArray(controller.view.array_col);
-                controller.view.updateTable();
+                controller.view.drawTable();
             }
         )
         controller.view.addRowClicked.attach(
             function () {
                 controller.copyTable();
                 let row = controller.model.addNewRow();
-                controller.view.updateTable();
+                controller.view.drawTable();
                 return row;
             }
         );
         controller.view.deleteRowClicked.attach(
             function (sender, confirm) {
                 self.deleteRow(confirm)
-                self.view.updateTable();
+                self.view.drawTable();
             }
         );
         controller.view.moveRowUpClicked.attach(
             function () {
                 self.moveRowUp()
-                self.view.updateTable();
+                self.view.drawTable();
             }
         );
         controller.view.moveRowDownClicked.attach(
             function () {
                 self.moveRowDown()
-                self.view.updateTable();
+                self.view.drawTable();
             }
         );
         controller.view.copyRowClicked.attach(
             function () {
                 self.copyRow()
-                self.view.updateTable();
+                self.view.drawTable();
             }
         );
         controller.view.deleteAllClicked.attach(
             function (args) {
                 self.deleteAllRows(args)
-                self.view.updateTable();
+                self.view.drawTable();
             }
         );
         controller.view.inputChanged.attach(
             function (sender, args) {
-                console.log('inputChanged Event...  copyTable then updateTotalsBody ... then the cd event');
+                console.log('inputChanged Event...  copyTable then updateTotals ... then the cd event');
                 let element = args.element;
 
                 //what is the elments row and column?
@@ -210,7 +220,7 @@ export class CollectionTableEvents extends TableEvents{
                 let r = row.sectionRowIndex;
 
                 self.copyTable()
-                self.view.updateTotalsBody()
+                self.view.updateTotals()
                 if (typeof controller.model.td.onChange === 'function') {
                     //this callback has router
                     controller.model.td.onChange(args, r, c);

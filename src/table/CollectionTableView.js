@@ -32,7 +32,7 @@ export class CollectionTableView extends TableView {
         // this.collectionTableDiv.appendChild(this.errorModal.createErrorModal());
 
         this.updateButtons();
-        this.updateTable();
+        this.drawTable();
         return this.collectionTableDiv;
     }
 
@@ -68,7 +68,8 @@ export class CollectionTableView extends TableView {
         return thead;
     }
 
-    updateThead() {
+
+     updateThead() {
         this.checkTHeaderArray();
         this.thead.innerHTML = '';
         this.header_elements_array = [];
@@ -191,12 +192,12 @@ export class CollectionTableView extends TableView {
     createTotalsBody(name) {
         this.total_tbody = document.createElement('tbody');
         this.total_tbody.id = name + '_data_totals_tbody';
-        // this.updateTotalsBody();
+        // this.updateTotals();
         return this.total_tbody;
 
     }
 
-    updateTotalsBody() {
+    updateTotals() {
         this.total_tbody.innerHTML = '';
         let totals_row = false;
         this.model.cdo.forEach(col_def => {
@@ -327,23 +328,7 @@ export class CollectionTableView extends TableView {
 
 
 
-    updateTableValues(r) {
 
-        // console.log(this.elements);
-
-        for (let db_field in this.elements[r]) {
-            //might need a hasOwnProperty thingy......
-            if (this.elements[r].hasOwnProperty(db_field)) {
-                let col_def = this.model.getColDef(db_field);
-                //might be an array.....
-
-                let data = this.model.getData(db_field, r);
-                this.writeElementValue(this.elements[r][db_field], col_def, data)
-            }
-        }
-        this.updateTotalsBody()
-
-    }
 
     createTFoot(name) {
 
@@ -435,13 +420,14 @@ export class CollectionTableView extends TableView {
         })
     }
 
-    updateTable() {
+    drawTable() {
 
+        //this is vague... is this a re-draw?
 
-        this.updateThead();
-        this.updateTBody();
+        this.updateThead(); //redraw
+        this.updateTBody(); //redraw
         //this.dataTableChanged.notify();
-        this.updateTotalsBody();
+        this.updateTotals();
         this.updateButtons();
 
 

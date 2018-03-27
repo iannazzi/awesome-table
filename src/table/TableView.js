@@ -28,6 +28,29 @@ export class TableView {
         // this.name = this.id;
     }
 
+
+    updateTableValues(r) {
+        // console.log(this.elements);
+        for (let db_field in this.elements[r]) {
+            //might need a hasOwnProperty thingy......
+            if (this.elements[r].hasOwnProperty(db_field)) {
+                let col_def = this.model.getColDef(db_field);
+                //might be an array.....
+                let data = this.model.getData(db_field, r);
+                this.writeElementValue(this.elements[r][db_field], col_def, data)
+            }
+        }
+        //this is on only for a collection table
+        this.updateTotals()
+    }
+
+
+
+
+
+
+
+
     writeElementValue(element, col_def, value) {
         //read vs write different values to write
         if (col_def['type'] == 'row_checkbox'
@@ -499,7 +522,7 @@ export class TableView {
         {
             for (var key in col_def['events']) {
                 if (col_def['events'].hasOwnProperty(key)) {
-                    console.log(key + " -> " + col_def['events'][key]);
+                    // console.log(key + " -> " + col_def['events'][key]);
                     element.addEventListener(key, col_def['events'][key], );
                 }
             }

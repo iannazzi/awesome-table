@@ -8,7 +8,9 @@
     <script src='../../node_modules/jquery/dist/jquery.js'></script>
     <script src='../../dist/awesome-table-dist.js'></script>
     <!--need to run column definition class through webpack so I can use it..... -->
-    <script src='globalDemoDist/column-defintion.js'></script>
+    <script src='globalDemoDist/columnDefinition.js'></script>
+    <script src='globalDemoDist/dataGenerator.js'></script>
+
 </head>
 <body>
     <a href="index.html">Home</a>
@@ -20,36 +22,40 @@
 <script>
 
     //setup
-    let purchaseOrderTable = new AwesomeTable.AwesomeTable('collection');
-    let column_definition = new ColumnDefinition.ColumnDefinition();
+    let awesomeTable = new AwesomeTable.AwesomeTable('collection');
+    let column_definition = new columnDefinition.ColumnDefinition();
+    let data_generator = new dataGenerator.DataGenerator();
     //we need a few events... these can attach to the column definition.....
 
     let updateTotal = function(event){
         //update total whenever quantity is changed or cost is changed....
-        let r = purchaseOrderTable.getRow(event.srcElement);
+        let r = awesomeTable.getRow(event.srcElement);
 
-        let qty = purchaseOrderTable.getValue('qty', r);
-        let cost = purchaseOrderTable.getValue('cost', r);
+        let qty = awesomeTable.getValue('qty', r);
+        let cost = awesomeTable.getValue('cost', r);
         let total = qty*cost;
-        purchaseOrderTable.setValue('total', r, total);
+        awesomeTable.setValue('total', r, total);
     }
     let updateQuantity = function(event){
         //update quantity whenever a size array value changes
-        let r = purchaseOrderTable.getRow(event.srcElement);
-        let sum = purchaseOrderTable.model.sumArray('sizes',r);
+        let r = awesomeTable.getRow(event.srcElement);
+        let sum = awesomeTable.model.sumArray('sizes',r);
         //now set a value....
-        purchaseOrderTable.setValue('qty', r, sum);
+        awesomeTable.setValue('qty', r, sum);
         //call update total..... how?
         updateTotal(event);
     }
     let config = {
-        name: 'purchaseOrderTable',
+        name: 'awesomeTable',
         data: [], //data1.data.records,
+        column_definition: column_definition.purchaseOrder(awesomeTable, updateQuantity, updateTotal),
+        table_buttons: ['addRow','deleteRow','deleteAllRows', 'moveRows','copyRows', 'edit'],
+        access: 'read', //read vs write
         onChange: function (args, r, c) {
             //we have access to this for any table changes....
 
 
-//            console.log('active row using one method.... ' + purchaseOrderTable.view.activeRow);
+//            console.log('active row using one method.... ' + awesomeTable.view.activeRow);
 //            console.log('row ' + r);
 //            console.log('col ' + c);
 //
@@ -61,111 +67,78 @@
             //we can update quantites when the table changes
 
 
-//            let sum = purchaseOrderTable.model.sumArray('sizes',r);
+//            let sum = awesomeTable.model.sumArray('sizes',r);
 //            //now set a value....
-//            purchaseOrderTable.setValue('qty', r, sum);
+//            awesomeTable.setValue('qty', r, sum);
 //            //now update the total for the line...
-//            let cost = purchaseOrderTable.getValue('cost', r);
+//            let cost = awesomeTable.getValue('cost', r);
 //            let total = sum*cost;
-//            purchaseOrderTable.setValue('total', r, total);
+//            awesomeTable.setValue('total', r, total);
 
 
         },
-        column_definition: column_definition.purchaseOrder(purchaseOrderTable, updateQuantity, updateTotal),
-        table_buttons: ['addRow','deleteRow','deleteAllRows', 'moveRows','copyRows', 'edit'],
-        access: 'write', //read vs write
+        onSaveClick(){
+            let post_data = {data: awesomeTable.controller.getPostData(), _method: 'put'};
+            console.log(JSON.stringify(post_data))
+            awesomeTable.controller.makeReadable();
+
+        },
+        onSaveSuccess(){
+            alert('saved')
+        },
+        onDeleteClick(){
+            alert('delete');
+        },
+        onDeleteSuccess(){
+            alert('deleted');
+        },
+        onCreateSaved(id){
+            alert('deleted');
+        },
+        onCancelClick(){
+            //cancel create, cancel edit, anything else?
+            alert('canceled');
+        },
+        onCancelCreateClick(){
+            alert('canceled');
+        },
+
     }
     console.log(config);
-    purchaseOrderTable.loadConfiguration(config);
-    purchaseOrderTable.addTo('table')
-
-
-
-
-
-    //size.onChange updateQuantitty
-    //
-
-    //to update quantity I would need to
-    //find the row in question....
-    //get the sum of an array
-    //update quantity
-    //update the column totals and any footers....
-
-    //this makes an event like size changed, updates the view, then copies the entire table.... seems lame
-//    purchaseOrderTable.view.updateQuantity = new TableEvent(purchaseOrderTable.view);
-//    purchaseOrderTable.view.updateQuantity.attach(
-//        function (sender, event) {
-//            //third attempt. After the view renders calculate row totals
-//            console.log('updateQuantityEvent');
-//            view.elements.forEach((row, r) => {
-//                let sum = 0;
-//                row.sizes.forEach(size => {
-//                    sum += math.myParseFloat(size.value);
-//                })
-//                view.elements[r]['qty'].value = sum;
-//            });
-//            //unfortunately we need to update the header/footer again....
-//
-//            controller.copyTable();
-//            view.updateTotalsBody();
-//
-//
-//            // method one to find the element
-//            //on model change sum up the rows
-//            //this will not work because....
-//            //addrow from controller
-//            //add row to model
-//            //model notifies the change
-//            //this code then goes through the view which has not changed
-//            //controller updates the view
-//
-//            //therefore we need to operate on the model itself
-//            //but the model re-renders the view and we do not want to touch that..... hmmmm
-//
-//
-//            // let element = event.target;
-//            // let row = controller.getElementRow(element);
-//            // let sum = 0;
-//            // controller.view.elements[row]['sizes'].forEach(size =>{
-//            //     sum += math.myParseFloat(size.value);
-//            // });
-//            // controller.view.elements[row]['qty'].value = sum;
-//            // controller.copyTable();
-//
-//
-//            //we could update the view, but we should update the model
-//            //Method 1 - interferes with user input
-//            //controller.copyTable() is already fired onkeyup
-//            // controller.model.tdo[row].sizes.data.forEach(size =>{
-//            //     sum += math.myParseFloat(size);
-//            // });
-//            // controller.model.tdo[row]['qty']['data'] = sum;
-//            // controller.model.modelChanged.notify(); //re-render of the table will occur
-//
-//            //method 2... works like a charm
-//
-//
-//        }
-//    );
-//    view.dataTableChanged.attach(function () {
-//        console.log('datatable changed')
-//        //this should fire whenever we say updateTable
-//        //there are no elements...
-//        view.updateQuantity.notify();
-//    });
-
-
-
-
-
+    awesomeTable.loadConfiguration(config);
+    awesomeTable.addTo('table')
 
 
     //test
-    //get a value on the page
-    let value = document.getElementById('purchaseOrderTable_r0c3').value;
-    //get the same value from the model
-    let value2 = purchaseOrderTable.getValue('sizes', 0);
+    //load data
+
+
+
+
+    //edit
+    awesomeTable.controller.makeEditable();
+
+    //enter data to model
+
+    //add a row
+
+    //add a row of data
+
+    //move row up
+
+    //move row down
+
+    //copy row
+
+
+
+
+    //get a value on the page from the element name - this will get messed up if the cd position is changed
+    let value = document.getElementById('awesomeTable_r0c3').value;
+    //get the same value from the model ... this looks stable
+    let value2 = awesomeTable.getValue('sizes', 0);
+
+
 
     console.log(value2);
     let p = document.createElement('p');
@@ -174,7 +147,7 @@
     test_div.appendChild(p);
 
     //add a row
-    purchaseOrderTable.view.addRowClicked.notify();
+    awesomeTable.view.addRowClicked.notify();
 
     //now check the quantity
 

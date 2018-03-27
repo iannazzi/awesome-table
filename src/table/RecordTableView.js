@@ -72,8 +72,15 @@ export class RecordTableView extends TableView {
     drawTable() {
         let tbl = this.table;
         tbl.innerHTML = '';
-        this.elements = {};
+        //this.elements = {};
+        //this.elements_array = [];
+
+        this.elements = [];
+        this.elements[0] = {};
         this.elements_array = [];
+
+
+
         let tbody = document.createElement('tbody');
         tbl.appendChild(tbody);
         this.tbody = tbody;
@@ -81,17 +88,17 @@ export class RecordTableView extends TableView {
 
             switch (this.model.td.table_view) {
                 case 'create':
-                    if (col_def['show_on_create'] !== false) {
+                    if (typeof col_def['show_on_create'] === 'undefined' || col_def['show_on_create']) {
                         this.addRow(tbody, col_def);
                     }
                     break;
                 case 'edit':
-                    if (col_def['show_on_edit'] !== false) {
+                    if (typeof col_def['show_on_edit'] === 'undefined' || col_def['show_on_edit']) {
                         this.addRow(tbody, col_def);
                     }
                     break;
                 case 'show':
-                    if (col_def['show_on_view'] !== false) {
+                    if (typeof col_def['show_on_view'] === 'undefined' || col_def['show_on_view']) {
                         this.addRow(tbody, col_def);
                     }
                     break;
@@ -105,21 +112,8 @@ export class RecordTableView extends TableView {
 
 
 
-    updateTableValues() {
-        //say i modify the model and i just want to update the values of each element....
-        //update the elements...
-
-        for (let db_field in this.elements) {
-            //might need a hasOwnProperty thingy......
-            if (this.elements.hasOwnProperty(db_field)) {
-                let col_def = this.model.getColDef(db_field);
-                let data = this.model.tdo[0][db_field].data;
-                this.writeElementValue(this.elements[db_field], col_def, data)
-            }
-        }
-
-
-
+    updateTotals(){
+        //this is a blank function to make any update calls for totals...
     }
 
     addRow(tbody, col_def) {
@@ -137,8 +131,8 @@ export class RecordTableView extends TableView {
             let element = this.createElement(data, col_def);
             element.awesomeTable = {};
             element.awesomeTable.col_def = col_def;
-            this.elements[col_def.db_field] = element;
-            this.elements_array.push(element);
+            this.elements[0][col_def.db_field] = element;
+            this.elements_array[0].push(element);
             cell.appendChild(element);
         }
 

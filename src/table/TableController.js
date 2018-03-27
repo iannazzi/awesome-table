@@ -111,6 +111,37 @@ export class TableController {
         this.view.drawTable();
         this.view.updateButtons();
     }
+    setFocusToFirstInput(row) {
+        // if(this.checkRead()) return;
+        let elements = this.view.elements_array;
+        for (let i = 0; i < elements.length; i++) {
 
+            if (elements[i].type == 'text'
+                || elements[i].type == 'number'
+                || elements[i].type == 'textarea'
+                || elements[i].type == 'date'
+
+            ) {
+                console.log('setting focus to')
+                console.log(elements[i]);
+                $(elements[i]).focus();
+
+//                elements[i].focus();
+//                 elements[i].select();
+                break;
+            }
+
+            if (elements[i].type == 'select-one'
+                || elements[i].type == 'select-multi'
+
+            ) {
+                $(elements[i]).focus();
+                // elements[i].select();
+                break;
+            }
+
+
+        }
+    }
 
 }
