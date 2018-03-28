@@ -8,7 +8,7 @@ import {SearchTableController}  from './SearchTableController';
 import './app.scss';
 
 export class AwesomeTable {
-    constructor(type,name) {
+    constructor(type, name) {
 
         //return access to a model view and controller ... then set your callbacks on these to interface with your app
         //
@@ -34,24 +34,25 @@ export class AwesomeTable {
                 console.log('missed the type in the table definition');
         }
     }
-    loadConfiguration(options){
-        this.model.td=options;
+
+    loadConfiguration(options) {
+        this.model.td = options;
         this.model.loadColumnDefinition(options.column_definition);
         //if there is data load it....
-        if(options.data !== 'undefined'){
+        if (options.data !== 'undefined') {
             this.model.loadData(options.data);
         }
 
         //the table type is used to show/hide columns on edit, create, view ....
         switch (this.type) {
             case 'record':
-                this.model.td.table_view='show';
+                this.model.td.table_view = 'show';
                 break;
             case 'collection':
-                this.model.td.table_view='index';
+                this.model.td.table_view = 'index';
                 break;
             case 'searchable':
-                this.model.td.table_view='index';
+                this.model.td.table_view = 'index';
                 break;
             default:
                 console.log('missed the type in the table definition');
@@ -62,13 +63,12 @@ export class AwesomeTable {
     }
 
 
-
     addTo(div_id) {
         this.div = document.getElementById(div_id);
         this.div.appendChild(this.getTable());
     }
 
-    getTable(){
+    getTable() {
         switch (this.type) {
             case 'record':
                 return this.view.createRecordTable();
@@ -118,7 +118,7 @@ export class AwesomeTable {
         throw new Error("Unable to copy obj! Its type isn't supported.");
     }
 
-    setValue(column_name, row, value){
+    setValue(column_name, row, value) {
 
         this.controller.updateCellValue(column_name, row, value)
 
@@ -129,68 +129,141 @@ export class AwesomeTable {
         //     this.controllerModal.updateCellValue(column, value, row)
         // }
     }
-    getRow(element){
+
+    addDataRow(data_row) {
+        if (Array.isArray(data_row)) {
+            this.developerAlert('data is an array, just send in one row or use addDataArray')
+            return false;
+        }
+        //add a row to the model, then re-draw the table......
+
+        let row = this.model.addDataRow(data_row);
+        this.view.drawTable();
+        this.reCalculate();
+
+
+    }
+
+    addDataArray(data) {
+
+        if (!Array.isArray(data)) {
+            this.developerAlert('data is not an array.... use addDataRow for just one row')
+            return false;
+        }
+        for (let i = 0; i < data.length; i++) {
+            this.addDataRow(data[i]);
+        }
+
+    }
+
+
+    reCalculate() {
+
+
+        let row_functions = this.model.td.row_calculations;
+        console.log(row_functions);
+        if (typeof  row_functions !== 'undefined'){
+            for (let i = 0; i < this.model.tdo.length; i++) {
+                //pass the row in to each function defined
+                for (let j = 0; j < row_functions.length; j++) {
+                    row_functions[j](i);
+                }
+            }
+        }
+
+
+        this.view.updateTotals();
+
+    }
+
+    reCalculateTable(rowFunctions) {
+
+    }
+
+
+    getElement(db_field, r, c) {
+        if (c) {
+            return this.view.elements[r][db_field][c];
+        }
+        else {
+            return this.view.elements[r][db_field];
+        }
+    }
+
+    getRow(element) {
         let rc = this.controller.findElement(element);
         return rc[0];
 
     }
 
-    sumArray(column_name,row){
-       return this.model.sumArray(column_name,row);
+    sumArray(column_name, row) {
+        return this.model.sumArray(column_name, row);
     }
-    developerAlert(msg){
-        alert('Developer Alert! \n' + msg);
+
+    developerAlert(msg) {
+        let warning = 'console' //alert
+        if (warning == 'console') {
+            console.log('Developer Alert! \n' + msg)
+        }
+        else {
+            alert('Developer Alert! \n' + msg);
+        }
 
     }
-    checkRowNumber(row_number){
-        if(typeof this.model.tdo[row_number] === 'undefined'){
-            this.developerAlert('the row number ' + row_number+' is undefined, fix your call....')
+
+    checkRowNumber(row_number) {
+        if (typeof this.model.tdo[row_number] === 'undefined') {
+            this.developerAlert('the row number ' + row_number + ' is undefined, fix your call....')
             return false;
         }
         return true;
     }
-    checkColumnName(column_name){
-        if(typeof this.model.tdo[0][column_name] === 'undefined'){
-            this.developerAlert('the column name ' + column_name+' is undefined, fix your call....')
+
+    checkColumnName(column_name) {
+        if (typeof this.model.tdo[0][column_name] === 'undefined') {
+            this.developerAlert('the column name ' + column_name + ' is undefined, fix your call....')
             return
         }
         return true;
     }
-    getValue(column_name, row_number, array_index){
-        //check row number and column_name
-        if ( ! this.checkRowNumber(row_number)) return
-        if ( ! this.checkColumnName(column_name)) return
 
+    getValue(column_name, row_number, array_index) {
+        //check row number and column_name
+        if (!this.checkRowNumber(row_number)) return
+        if (!this.checkColumnName(column_name)) return
 
 
         return this.model.tdo[row_number][column_name].data
-        if(typeof array_index !== 'undefined'){
+        if (typeof array_index !== 'undefined') {
             return this.model.tdo[row_number][column_name].data[array_index]
         }
-        else{
+        else {
             return this.model.tdo[row_number][column_name].data
         }
 
-        if(this.options.edit_display == 'on_page'){
+        if (this.options.edit_display == 'on_page') {
             return this.model.tdo[row_number][column_name].data
         }
-        else{
+        else {
             return this.modelModal.tdo[row_number][column_name].data
         }
 
     }
-    getSelectName(column, value){
+
+    getSelectName(column, value) {
         //should not matter if it is modal or not
-        return this.controller.getSelectValueName(column,value );
+        return this.controller.getSelectValueName(column, value);
 
     }
 
-    updateSearchPage(){
+    updateSearchPage() {
         this.searchController.loadPageEvent.notify();
     }
-    removeResultsTable(){
+
+    removeResultsTable() {
         this.searchController.view.destroyCollectionTable();
     }
+
     // showModal() {
     //     this.viewModal.showModalTable();
     // }

@@ -70,6 +70,7 @@ export class TableController {
                     this.model.tdo[r][col_def['db_field']]['data'] = element.value;
                 }
                 else {
+
                     this.model.tdo[r][col_def['db_field']]['data'][array] = element.value;
                 }
             }

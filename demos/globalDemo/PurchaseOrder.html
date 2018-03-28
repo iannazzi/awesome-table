@@ -22,33 +22,41 @@
 <script>
 
     //setup
+    let data = [];
     let awesomeTable = new AwesomeTable.AwesomeTable('collection');
-    let column_definition = new columnDefinition.ColumnDefinition();
-    let data_generator = new dataGenerator.DataGenerator();
-    //we need a few events... these can attach to the column definition.....
+    //we need to define some callbacks to pass to the column defintion.... thinks like update quantity and total...
+    let updateTotal = function(row)
+    {
+       //this needs to be called
+        //when the cost is updated
+        //when the quantity is updated
+        //when the table is draw
 
-    let updateTotal = function(event){
-        //update total whenever quantity is changed or cost is changed....
-        let r = awesomeTable.getRow(event.srcElement);
-
-        let qty = awesomeTable.getValue('qty', r);
-        let cost = awesomeTable.getValue('cost', r);
+        //update total wheneverow quantity is changed orow cost is changed....
+        let qty = awesomeTable.getValue('qty', row);
+        let cost = awesomeTable.getValue('cost', row);
         let total = qty*cost;
-        awesomeTable.setValue('total', r, total);
+        awesomeTable.setValue('total', row, total);
     }
-    let updateQuantity = function(event){
+    let updateQuantity = function(row){
         //update quantity whenever a size array value changes
-        let r = awesomeTable.getRow(event.srcElement);
-        let sum = awesomeTable.model.sumArray('sizes',r);
+        let sum = awesomeTable.model.sumArray('sizes',row);
         //now set a value....
-        awesomeTable.setValue('qty', r, sum);
+        awesomeTable.setValue('qty', row, sum);
         //call update total..... how?
-        updateTotal(event);
+        updateTotal(row);
     }
+
+    //add in row calculations....
+
+    let column_definition = new columnDefinition.ColumnDefinition().purchaseOrder(awesomeTable, updateQuantity, updateTotal);
+    let data_generator = new dataGenerator.DataGenerator();
+
     let config = {
         name: 'awesomeTable',
-        data: [], //data1.data.records,
-        column_definition: column_definition.purchaseOrder(awesomeTable, updateQuantity, updateTotal),
+        data,
+        column_definition,
+        row_calculations: [updateQuantity, updateTotal], //fired on .draw() good for updating cell values
         table_buttons: ['addRow','deleteRow','deleteAllRows', 'moveRows','copyRows', 'edit'],
         access: 'read', //read vs write
         onChange: function (args, r, c) {
@@ -104,24 +112,67 @@
         },
 
     }
-    console.log(config);
+    //once everything is defined we can load up the config then render.....
     awesomeTable.loadConfiguration(config);
     awesomeTable.addTo('table')
 
 
     //test
+    let handeled_errors = [];
+    let page_errors = [];
+    let expect_false,expect_true;
+
+
+    //redraw
+
+    //update values
+
+    //update custom calculations....
+
+
     //load data
+    data = data_generator.purchaseOrder(1);
+    expect_false = awesomeTable.addDataRow(data);
+    //here we would want to check check_data_is_a_row == false
+    if(! expect_false){
+        handeled_errors.push('addDataRow error data is an array not a row')
+    }
+    awesomeTable.addDataRow(data[0]);
 
 
+    //check values are in the model...
+    let total = awesomeTable.getValue('total', 1);
+    console.log('total ' + total);
+
+    //
+
+    //check that values are written to the page....
+
+    //get my own element....
+    let total_element = awesomeTable.getElement('total',0)
+
+    //how to get it by id?
+    //    let total_text = document.getElementById('awesomeTable_r0c3').value;
 
 
-    //edit
-    awesomeTable.controller.makeEditable();
+//    data = data_generator.purchaseOrder(4);
+//    awesomeTable.addDataArray(data);
+//    let check_data_is_an_array = awesomeTable.addDataArray(data[0]);
+//    if(! check_data_is_an_array){
+//        handeled_errors.push('addDataArray error data is a not an array')
+//    }
+//
+//    //check that we can get a value
+//    //check that we can set a value
+//
+//
+//    //edit
+//    awesomeTable.controller.makeEditable();
 
     //enter data to model
 
     //add a row
-
+    awesomeTable.view.addRowClicked.notify();
     //add a row of data
 
     //move row up
@@ -133,21 +184,19 @@
 
 
 
-    //get a value on the page from the element name - this will get messed up if the cd position is changed
-    let value = document.getElementById('awesomeTable_r0c3').value;
-    //get the same value from the model ... this looks stable
-    let value2 = awesomeTable.getValue('sizes', 0);
+//    //get a value on the page from the element name - this will get messed up if the cd position is changed
+//    let value = document.getElementById('awesomeTable_r0c3').value;
+//    //get the same value from the model ... this looks stable
+//    let value2 = awesomeTable.getValue('sizes', 0);
 
 
+//
+//    let p = document.createElement('p');
+//    p.id = 'test1';
+//    p.innerHTML = value;
+//    test_div.appendChild(p);
+//
 
-    console.log(value2);
-    let p = document.createElement('p');
-    p.id = 'test1';
-    p.innerHTML = value;
-    test_div.appendChild(p);
-
-    //add a row
-    awesomeTable.view.addRowClicked.notify();
 
     //now check the quantity
 

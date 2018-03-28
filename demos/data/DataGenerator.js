@@ -29,9 +29,11 @@ export class DataGenerator{
         for(let i = 0; i<rows; i++)
         {
             data[i]={};
-            data.style = 'style_' + i;
-            data.sizes = this.sizesArray(5);
-            data.cost = this.faker.finance.amount(4,58,2);
+            data[i].style = 'style_' + i;
+            data[i].sizes = this.sizesArray(5);
+            data[i].cost = 30.50;
+
+            // data[i].cost = this.faker.finance.amount(4,58,2);
         }
         return data;
 
@@ -39,7 +41,9 @@ export class DataGenerator{
     sizesArray(columns){
         let data = [];
         for(let i = 0;i<columns;i++){
-            data[i] = this.faker.random.number({min:0, max:10});
+            data[i] = i;
+
+            // data[i] = this.faker.random.number({min:0, max:10});
         }
         return data;
     }

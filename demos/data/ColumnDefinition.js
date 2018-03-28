@@ -27,53 +27,66 @@ export class ColumnDefinition {
         return cd;
     }
 
-    purchaseOrder(awesomeTable,  updateQuantity, updateTotal) {
+    purchaseOrder(awesomeTable, updateQuantity, updateTotal) {
         var cd = [];
         cd.push(this.row_checkbox());
         cd.push(this.row_number());
         cd.push(this.style());
-        cd = cd.concat(this.sizes(awesomeTable,updateQuantity));
-        cd.push(this.cost(updateTotal));
+        cd = cd.concat(this.sizes(awesomeTable, updateQuantity));
+        cd.push(this.cost(awesomeTable, updateTotal));
         cd.push(this.total());
-        console.log(cd);
         return cd;
 
     }
 
-    style(){
+    style() {
         return {
             "db_field": "style",
             "type": "text",
             "caption": "Style"
         }
     }
-    cost(updateTotal) {
+
+    cost(awesomeTable, updateTotal) {
+        let updateRow = function (event) {
+            let r = awesomeTable.getRow(event.srcElement);
+            updateTotal(r);
+        }
         return {
             "db_field": "cost",
             "type": "number",
             "caption": "Cost",
-            "events":{
-                "change": updateTotal,
-                "keyup": updateTotal,
-                "click":updateTotal,
-                }
+            "events": {
+                "change": updateRow,
+                "keyup": updateRow,
+                "click": updateRow,
+            }
         }
     }
+
     total() {
         return {
             "db_field": "total",
             "type": "text",
             "properties": [{"readOnly": true}],
             "caption": "Total",
-            "total":2
+            "total": 2
         }
     }
-    sizes(awesomeTable,updateQuantity) {
+
+    sizes(awesomeTable, updateQuantity) {
+
+        let updateRow = function(event){
+            let r = awesomeTable.getRow(event.srcElement);
+            updateQuantity(r)
+        }
+
+
         return [{
             "db_field": "sizes",
             "caption": [["XS", "S", "M", "L", ""], ["40", "42", "44", "46", ""], ["1", "2", "3", "4", "5"]],
-            "array":true,
-            'min':0,
+            "array": true,
+            'min': 0,
             //'max':5,
             "type": "number",
             "default_value": '',
@@ -85,31 +98,29 @@ export class ColumnDefinition {
             "td_tags": "",
             "class": "",
             "events": {
-                "keyup": updateQuantity,
-                "click":updateQuantity,
-                "change":updateQuantity,
+                "keyup": updateRow,
+                "click": updateRow,
+                "change": updateRow,
 
 
-                    // function(event){
-                    //
-                    // //we can update the quantity and total when the
-                    // //order quantites change
-                    // //however if the cost changes we need to update again....
-                    //
-                    // let rc = awesomeTable.controller.findElement(event.srcElement);
-                    // let r = rc[0];
-                    // let c = rc[1];
-                    //
-                    //
-                    // let sum = adjustableColumn.model.sumArray('sizes',r);
-                    // //now set a value....
-                    // adjustableColumn.setValue('qty', r, sum);
-                    // //now update the total for the line...
-                    // let cost = adjustableColumn.getValue('cost', r);
-                    // let total = sum*cost;
-                    // adjustableColumn.setValue('total', r, total);
-
-
+                // function(event){
+                //
+                // //we can update the quantity and total when the
+                // //order quantites change
+                // //however if the cost changes we need to update again....
+                //
+                // let rc = awesomeTable.controller.findElement(event.srcElement);
+                // let r = rc[0];
+                // let c = rc[1];
+                //
+                //
+                // let sum = adjustableColumn.model.sumArray('sizes',r);
+                // //now set a value....
+                // adjustableColumn.setValue('qty', r, sum);
+                // //now update the total for the line...
+                // let cost = adjustableColumn.getValue('cost', r);
+                // let total = sum*cost;
+                // adjustableColumn.setValue('total', r, total);
 
 
                 //}

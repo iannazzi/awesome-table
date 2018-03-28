@@ -147,6 +147,7 @@ export class TableModel {
     }
 
     addDataRow(data_row) {
+
         let row_number = this.addNewRow();
         this.cdo.forEach(col_definition => {
             //console.log(col_definition);
@@ -236,7 +237,6 @@ export class TableModel {
                 this.tdo[row]['row_number']['data'] = row + 1;
             }
         }
-
     }
 
     getCDOColumnNumberFromName(name) {
