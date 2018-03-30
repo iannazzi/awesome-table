@@ -62,7 +62,7 @@ export class TableModel {
     }
 
     loadData(data) {
-        this.original_data = data;
+        this.backup_data = data;
         this.tdo = [];
         // console.log('data');
         //  console.log(data);
@@ -72,19 +72,21 @@ export class TableModel {
         }
 
         this.sortData();
-        this.original_data = data;
+        this.saveBackupData();
 
         //pulled this from the controller creation.... not sure if it is needed?
-        if (this.tdo.length == 0) {
-            this.addNewRow();
-        }
+        // if (this.tdo.length == 0) {
+        //     this.addNewRow();
+        // }
         this.modelChanged.notify();
 
 
     }
-
-    loadOriginalData() {
-        this.loadData(this.original_data);
+    saveBackupData(){
+        this.backup_data = JSON.stringify(this.tdo);
+    }
+    loadBackupData() {
+        this.tdo = JSON.parse(this.backup_data);
     }
 
 

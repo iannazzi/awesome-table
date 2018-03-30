@@ -112,9 +112,7 @@ export class RecordTableView extends TableView {
 
 
 
-    updateTotals(){
-        //this is a blank function to make any update calls for totals...
-    }
+
 
     addRow(tbody, col_def) {
         if (col_def.type != 'row_checkbox' && col_def.type != 'row_number') {
@@ -135,6 +133,21 @@ export class RecordTableView extends TableView {
             this.elements_array[0].push(element);
             cell.appendChild(element);
         }
+
+    }
+
+
+    // these funcions are here because the controller will call these for the collection table.... might eventually be useful here....
+    updateTotals(){
+        //this is a blank function to make any update calls for totals...
+    }
+    showRowModifyButtons(){
+        //dummy function the controller will call this .... collection table functionality....
+
+    }
+
+    hideRowModifyButtons(){
+        //dummy function the controller will call this .... collection table functionality....
 
     }
 

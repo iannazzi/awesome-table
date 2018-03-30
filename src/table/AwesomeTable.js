@@ -82,6 +82,8 @@ export class AwesomeTable {
             default:
                 console.log('missed the type in the table definition');
         }
+
+
     }
 
     clone(obj) {
@@ -138,8 +140,10 @@ export class AwesomeTable {
         //add a row to the model, then re-draw the table......
 
         let row = this.model.addDataRow(data_row);
+        this.calculate();
         this.view.drawTable();
-        this.reCalculate();
+        this.view.updateTotals();
+
 
 
     }
@@ -157,11 +161,10 @@ export class AwesomeTable {
     }
 
 
-    reCalculate() {
+    calculate() {
 
 
         let row_functions = this.model.td.row_calculations;
-        console.log(row_functions);
         if (typeof  row_functions !== 'undefined'){
             for (let i = 0; i < this.model.tdo.length; i++) {
                 //pass the row in to each function defined
@@ -172,7 +175,6 @@ export class AwesomeTable {
         }
 
 
-        this.view.updateTotals();
 
     }
 

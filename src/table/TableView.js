@@ -3,18 +3,17 @@
  */
 import {myParseFloat, round2, isNumber} from '../lib/math';
 
-import { TableEvent } from './TableEvent';
+import {TableEvent} from './TableEvent';
 // import {ErrorModal} from '../modal/ErrorModal'
 // import {FormModal} from '../modal/FormModal'
 // import {createWaitModal} from '../modal/waitModal'
 // import {createConfirmModal} from '../modal/confirmModal'
 
 
-
 export class TableView {
 
 
-    constructor(model){
+    constructor(model) {
         this.model = model;
 
         // this.id = this.model.td.name;
@@ -45,12 +44,6 @@ export class TableView {
     }
 
 
-
-
-
-
-
-
     writeElementValue(element, col_def, value) {
         //read vs write different values to write
         if (col_def['type'] == 'row_checkbox'
@@ -68,16 +61,15 @@ export class TableView {
             element.value = value;
         }
     }
-    checkWrite()
-    {
+
+    checkWrite() {
         let write = false;
-        if(this.model.td.access.toUpperCase() == "WRITE") write = true;
+        if (this.model.td.access.toUpperCase() == "WRITE") write = true;
         return write;
     }
 
-    checkRead()
-    {
-        return ! this.checkWrite();
+    checkRead() {
+        return !this.checkWrite();
     }
 
     // createModalTable(table_dom_object){
@@ -136,7 +128,6 @@ export class TableView {
             // }
 
 
-
         }
 
 
@@ -149,9 +140,9 @@ export class TableView {
     createElement(data, col_def, active_cell) {
 
         let db_field = col_def['db_field'];
-        switch(col_def.type.toLowerCase()){
+        switch (col_def.type.toLowerCase()) {
             case 'date':
-                return this.createDateInput(col_def,data);
+                return this.createDateInput(col_def, data);
                 break;
             case 'text':
                 return this.createTextInput(col_def, data);
@@ -160,37 +151,37 @@ export class TableView {
                 return this.createPasswordInput(col_def, data);
                 break;
             case 'textarea':
-                return this.createTextArea(col_def,data);
+                return this.createTextArea(col_def, data);
                 break;
             case 'number':
                 return this.createNumberInput(col_def, data);
                 break;
             case 'checkbox':
-                return this.createCheckBox(col_def,data);
+                return this.createCheckBox(col_def, data);
                 break;
             case 'row_checkbox':
-                return this.createRowCheckbox(col_def,data);
+                return this.createRowCheckbox(col_def, data);
                 break;
             case 'row_number':
-                return this.createRowNumber(col_def,data);
+                return this.createRowNumber(col_def, data);
                 break;
             case 'select':
-                return this.createDataTableSelect(col_def,data);
+                return this.createDataTableSelect(col_def, data);
                 break;
             case 'tree_select':
-                return this.createDataTableTreeSelect(col_def,data);
+                return this.createDataTableTreeSelect(col_def, data);
                 break;
             case 'html':
-                return this.createTextNode(col_def,data);
+                return this.createTextNode(col_def, data);
                 break;
             case 'radio':
-                return this.createRadio(col_def,data);
+                return this.createRadio(col_def, data);
                 break;
             case 'button':
-                return this.createButton(col_def,data);
+                return this.createButton(col_def, data);
                 break;
             case 'link':
-                return this.createLink(col_def,data);
+                return this.createLink(col_def, data);
                 break;
             default:
                 return document.createTextNode('type "' + col_def.type + '" has not been coded');
@@ -199,13 +190,13 @@ export class TableView {
         }
 
 
-
     }
-    createTextArea(col_def,data){
-        if(this.checkWrite()){
+
+    createTextArea(col_def, data) {
+        if (this.checkWrite()) {
             let element = document.createElement("TEXTAREA");
             let self = this;
-            element.addEventListener("keyup", function(){
+            element.addEventListener("keyup", function () {
                 self.inputChanged.notify({element, col_def})
             });
             this.addEvents(col_def, element);
@@ -215,9 +206,8 @@ export class TableView {
 
             return element;
         }
-        else
-        {
-            if(data) {
+        else {
+            if (data) {
                 return document.createTextNode(data);
             }
             return document.createTextNode('');
@@ -225,13 +215,14 @@ export class TableView {
 
 
     }
-    createCheckBox(col_def, data){
+
+    createCheckBox(col_def, data) {
         let element = document.createElement('input');
         element.type = 'checkbox';
         //element.name = col_def.db_field + '[]';
         //element.id = col_def.db_field + '_search';
         let self = this;
-        element.addEventListener("change", function(){
+        element.addEventListener("change", function () {
             console.log('checkbox click');
             self.inputChanged.notify({element, col_def})
         });
@@ -241,20 +232,18 @@ export class TableView {
             element.checked = true;
         }
 
-        if(this.checkWrite())
-        {
+        if (this.checkWrite()) {
             this.addProperties(col_def, element);
         }
-        else
-        {
+        else {
             element.disabled = true;
         }
 
         return element;
     }
-    createRowCheckbox(col_def,data){
-        if(this.checkWrite())
-        {
+
+    createRowCheckbox(col_def, data) {
+        if (this.checkWrite()) {
             let element = document.createElement('input');
             element.type = 'checkbox';
             //element.name = col_def.db_field + '[]';
@@ -263,7 +252,7 @@ export class TableView {
                 element.checked = true;
             }
             let self = this;
-            element.addEventListener("onclick", function(){
+            element.addEventListener("onclick", function () {
                 self.inputChanged.notify({element, col_def})
             });
             this.addEvents(col_def, element);
@@ -272,30 +261,30 @@ export class TableView {
             // element.onclick = function(){self.inputChanged.notify()};
             return element;
         }
-        else
-        {
+        else {
             // do not show on read
 
         }
     }
-    createRowNumber(col_def,data){
+
+    createRowNumber(col_def, data) {
         return document.createTextNode(data);
     }
-    createNumberInput(col_def, data){
-        if(this.checkWrite())
-        {
+
+    createNumberInput(col_def, data) {
+        if (this.checkWrite()) {
             //can be text, number
             let element = document.createElement('input');
             element.type = 'number';
-            element.pattern="[0-9. -]*"
+            element.pattern = "[0-9. -]*"
             let self = this;
-            element.addEventListener("keyup", function(){
+            element.addEventListener("keyup", function () {
                 self.inputChanged.notify({element, col_def})
             });
-            element.addEventListener("click", function(){
+            element.addEventListener("click", function () {
                 self.inputChanged.notify({element, col_def})
             });
-            element.addEventListener("change", function(){
+            element.addEventListener("change", function () {
                 self.inputChanged.notify({element, col_def})
             });
             this.addEvents(col_def, element);
@@ -334,19 +323,18 @@ export class TableView {
             // };
             this.addProperties(col_def, element);
 
-            this.addMinMax(col_def,element);
+            this.addMinMax(col_def, element);
 
             if (typeof col_def['round'] != 'undefined') {
                 //if(isNumber(data)) {
-                    data = myParseFloat(data);
-                    data = round2(data, col_def['round']);
+                data = myParseFloat(data);
+                data = round2(data, col_def['round']);
                 //}
             }
             element.value = data;
             return element;
         }
-        else
-        {
+        else {
             if (typeof col_def['round'] != 'undefined') {
                 data = myParseFloat(data);
                 data = round2(data, col_def['round']);
@@ -354,7 +342,8 @@ export class TableView {
             return document.createTextNode(data);
         }
     }
-    addMinMax(col_def,element){
+
+    addMinMax(col_def, element) {
         if (typeof col_def['min'] != 'undefined') {
             element.min = col_def['min'];
         }
@@ -362,19 +351,19 @@ export class TableView {
             element.max = col_def['max'];
         }
     }
-    createTextInput(col_def, data){
-        if(this.checkWrite())
-        {
+
+    createTextInput(col_def, data) {
+        if (this.checkWrite()) {
             //can be text, number
             let element = document.createElement('input');
             element.type = 'text';
             // element.name = col_def['db_field'] + '[]';
-            if (typeof col_def.placeholder != 'undefined' && col_def.placeholder){
+            if (typeof col_def.placeholder != 'undefined' && col_def.placeholder) {
                 element.placeholder = col_def.placeholder;
             }
 
             let self = this;
-            element.addEventListener("keyup", function(){
+            element.addEventListener("keyup", function () {
                 self.inputChanged.notify({element, col_def})
             });
             this.addEvents(col_def, element);
@@ -383,24 +372,23 @@ export class TableView {
             element.value = data;
             return element;
         }
-        else
-        {
-            if(data) {
+        else {
+            if (data) {
                 return document.createTextNode(data);
             }
             return document.createTextNode('');
         }
     }
-    createPasswordInput(col_def, data){
-        if(this.checkWrite())
-        {
+
+    createPasswordInput(col_def, data) {
+        if (this.checkWrite()) {
             //can be text, number
             let element = document.createElement('input');
             element.type = 'password';
             element.name = col_def['db_field'] + '[]';
 
             let self = this;
-            element.addEventListener("keyup", function(){
+            element.addEventListener("keyup", function () {
                 self.inputChanged.notify({element, col_def})
             });
             this.addEvents(col_def, element);
@@ -409,66 +397,68 @@ export class TableView {
             element.value = data;
             return element;
         }
-        else
-        {
+        else {
             return document.createTextNode(data);
         }
     }
+
     createDateInput(col_def, data) {
-        if(this.checkWrite()) {
+        if (this.checkWrite()) {
             let element = document.createElement('input');
             element.type = 'date';
             //element.name = 'element_' + cell.id;
             //element.id = element.name;
-            if (typeof col_def.placeholder != 'undefined' && col_def.placeholder){
+            if (typeof col_def.placeholder != 'undefined' && col_def.placeholder) {
                 element.placeholder = col_def.placeholder;
             }
             element.value = data;
             let self = this;
-            element.addEventListener("onchange", function(){
+            element.addEventListener("onchange", function () {
                 self.inputChanged.notify({element, col_def})
             });
             this.addEvents(col_def, element);
-            element.onchange = function(){self.inputChanged.notify()}
+            element.onchange = function () {
+                self.inputChanged.notify()
+            }
             return element;
         }
-        else{
+        else {
             return document.createTextNode(data);
         }
 
 
     }
-    createLink(col_def,data) {
-        if(this.model.td.table_view == 'index')
-        {
+
+    createLink(col_def, data) {
+        if (this.model.td.table_view == 'index') {
             let a = document.createElement('a');
             let c = document.createTextNode(data);
             a.appendChild(c);
 
 
-            if(typeof col_def.onClick === 'function'){
+            if (typeof col_def.onClick === 'function') {
 
-                a.addEventListener("click", function(){
+                a.addEventListener("click", function () {
                     col_def.onClick(data);
                 });
             }
-            else{
+            else {
 
             }
 
             return a;
 
         }
-        else
-        {
+        else {
             //on the show page we do not want a link....
-            return this.createTextNode(col_def,data);
+            return this.createTextNode(col_def, data);
 
         }
 
 
     }
-    createButton(col_def, data){
+
+    createButton(col_def, data) {
         let element = document.createElement('button');
         //element.id = db_field + '_sr' + r;
         element.className = "button";
@@ -481,10 +471,10 @@ export class TableView {
 
         return element;
     }
-    createTextNode(col_def, data){
+
+    createTextNode(col_def, data) {
         if (typeof col_def['round'] != 'undefined') {
-            if(isNumber(data))
-            {
+            if (isNumber(data)) {
                 data = myParseFloat(data);
                 data = round2(data, col_def['round']);
             }
@@ -492,12 +482,13 @@ export class TableView {
         }
         return document.createTextNode(data);
     }
-    createRadio(col_def,data){
+
+    createRadio(col_def, data) {
         let element = document.createElement('input');
         element.type = 'radio';
         element.name = col_def['db_field'] + '[]';
         let self = this;
-        element.addEventListener("onclick", function(){
+        element.addEventListener("onclick", function () {
             self.inputChanged.notify({element, col_def})
         });
         this.addEvents(col_def, element);
@@ -506,24 +497,21 @@ export class TableView {
         if (data == 1) {
             element.checked = true;
         }
-        if(this.checkWrite())
-        {
+        if (this.checkWrite()) {
             this.addProperties(col_def, element);
         }
-        else
-        {
+        else {
             element.disabled = true;
         }
         return element;
     }
-    addEvents(col_def, element)
-    {
-        if (typeof col_def['events'] !== 'undefined')
-        {
+
+    addEvents(col_def, element) {
+        if (typeof col_def['events'] !== 'undefined') {
             for (var key in col_def['events']) {
                 if (col_def['events'].hasOwnProperty(key)) {
                     // console.log(key + " -> " + col_def['events'][key]);
-                    element.addEventListener(key, col_def['events'][key], );
+                    element.addEventListener(key, col_def['events'][key],);
                 }
             }
 
@@ -541,15 +529,20 @@ export class TableView {
             // });
         }
     }
-    addProperties(col_def, element){
-        if (typeof col_def['properties'] !== 'undefined')
-        {
-            col_def.properties.forEach(property => {
-                for (let index in property)
-                {
 
+    addProperties(col_def, element) {
+
+
+        if (typeof col_def['properties'] !== 'undefined') {
+            col_def.properties.forEach(property => {
+                for (let index in property) {
+                    console.log(property);
                     // element[index] = eval("("+property[index]+")"); //can get this as the element
                     element[index] = property[index];
+
+                    if (index == 'readOnly') {
+                        element.tabIndex = '-1';
+                    }
 
                     // if (typeof property[index] === "function") {
                     //     // Execute the callback function and pass the parameters to it​
@@ -568,41 +561,40 @@ export class TableView {
 
         }
     }
-    createDataTableSelect(col_def, data){
 
-        if( typeof col_def.select_values ==='undefined'){
+    createDataTableSelect(col_def, data) {
+
+        if (typeof col_def.select_values === 'undefined') {
             console.log('select_values are not defined');
             return document.createTextNode('error select_values are not defined');
         }
 
 
-
-        if(this.checkWrite())
-        {
+        if (this.checkWrite()) {
             let element = this.createSelect(col_def)
             //element.name = col_def['db_field'] + '[]';
             let self = this;
 
-            if (typeof col_def['individual_select_options'] !== 'undefined')
-            {
-                element.onchange = function(){self.individualSelectChanged.notify()}
+            if (typeof col_def['individual_select_options'] !== 'undefined') {
+                element.onchange = function () {
+                    self.individualSelectChanged.notify()
+                }
             }
-            else
-            {
-                element.onchange = function(){self.inputChanged.notify()}
+            else {
+                element.onchange = function () {
+                    self.inputChanged.notify()
+                }
             }
-            this.addProperties(col_def,element);
-            this.addEvents(col_def,element);
-            element.value = data+'';
+            this.addProperties(col_def, element);
+            this.addEvents(col_def, element);
+            element.value = data + '';
             return element;
         }
-        else
-        {
+        else {
             //bad things happen comparing sting to int....
             let name = '';
-            col_def.select_values.forEach(select_value =>{
-                if(select_value.value == data)
-                {
+            col_def.select_values.forEach(select_value => {
+                if (select_value.value == data) {
                     name = select_value.name;
                 }
             })
@@ -613,7 +605,8 @@ export class TableView {
             return document.createTextNode(name);
         }
     }
-    createSelect(col_def){
+
+    createSelect(col_def) {
         let element = document.createElement('select');
         let option = document.createElement('option');
         option.value = 'null';
@@ -621,56 +614,55 @@ export class TableView {
         element.appendChild(option);
         let select_values = col_def.select_values;
         //let select_names = col_def.select_names;
-        select_values.forEach(select_value =>{
+        select_values.forEach(select_value => {
             option = document.createElement('option');
             option.value = select_value['value'] + '';
-            option.appendChild(document.createTextNode(select_value['name']+''));
+            option.appendChild(document.createTextNode(select_value['name'] + ''));
             element.appendChild(option);
         })
 
         return element;
     }
 
-    findTreeSelectValue(array,data)
-    {
+    findTreeSelectValue(array, data) {
         // console.log('looking for...' + data)
         for (let i = 0; i < array.length; i++) {
             // console.log('select_value');
             // console.log(array[i]);
-            if(data == array[i].value)
-            {
+            if (data == array[i].value) {
                 // console.log('select_value ' + array[i].value);
                 // console.log('select_name ' +array[i].name)
                 return array[i].name;
             }
             let found = false;
-            if(typeof array[i].children !== 'undefined')
-            {
+            if (typeof array[i].children !== 'undefined') {
                 // console.log('looking at children');
-                found = this.findTreeSelectValue(array[i].children,data);
+                found = this.findTreeSelectValue(array[i].children, data);
                 // console.log('found ' + found);
             }
             if (found) return found;
         }
     }
-    createDataTableTreeSelect(col_def, data){
-        if(this.checkWrite())
-        {
+
+    createDataTableTreeSelect(col_def, data) {
+        if (this.checkWrite()) {
             let element = this.createTreeSelect(col_def)
             let self = this;
-            element.onchange = function(){self.inputChanged.notify()}
+            element.onchange = function () {
+                self.inputChanged.notify()
+            }
             this.addProperties(col_def, element);
             element.value = data;
             return element;
         }
-        else
-        {
-            let value =  this.findTreeSelectValue(col_def.select_values,data);
-            if(!value) value = '';
+        else {
+            let value = this.findTreeSelectValue(col_def.select_values, data);
+            if (!value) value = '';
             return document.createTextNode(value);
         }
     }
-    createTreeSelect(col_def){
+
+    createTreeSelect(col_def) {
         let element = document.createElement('select');
         let option = document.createElement('option');
         option.value = 'null';
@@ -680,15 +672,13 @@ export class TableView {
         this.addNestedSelectOptions(element, col_def['select_values'], level);
         return element;
     }
-    addNestedSelectOptions (element, array, level)
-    {
-        array.forEach((category, r) =>
-        {
+
+    addNestedSelectOptions(element, array, level) {
+        array.forEach((category, r) => {
             let option = document.createElement('option');
             option.value = category['value'];
             let name = category['name'];
-            for(let i=0;i<level;i++)
-            {
+            for (let i = 0; i < level; i++) {
                 name = "\u00A0" + name;
                 name = "\u00A0" + name;
                 name = "-" + name;
@@ -696,14 +686,13 @@ export class TableView {
             }
             option.appendChild(document.createTextNode(name));
             element.appendChild(option);
-            if(typeof category['children'] !== 'undefined')
-            {
-                this.addNestedSelectOptions(element, category['children'], level+1);
+            if (typeof category['children'] !== 'undefined') {
+                this.addNestedSelectOptions(element, category['children'], level + 1);
             }
         });
     }
 
-    createEditButton(){
+    createEditButton() {
         let self = this;
         let editButton = document.createElement('button');
         editButton.innerHTML = 'Edit';
@@ -714,7 +703,8 @@ export class TableView {
         this.editButton = editButton;
         return editButton;
     }
-    createCancelButton(){
+
+    createCancelButton() {
         let cancelButton = document.createElement('button');
         let self = this;
         cancelButton.innerHTML = 'Cancel';
@@ -726,7 +716,8 @@ export class TableView {
         this.cancelButton = cancelButton;
         return cancelButton;
     }
-    createDeleteButton(){
+
+    createDeleteButton() {
         let self = this;
         let deleteButton = document.createElement('button');
         deleteButton.innerHTML = 'Delete';
@@ -737,7 +728,8 @@ export class TableView {
         this.deleteButton = deleteButton;
         return deleteButton;
     }
-    createSaveButton(){
+
+    createSaveButton() {
         let saveButton = document.createElement('button');
         saveButton.innerHTML = 'Save';
         saveButton.className = 'save';
@@ -748,61 +740,50 @@ export class TableView {
         this.saveButton = saveButton;
         return saveButton;
     }
-    createNewButton(msg){
+
+    createNewButton(msg) {
         let button = document.createElement('button');
-        button.className ='btn-new'
+        button.className = 'btn-new'
         let self = this;
         button.onclick = function () {
             window.location.href = self.model.td.route + '/create'
         };
-        button.innerHTML = '<i class="fa fa-plus" aria-hidden="true"></i>'+msg;
+        button.innerHTML = '<i class="fa fa-plus" aria-hidden="true"></i>' + msg;
         return button;
     }
 
 
-
-
-
-    showWaitModal(show = true){
-        if(show){
+    showWaitModal(show = true) {
+        if (show) {
             $(this.waitModal).modal('show');
         }
-        else
-        {
+        else {
             $(this.waitModal).modal('hide');
         }
 
     }
 
 
-
-
-
-
-
     //all this goes.......
-    showConfirmModal(show = true)
-    {
-        if(show){
+    showConfirmModal(show = true) {
+        if (show) {
             $(this.confirmModal).modal('show');
         }
-        else
-        {
+        else {
             $(this.confirmModal).modal('hide');
         }
     }
-    hideErrorModal()
-    {
+
+    hideErrorModal() {
         // $(this.errorModal).modal('hide');
         this.errorModal.hide();
     }
-    showErrorModal(message){
+
+    showErrorModal(message) {
         this.errorModal.addErrorMessage(message);
         this.errorModal.show();
         // $(this.errorModal).modal('show');
     }
-
-
 
 
 }

@@ -70,7 +70,8 @@ export class ColumnDefinition {
             "type": "text",
             "properties": [{"readOnly": true}],
             "caption": "Total",
-            "total": 2
+            "total": 2,
+            "round":2,
         }
     }
 

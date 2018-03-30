@@ -25,6 +25,7 @@
     let data = [];
     let awesomeTable = new AwesomeTable.AwesomeTable('collection');
     //we need to define some callbacks to pass to the column defintion.... thinks like update quantity and total...
+    //we will also need these every time the table is rendered
     let updateTotal = function(row)
     {
        //this needs to be called
@@ -86,9 +87,24 @@
 
         },
         onSaveClick(){
+            //for this demo we need to save the model to the original_data....
+            //normally? you would go to the server?
+            awesomeTable.model.saveBackupData();
+            //demo on how to get the post data
             let post_data = {data: awesomeTable.controller.getPostData(), _method: 'put'};
             console.log(JSON.stringify(post_data))
+
+            //here you would go to the server
             awesomeTable.controller.makeReadable();
+
+            //fail
+            //probably pop up a modal.... that is up to you.....
+            //the table should be able to handle validation view
+            //awesomeTable.setErrors(
+            // [{ 'sizes': ['size does not exist'], 'style' : ['error1', 'error2']}
+
+            // )
+
 
         },
         onSaveSuccess(){
@@ -118,16 +134,10 @@
 
 
     //test
+    let passing = true;
     let handeled_errors = [];
-    let page_errors = [];
+    let errors = [];
     let expect_false,expect_true;
-
-
-    //redraw
-
-    //update values
-
-    //update custom calculations....
 
 
     //load data
@@ -138,18 +148,32 @@
         handeled_errors.push('addDataRow error data is an array not a row')
     }
     awesomeTable.addDataRow(data[0]);
+    //save it....
+    awesomeTable.model.saveBackupData();
+
+
+
+    //cancel will remove this row.... hmmmm
+
 
 
     //check values are in the model...
-    let total = awesomeTable.getValue('total', 1);
-    console.log('total ' + total);
+    let total = awesomeTable.getValue('total', 0);
+    //test that it is 305
+    if(total != 305){
+        passing=false;
+        errors.push('Total is not 305')
+    }
+
 
     //
 
     //check that values are written to the page....
 
     //get my own element....
-    let total_element = awesomeTable.getElement('total',0)
+    //this already failed....
+    let total_element = awesomeTable.getElement('total',0);
+//undefined     console.log(total_element.value);
 
     //how to get it by id?
     //    let total_text = document.getElementById('awesomeTable_r0c3').value;
@@ -172,7 +196,7 @@
     //enter data to model
 
     //add a row
-    awesomeTable.view.addRowClicked.notify();
+    //awesomeTable.view.addRowClicked.notify();
     //add a row of data
 
     //move row up
@@ -191,10 +215,27 @@
 
 
 //
-//    let p = document.createElement('p');
-//    p.id = 'test1';
-//    p.innerHTML = value;
-//    test_div.appendChild(p);
+    let test_div = document.getElementById('test_div');
+    let p = document.createElement('p');
+    p.id = 'test1';
+    if(passing){
+        p.innerHTML = "All Tests Passed";
+    }
+    else{
+
+        p.innerHTML = "Failed " + errors.length + " tests";
+        let ul = document.createElement('ul');
+        p.appendChild(ul);
+        let li;
+        for(let t=0;t<errors.length;t++){
+            li = document.createElement('li');
+            li.innerHTML = errors[t];
+            ul.appendChild(li);
+        }
+    }
+
+    test_div.appendChild(p);
+
 //
 
 

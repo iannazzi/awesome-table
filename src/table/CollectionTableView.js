@@ -21,7 +21,7 @@ export class CollectionTableView extends TableView {
         this.collectionTableDiv = this.createCollectionTableDiv();
         this.table = this.createTable(name);
         this.collectionTableDiv.appendChild(this.table);
-        this.table_modify_div = this.createTableModifyButtons(name)
+        this.table_modify_div = this.createTableModifyButtons()
         this.collectionTableDiv.appendChild(this.table_modify_div);
         this.edit_button_div = this.createEditButtonDiv();
         this.collectionTableDiv.appendChild(this.edit_button_div);
@@ -427,23 +427,22 @@ export class CollectionTableView extends TableView {
         this.updateThead(); //redraw
         this.updateTBody(); //redraw
         //this.dataTableChanged.notify();
+        //we need to run any row calculations here?
         this.updateTotals();
         this.updateButtons();
 
 
     }
 
-    createTableModifyButtons(name) {
+    createTableModifyButtons() {
 
         let div = document.createElement('div');
-        div.id = name + '_buttons';
+        div.id = this.model.td.name + '_buttons';
         div.className = 'data_table_buttons';
 
         let table_modify_div = document.createElement('div');
         table_modify_div.className = 'data_table_modify_buttons';
         div.appendChild(table_modify_div);
-
-
 
         let self = this;
         let element;
@@ -540,8 +539,20 @@ export class CollectionTableView extends TableView {
         }
 
 
-
+        if(this.model.td.access == 'read'){
+            div.style.visibility="hidden";
+        }
         return div
+
+    }
+    showRowModifyButtons(){
+        //this needs to be show/hidden.......
+        // this.table_modify_div = this.createTableModifyButtons()
+        this.table_modify_div.style.visibility="visible"
+    }
+    hideRowModifyButtons(){
+        // this.table_modify_div = '';
+        this.table_modify_div.style.visibility="hidden"
 
     }
     createEditButtonDiv(){

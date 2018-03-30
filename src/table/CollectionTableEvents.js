@@ -2,14 +2,17 @@ import {TableEvent} from './TableEvent'
 import {TableEvents} from './TableEvents'
 
 
-export class CollectionTableEvents extends TableEvents{
+export class CollectionTableEvents extends TableEvents {
 
     constructor(controller) {
         super(controller);
 
         let view = controller.view;
         let model = controller.model;
-        controller.loadPageEvent= new TableEvent(controller);
+        this.controller = controller;
+        this.view = view;
+        this.model = model;
+        controller.loadPageEvent = new TableEvent(controller);
         view.deleteColumnClicked = new TableEvent(view);
         view.addRowClicked = new TableEvent(view);
         view.deleteRowClicked = new TableEvent(view);
@@ -27,22 +30,16 @@ export class CollectionTableEvents extends TableEvents{
         //##################   EDIT
         view.onEditClick = new TableEvent(view);
         controller.view.onEditClick.attach(
-            function () {
-                console.log(controller.model.td)
-                if (typeof controller.model.td.onEditClick === 'function'){
-                    console.log('hi thiere')
-                    controller.model.td.onEditClick();
-                }
-                else{
-                    console.log('hi thiereeerer ')
-
-                    controller.model.td.access = 'write';
-                    view.drawTable();
-                    view.updateButtons();
-
-                }
-
+            function() {
+            if (typeof model.td.onEditClick === 'function') {
+                model.td.onEditClick();
             }
+            else {
+                controller.makeEditable()
+                view.showRowModifyButtons();
+            }
+
+        }
         );
 
         //##################   CANCEL
@@ -50,36 +47,9 @@ export class CollectionTableEvents extends TableEvents{
         controller.view.onCancelClick.attach(
             function () {
 
-                controller.model.loadOriginalData();
-                controller.model.td.access = 'read';
-
-                //I would call this a re-draw
-
-
-                //updateTableValues
-                //updateTotals
-                //drawTable
-
-
-                view.drawTable();
-
-
-                // if (controller.model.td.edit_display == 'on_page') {
-                //     controller.model.td.access = 'read';
-                //     view.updateTable();
-                //
-                // }
-                // else if (controller.model.td.edit_display == 'modal') {
-                //     controller.model.td.onCancelClick();
-                // }
-                // else if (controller.model.td.edit_display == 'modal_only') {
-                //     controller.model.td.onCancelClick();
-                // }
-
-
-
-
-
+                controller.model.loadBackupData();
+                controller.makeReadable();
+                view.hideRowModifyButtons();
 
             }
         );
@@ -92,29 +62,29 @@ export class CollectionTableEvents extends TableEvents{
                 controller.model.td.access = 'read';
                 view.drawTable();
                 controller.model.original_data = controller.getPostData();
-            //     if (controller.model.td.edit_display == 'on_page') {
-            //         controller.model.td.access = 'read';
-            //         view.drawTable();
-            //         controller.model.original_data = controller.getPostData();
-            //     }
-            //     else if (controller.model.td.edit_display == 'modal') {
-            //         if(typeof controller.model.td.onSaveSuccess === 'function'){
-            //             controller.model.td.onSaveSuccess(result.id);
-            //
-            //         }
-            //
-            //     }
-            //     else if (controller.model.td.edit_display == 'modal_only') {
-            //
-            //         console.log(result);
-            //         console.log(JSON.stringify(controller.getPostData()))
-            //         console.log(controller.model.td.table_view);
-            //         console.log(controller.model.td.edit_display);
-            //         console.log(JSON.stringify(controller.model.tdo))
-            //         console.log(result.id)
-            //
-            //         controller.model.td.onSaveSuccess(result.id);
-            //     }
+                //     if (controller.model.td.edit_display == 'on_page') {
+                //         controller.model.td.access = 'read';
+                //         view.drawTable();
+                //         controller.model.original_data = controller.getPostData();
+                //     }
+                //     else if (controller.model.td.edit_display == 'modal') {
+                //         if(typeof controller.model.td.onSaveSuccess === 'function'){
+                //             controller.model.td.onSaveSuccess(result.id);
+                //
+                //         }
+                //
+                //     }
+                //     else if (controller.model.td.edit_display == 'modal_only') {
+                //
+                //         console.log(result);
+                //         console.log(JSON.stringify(controller.getPostData()))
+                //         console.log(controller.model.td.table_view);
+                //         console.log(controller.model.td.edit_display);
+                //         console.log(JSON.stringify(controller.model.tdo))
+                //         console.log(result.id)
+                //
+                //         controller.model.td.onSaveSuccess(result.id);
+                //     }
             }
         )
 
@@ -124,7 +94,7 @@ export class CollectionTableEvents extends TableEvents{
 
         view.onHeaderClick.attach(
             function (sender, args) {
-                    console.log('collection table controller on sort');
+                console.log('collection table controller on sort');
 
 
                 controller.uri.onSort(args);
@@ -141,16 +111,10 @@ export class CollectionTableEvents extends TableEvents{
                 }
 
 
-
-
-
-                    controller.model.sortData()
-                    controller.view.updateHeaderSortView();
+                controller.model.sortData()
+                controller.view.updateHeaderSortView();
                 //this function sucks, i think you want updateTableValues();
-                    //controller.view.drawTable();
-
-
-
+                //controller.view.drawTable();
 
 
             }
@@ -213,7 +177,7 @@ export class CollectionTableEvents extends TableEvents{
                 let element = args.element;
 
                 //what is the elments row and column?
-                let cell=element.parentNode;
+                let cell = element.parentNode;
                 let c = cell.cellIndex;
 
                 let row = cell.parentNode;
@@ -237,10 +201,8 @@ export class CollectionTableEvents extends TableEvents{
         );
 
 
-
-
-
-
     }
+
+
 
 }

@@ -73,7 +73,7 @@ export class RecordTableEvents extends TableEvents {
                 //or set view to read
                 switch (controller.model.td.table_view) {
                     case 'edit':
-                        controller.model.loadOriginalData();
+                        controller.model.loadBackupData();
                         controller.model.td.table_view = 'show';
                         controller.model.td.access = 'read';
                         view.drawTable();

@@ -104,6 +104,9 @@ export class TableController {
         this.view.drawTable();
         this.view.updateButtons();
         this.setFocusToFirstInput();
+        //collection table might want table modify buttons...
+        this.view.showRowModifyButtons();
+
     }
 
     makeReadable() {
@@ -111,6 +114,9 @@ export class TableController {
         this.model.td.access = 'read';
         this.view.drawTable();
         this.view.updateButtons();
+        //collection table might want table modify buttons...
+        this.view.hideRowModifyButtons();
+
     }
     setFocusToFirstInput(row) {
         // if(this.checkRead()) return;
