@@ -1,4 +1,4 @@
- /**
+/**
  * Created by embrasse-moi on 1/18/17.
  */
 import {TableView} from './TableView';
@@ -69,7 +69,7 @@ export class CollectionTableView extends TableView {
     }
 
 
-     updateThead() {
+    updateThead() {
         this.checkTHeaderArray();
         this.thead.innerHTML = '';
         this.header_elements_array = [];
@@ -135,11 +135,13 @@ export class CollectionTableView extends TableView {
         this.updateHeaderSortView()
 
     }
-    th_width(col_def, th){
+
+    th_width(col_def, th) {
         if (typeof col_def['th_width'] != 'undefined') {
             th.style.width = col_def['th_width'];
         }
     }
+
     updateHeaderSortView() {
         //read the sort array and set the visuals
         let self = this;
@@ -181,7 +183,7 @@ export class CollectionTableView extends TableView {
         this.header_row_span = 1;
         this.model.cdo.forEach((col_def, col) => {
             if (col_def['show_on_list'] !== false) {
-                                        if (typeof col_def.caption !== 'undefined' && col_def.caption.constructor === Array) {
+                if (typeof col_def.caption !== 'undefined' && col_def.caption.constructor === Array) {
                     this.header_row_span = col_def.caption.length;
                     this.array_col = col;
                 }
@@ -219,6 +221,7 @@ export class CollectionTableView extends TableView {
 
                             col_def.caption[0].forEach((caption_row, col) => {
                                 let cell = tr.insertCell(col_counter);
+                                cell.id = this.model.td.name + "_totalrow_" + col_def.db_field + col;
                                 col_counter++;
 
                             });
@@ -226,7 +229,9 @@ export class CollectionTableView extends TableView {
                         else {
 
                             let cell = tr.insertCell(col_counter);
-                            cell.id = "tsrr0" + "c" + col_counter;
+                            // cell.id = "tsrr0" + "c" + col_counter;
+                            cell.id = this.model.td.name + "_totalrow_" + col_def.db_field;
+
                             col_counter++;
 
                             if (!total_place) {
@@ -264,9 +269,10 @@ export class CollectionTableView extends TableView {
             this.elements[r] = {};
             this.elements_array[r] = [];
             let tr = this.tbody.insertRow();
-            tr.addEventListener("click", function(){
+            tr.id = this.model.td.name +'_r' + r;
+            tr.addEventListener("click", function () {
                 //handle the active row setting on the element....
-               // console.log(this.sectionRowIndex);
+                // console.log(this.sectionRowIndex);
             });
 
             //set the row properties
@@ -275,7 +281,9 @@ export class CollectionTableView extends TableView {
             // }
             let col_counter = 0;
             this.model.cdo.forEach((col_def) => {
-                col_counter = this.createColumn(tr, r, data_row, col_def, col_counter);
+                if (col_def['show_on_list'] !== false) {
+                    col_counter = this.createColumn(tr, r, data_row, col_def, col_counter);
+                }
             })
         })
         if (this.checkWrite()) {
@@ -283,51 +291,61 @@ export class CollectionTableView extends TableView {
         }
     }
 
-    createColumn(tr, r, data_row, col_def, col_counter){
+    createColumn(tr, r, data_row, col_def, col_counter) {
         let element;
-        if (col_def['show_on_list'] !== false) {
-            if (!(!this.checkWrite() && col_def.type == 'row_checkbox')) {
-                let data = data_row[col_def.db_field].data; //data can be an array.....
-                // if (typeof col_def.array !== 'undefined' && col_def.array == true) {
-                if (typeof col_def.caption !== 'undefined' && col_def.caption.constructor === Array) {
 
-                    this.elements[r][col_def.db_field] = [];
-                    col_def.caption[0].forEach((caption_row, col) => {
+        if (!(!this.checkWrite() && col_def.type == 'row_checkbox')) {
+            let data = data_row[col_def.db_field].data; //data can be an array.....
+            // if (typeof col_def.array !== 'undefined' && col_def.array == true) {
+            if (typeof col_def.caption !== 'undefined' && col_def.caption.constructor === Array) {
 
-                        element = this.createCell(tr,col_def,data[col]);
-                        element.array_index = col;
-                        element.id = this.model.td.name + '_r' + r + 'c' + col_counter;
-                        col_counter++;
-                        this.elements[r][col_def.db_field][col] = element;
-                        this.elements_array[r][col_counter] = element;
-                    });
-                }
-                else {
+                this.elements[r][col_def.db_field] = [];
+                col_def.caption[0].forEach((caption_row, col) => {
 
-                    element = this.createCell(tr,col_def,data);
-                    element.id = this.model.td.name + '_r' + r + 'c' + col_counter;
+                    element = this.createCell(tr, col_def, data[col],r,col);
+                    element.array_index = col;
+                    // element.id = this.model.td.name + '_r' + r + 'c' + col_counter;
+                    element.id = this.model.td.name  +'_r' + r + '_' + col_def.db_field + col_counter;
+
                     col_counter++;
-                    this.elements[r][col_def.db_field] = element;
+                    this.elements[r][col_def.db_field][col] = element;
                     this.elements_array[r][col_counter] = element;
-                }
-
+                });
             }
+            else {
+
+                element = this.createCell(tr, col_def, data, r);
+                // element.id = this.model.td.name + '_r' + r + 'c' + col_counter;
+                element.id = this.model.td.name +'_r' + r + '_' + col_def.db_field;
+
+
+                col_counter++;
+                this.elements[r][col_def.db_field] = element;
+                this.elements_array[r][col_counter] = element;
+            }
+
         }
+
         return col_counter;
     }
-    createCell(tr,col_def,data){
+
+    createCell(tr, col_def, data, r,col='undefined') {
         let self = this;
         let cell = tr.insertCell(-1);
+        if(col !== 'undefined'){
+            cell.id = this.model.td.name +'_td_r' + r + '_' + col_def.db_field + col;
+        }
+        else{
+            cell.id = this.model.td.name + '_td_r' + r + '_' + col_def.db_field;
+
+        }
         let element = this.createElement(data, col_def);
-        element.addEventListener("focus", function(){
+        element.addEventListener("focus", function () {
             self.activeRow = tr.sectionRowIndex
         });
         cell.appendChild(element);
         return element;
     }
-
-
-
 
 
     createTFoot(name) {
@@ -422,7 +440,6 @@ export class CollectionTableView extends TableView {
 
     drawTable() {
 
-        //this is vague... is this a re-draw?
 
         this.updateThead(); //redraw
         this.updateTBody(); //redraw
@@ -539,28 +556,30 @@ export class CollectionTableView extends TableView {
         }
 
 
-        if(this.model.td.access == 'read'){
-            div.style.visibility="hidden";
+        if (this.model.td.access == 'read') {
+            div.style.visibility = "hidden";
         }
         return div
 
     }
-    showRowModifyButtons(){
+
+    showRowModifyButtons() {
         //this needs to be show/hidden.......
         // this.table_modify_div = this.createTableModifyButtons()
-        this.table_modify_div.style.visibility="visible"
+        this.table_modify_div.style.visibility = "visible"
     }
-    hideRowModifyButtons(){
+
+    hideRowModifyButtons() {
         // this.table_modify_div = '';
-        this.table_modify_div.style.visibility="hidden"
+        this.table_modify_div.style.visibility = "hidden"
 
     }
-    createEditButtonDiv(){
+
+    createEditButtonDiv() {
         let edit_button_div = document.createElement('div');
         edit_button_div.className = 'data_table_edit_buttons';
         return edit_button_div;
     }
-
 
 
 }

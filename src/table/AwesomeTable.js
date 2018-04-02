@@ -183,8 +183,8 @@ export class AwesomeTable {
     }
 
 
-    getElement(db_field, r, c) {
-        if (c) {
+    getElement(db_field, r, c = 'undefined') {
+        if (c !== 'undefined') {
             return this.view.elements[r][db_field][c];
         }
         else {

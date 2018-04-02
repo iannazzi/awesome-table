@@ -536,7 +536,6 @@ export class TableView {
         if (typeof col_def['properties'] !== 'undefined') {
             col_def.properties.forEach(property => {
                 for (let index in property) {
-                    console.log(property);
                     // element[index] = eval("("+property[index]+")"); //can get this as the element
                     element[index] = property[index];
 

@@ -95,6 +95,7 @@
             console.log(JSON.stringify(post_data))
 
             //here you would go to the server
+            //success....
             awesomeTable.controller.makeReadable();
 
             //fail
@@ -137,9 +138,8 @@
     let passing = true;
     let handeled_errors = [];
     let errors = [];
-    let expect_false,expect_true;
-
-
+    let expect_false,expect_true,test_val;
+    
     //load data
     data = data_generator.purchaseOrder(1);
     expect_false = awesomeTable.addDataRow(data);
@@ -148,31 +148,80 @@
         handeled_errors.push('addDataRow error data is an array not a row')
     }
     awesomeTable.addDataRow(data[0]);
-    //save it....
+    //at this point user can hit edit then cancel and the new row would be lost....
+    //so we would want to rewrite the backup data....
     awesomeTable.model.saveBackupData();
-
-
-
-    //cancel will remove this row.... hmmmm
-
-
 
     //check values are in the model...
     let total = awesomeTable.getValue('total', 0);
     //test that it is 305
     if(total != 305){
         passing=false;
-        errors.push('Total is not 305')
+        errors.push('Total from model is not 305')
+    }
+
+    //check the td element ... this one uses nodeValue while DOM uses .innerHTML
+    test_val = awesomeTable.getElement('total',0).nodeValue;
+    if(test_val != '305'){
+        passing=false;
+        errors.push('Total from readonly awesome table element array is not 305')
+    }
+    awesomeTable.controller.makeEditable();
+    test_val = awesomeTable.getElement('total',0).value;
+    if(test_val != '305'){
+        passing=false;
+        errors.push('Total from editable awesome table element array is not 305')
+    }
+
+    awesomeTable.controller.makeReadable();
+    //check the actual render.....
+    //check by finding the last id.... changing the col_def would ruin something like this.....
+    let tbody  = document.getElementById("awesomeTable_data_tbody");
+    let tr = tbody.firstChild;
+    test_val  = tr.lastChild.innerHTML;
+    if(test_val != 305){
+        passing=false;
+        errors.push('Total from render finding the total via DOM is not 305')
+    }
+
+    //from the input element
+    awesomeTable.controller.makeEditable();
+    test_val = document.getElementById("awesomeTable_r0_total").value;
+    if(test_val != 305){
+        passing=false;
+        errors.push('Total from editable view finding the total via element id is not 305')
+    }
+    awesomeTable.controller.makeReadable();
+    //from the td element //thought I could use textNode again but i guess not....
+    test_val = document.getElementById("awesomeTable_td_r0_total").innerHTML;
+    if(test_val != '305'){
+        passing=false;
+        errors.push('Total from writable view finding the total via element id is not 305')
     }
 
 
-    //
 
-    //check that values are written to the page....
+    //grab the totals value of total row from the id.... easy peasy.....
+    test_val = document.getElementById("awesomeTable_totalrow_total").innerHTML;
+    if(test_val != 305){
+        passing=false;
+        errors.push('Total from render via id is not 305')
+    }
+
+
+//
+//
+//    awesomeTable.controller.makeEditable();
+//    data = data_generator.purchaseOrder(10);
+//    awesomeTable.addDataArray(data);
+
+
+
+
 
     //get my own element....
     //this already failed....
-    let total_element = awesomeTable.getElement('total',0);
+
 //undefined     console.log(total_element.value);
 
     //how to get it by id?
