@@ -465,7 +465,32 @@ export class CollectionTableView extends TableView {
         let element;
 
         let buttons = this.model.td.table_buttons;
+        if (buttons.includes('selectRows')) {
+            element = document.createElement('button');
+            element.innerHTML = 'Select All';
+            element.id = name + 'select_all';
+            element.classList.add("button");
 
+            element.addEventListener('click', function () {
+                self.selectAllClicked.notify();
+            });
+            table_modify_div.appendChild(element);
+            element = document.createElement('button');
+            element.innerHTML = 'Select None';
+            element.id = name + 'select_none';
+            element.classList.add("button");
+
+            element.addEventListener('click', function () {
+                self.selectNoneClicked.notify();
+            });
+            table_modify_div.appendChild(element);
+
+
+
+
+
+
+        }
         if (buttons.includes('addRow')) {
             element = document.createElement('button');
             element.innerHTML = 'Add Row';
@@ -473,17 +498,6 @@ export class CollectionTableView extends TableView {
             element.classList.add("button");
             element.addEventListener('click', function () {
                 self.addRowClicked.notify();
-            });
-            table_modify_div.appendChild(element);
-        }
-        if (buttons.includes('deleteRow')) {
-            element = document.createElement('button');
-            element.innerHTML = 'Delete Row(s)';
-            element.id = name + '_delete_row';
-            element.classList.add("button");
-
-            element.addEventListener('click', function () {
-                self.deleteRowClicked.notify();
             });
             table_modify_div.appendChild(element);
         }
@@ -516,6 +530,17 @@ export class CollectionTableView extends TableView {
 
             element.addEventListener('click', function () {
                 self.moveRowDownClicked.notify();
+            });
+            table_modify_div.appendChild(element);
+        }
+        if (buttons.includes('deleteRow')) {
+            element = document.createElement('button');
+            element.innerHTML = 'Delete Row(s)';
+            element.id = name + '_delete_row';
+            element.classList.add("button");
+
+            element.addEventListener('click', function () {
+                self.deleteRowClicked.notify();
             });
             table_modify_div.appendChild(element);
         }
@@ -554,7 +579,6 @@ export class CollectionTableView extends TableView {
             table_modify_div.appendChild(element);
 
         }
-
 
         if (this.model.td.access == 'read') {
             div.style.visibility = "hidden";

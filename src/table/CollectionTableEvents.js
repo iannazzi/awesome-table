@@ -120,6 +120,22 @@ export class CollectionTableEvents extends TableEvents {
             }
         )
 
+
+        view.selectAllClicked = new TableEvent(view);
+        controller.view.selectAllClicked.attach(
+            function () {
+                controller.selectAll();
+            }
+        )
+
+        view.selectNoneClicked = new TableEvent(view);
+        controller.view.selectNoneClicked.attach(
+            function () {
+                controller.selectNone();
+            }
+        )
+
+
         view.addColumnClicked = new TableEvent(view);
         controller.view.addColumnClicked.attach(
             function () {
@@ -135,40 +151,39 @@ export class CollectionTableEvents extends TableEvents {
         )
         controller.view.addRowClicked.attach(
             function () {
-                controller.copyTable();
-                let row = controller.model.addNewRow();
-                controller.view.drawTable();
+                let row = controller.addRow();
+
+
                 return row;
             }
         );
         controller.view.deleteRowClicked.attach(
-            function (sender, confirm) {
-                self.deleteRow(confirm)
-                self.view.drawTable();
+            function () {
+                    if (confirm("Confirm Delete Row(s)")) {
+                        self.deleteRow(confirm)
+                    }
             }
         );
         controller.view.moveRowUpClicked.attach(
             function () {
                 self.moveRowUp()
-                self.view.drawTable();
             }
         );
         controller.view.moveRowDownClicked.attach(
             function () {
                 self.moveRowDown()
-                self.view.drawTable();
             }
         );
         controller.view.copyRowClicked.attach(
             function () {
                 self.copyRow()
-                self.view.drawTable();
             }
         );
         controller.view.deleteAllClicked.attach(
             function (args) {
-                self.deleteAllRows(args)
-                self.view.drawTable();
+                if (confirm("Confirm Delete All Rows")) {
+                    self.deleteAllRows(args)
+                }
             }
         );
         controller.view.inputChanged.attach(

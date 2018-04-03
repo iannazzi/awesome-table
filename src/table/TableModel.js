@@ -271,6 +271,8 @@ export class TableModel {
             if (isValueInArray(r, row_array)) {
                 //copy
                 new_tdo[newRowCounter] = JSON.parse(JSON.stringify(row));
+                //set the checkvalue to zero....
+                new_tdo[newRowCounter].row_checkbox.data = 0;
                 newRowCounter++;
             }
 

@@ -62,7 +62,7 @@ export default class TableDefinition {
         let td = {
             "name": "name",
             "access": "READ WRITE",
-            "buttons": ['addRow','deleteRow','deleteAllRows', 'moveRows','copyRows', 'addColumn', 'deleteColumn', 'edit'],
+            "buttons": ['selectRows', 'addRow','deleteRow','deleteAllRows', 'moveRows','copyRows', 'addColumn', 'deleteColumn', 'edit'],
             "table_view": "index show create edit",
             "route": "vendors  routes: vendor post is search, vendor put vendor patch vendor delete ",
             "footer": [],

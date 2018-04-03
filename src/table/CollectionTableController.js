@@ -17,16 +17,15 @@ export class CollectionTableController extends TableController {
     }
 
 
-
-
-
+    addRow() {
+        this.copyTable();
+        let row = this.model.addNewRow();
+        this.view.drawTable();
+        return row
+    }
 
     deleteRow(check = true) {
-        if (check) {
-            if (!confirm("Confirm Delete Row(s)")) {
-                return;
-            }
-        }
+
         if (this.model.tdo.length > 0) {
             let checked_rows = this.findCheckedRows();
             if (checked_rows.length > 0) {
@@ -34,6 +33,7 @@ export class CollectionTableController extends TableController {
                 this.model.deleteRows(checked_rows);
             }
         }
+        this.view.drawTable();
 
 
         //finally there usually is a calculateTotals() function needed to update totals
@@ -47,6 +47,24 @@ export class CollectionTableController extends TableController {
         if (checked_rows.length > 0) {
             this.model.copyRows(checked_rows);
         }
+        this.view.drawTable();
+    }
+    selectAll(){
+        if(this.model.getColDef('row_checkbox')){
+            this.model.tdo.forEach((row, r) => {
+                this.model.tdo[r]['row_checkbox'].data = 1;
+            });
+        }
+        this.view.drawTable();
+    }
+    selectNone(){
+        if(this.model.getColDef('row_checkbox')){
+            this.model.tdo.forEach((row, r) => {
+                this.model.tdo[r]['row_checkbox'].data = 0;
+            });
+        }
+        this.view.drawTable();
+
     }
 
     moveRowUp() {
@@ -62,6 +80,7 @@ export class CollectionTableController extends TableController {
                 //this.setChecks(checked_rows[i], checked_rows[i]-1);
             }
         }
+        this.view.drawTable();
 
     }
 
@@ -79,14 +98,15 @@ export class CollectionTableController extends TableController {
             }
 
         }
+        this.view.drawTable();
+
     }
 
     deleteAllRows() {
-
-        if (confirm("Confirm Delete All Rows")) {
-            this.model.DeleteAllRows();
-        }
+        this.model.DeleteAllRows();
+        this.view.drawTable();
     }
+
 
     findCheckedRows() {
         //this only works on the first column
@@ -115,15 +135,15 @@ export class CollectionTableController extends TableController {
                     if (typeof col_def.caption !== 'undefined' && Array.isArray(col_def.caption)) {
 
                         col_def.caption[0].forEach((caption_row, col) => {
-                                let element = this.view.elements[r][col_def.db_field][col];
-                                this.copyElementValueToModel(element, col_def, r, col);
-                            });
-                        }
-                        else {
-                            let element = this.view.elements[r][col_def.db_field]
-                            this.copyElementValueToModel(element, col_def, r);
-                        }
+                            let element = this.view.elements[r][col_def.db_field][col];
+                            this.copyElementValueToModel(element, col_def, r, col);
+                        });
                     }
+                    else {
+                        let element = this.view.elements[r][col_def.db_field]
+                        this.copyElementValueToModel(element, col_def, r);
+                    }
+                }
             })
         }
     }
@@ -140,8 +160,6 @@ export class CollectionTableController extends TableController {
             }
         }
     }
-
-
 
 
     //everything below this line should be deleted after i get posting complete

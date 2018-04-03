@@ -144,8 +144,6 @@ export class AwesomeTable {
         this.view.drawTable();
         this.view.updateTotals();
 
-
-
     }
 
     addDataArray(data) {

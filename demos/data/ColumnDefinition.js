@@ -43,6 +43,7 @@ export class ColumnDefinition {
         return {
             "db_field": "style",
             "type": "text",
+            'default_value': 'default value',
             "caption": "Style"
         }
     }
