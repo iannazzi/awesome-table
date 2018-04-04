@@ -10,9 +10,9 @@ export class CollectionTableController extends TableController {
         super(model);
         this.view = view;
         this.cdo = this.model.cdo;
-
-
+        this.active_row = null;
         this.collectionTableEvents = new CollectionTableEvents(this);
+        this.row_properties = []
 
     }
 
@@ -20,6 +20,8 @@ export class CollectionTableController extends TableController {
     addRow() {
         this.copyTable();
         let row = this.model.addNewRow();
+
+
         this.view.drawTable();
         return row
     }
@@ -49,16 +51,18 @@ export class CollectionTableController extends TableController {
         }
         this.view.drawTable();
     }
-    selectAll(){
-        if(this.model.getColDef('row_checkbox')){
+
+    selectAll() {
+        if (this.model.getColDef('row_checkbox')) {
             this.model.tdo.forEach((row, r) => {
                 this.model.tdo[r]['row_checkbox'].data = 1;
             });
         }
         this.view.drawTable();
     }
-    selectNone(){
-        if(this.model.getColDef('row_checkbox')){
+
+    selectNone() {
+        if (this.model.getColDef('row_checkbox')) {
             this.model.tdo.forEach((row, r) => {
                 this.model.tdo[r]['row_checkbox'].data = 0;
             });
@@ -148,6 +152,16 @@ export class CollectionTableController extends TableController {
         }
     }
 
+    selectHeaderRow(db_field, header_row ) {
+
+
+        if (this.active_row !== null) {
+            this.model.tdo[this.active_row].__row__.header_row = header_row;
+        }
+
+        this.view.highlightHeaderRow(db_field, header_row)
+
+    }
 
     setFocusToFirstInputOfRow(row_number) {
 
@@ -159,6 +173,8 @@ export class CollectionTableController extends TableController {
                 break;
             }
         }
+        this.active_row = row_number;
+
     }
 
 

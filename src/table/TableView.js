@@ -363,7 +363,13 @@ export class TableView {
             }
 
             let self = this;
+
+            //this is ok....
             element.addEventListener("keyup", function () {
+                self.inputChanged.notify({element, col_def})
+            });
+            //this is more like a set focus.... but really have no idea....could change....
+            element.addEventListener("click", function () {
                 self.inputChanged.notify({element, col_def})
             });
             this.addEvents(col_def, element);

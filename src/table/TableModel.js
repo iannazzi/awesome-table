@@ -165,8 +165,9 @@ export class TableModel {
         let row = this.rowCount();
         this.tdo[row] = {};
         //'_row' holds the properties for the row.
-        this.tdo[row]['_row'] = this.rdo;//{};
-        this.tdo[row]['_parent'] = {};
+        this.tdo[row].__row__ = {};
+        this.tdo[row].__row__.header_row = null;
+
 
         this.cdo.forEach(col => {
             let data = '';

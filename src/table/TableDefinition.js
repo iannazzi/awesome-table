@@ -67,7 +67,10 @@ export default class TableDefinition {
             "route": "vendors  routes: vendor post is search, vendor put vendor patch vendor delete ",
             "footer": [],
             "header": [],
-            "column_definition": this.cd()
+            "column_definition": this.cd(),
+            onHeaderArrayClick : ''
+
+
         };
         return td;
     }

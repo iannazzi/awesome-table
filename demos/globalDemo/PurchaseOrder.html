@@ -127,6 +127,36 @@
         onCancelCreateClick(){
             alert('canceled');
         },
+        onHeaderArrayClick(args){
+            //set the row properties.....
+
+
+//            //set the class of the row.... not perfect....
+//            let tr = args.target.parentNode;
+//            let thead = tr.parentNode;
+//            let rows = thead.rows;
+//            for(let i=0;i<rows.length;i++){
+//                if(i==header_row){
+//                    rows[i].classList.add("header_row_selected");
+//                }
+//                else{
+//                    rows[i].classList.remove("header_row_selected");
+//                }
+//            }
+
+            //
+
+// becomes specific to this app.... need it more generic....
+
+
+
+
+
+
+
+
+
+        }
 
     }
     //once everything is defined we can load up the config then render.....
@@ -360,6 +390,16 @@
     }
 
     //header click array area..... get back the row of data.....
+    test="click header get header row"
+    awesomeTable.controller.selectHeaderRow('sizes', 1)
+    
+
+
+    //highlight the header row when click on rows
+
+
+
+
     //this data needs to be stored where? _row['header'] = 1?
 
     //row header click change class highlight

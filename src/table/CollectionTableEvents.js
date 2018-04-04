@@ -90,6 +90,20 @@ export class CollectionTableEvents extends TableEvents {
 
 
         let self = controller;
+        view.onHeaderArrayClick = new TableEvent(view);
+        view.onHeaderArrayClick.attach(
+            function (sender, args) {
+
+                let header_row =args.e.target.parentNode.sectionRowIndex;
+                let db_field = args.col_def.db_field
+
+                controller.selectHeaderRow(db_field, header_row)
+
+                if (typeof controller.model.td.onHeaderArrayClick === 'function') {
+                    controller.model.td.onHeaderArrayClick(args);
+                }
+            }
+        );
         view.onHeaderClick = new TableEvent(view);
 
         view.onHeaderClick.attach(
@@ -200,6 +214,10 @@ export class CollectionTableEvents extends TableEvents {
 
                 self.copyTable()
                 self.view.updateTotals()
+
+                controller.active_row = r;
+
+
                 if (typeof controller.model.td.onChange === 'function') {
                     //this callback has router
                     controller.model.td.onChange(args, r, c);

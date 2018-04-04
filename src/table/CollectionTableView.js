@@ -13,11 +13,11 @@ export class CollectionTableView extends TableView {
         this.header_elements_array = []; //array of th's
         this.header_elements = {}; //th's by name
 
+
     }
 
     createCollectionTable() {
         let name = this.model.td.name;
-        this.activeRow = 0;
         this.collectionTableDiv = this.createCollectionTableDiv();
         this.table = this.createTable(name);
         this.collectionTableDiv.appendChild(this.table);
@@ -70,6 +70,8 @@ export class CollectionTableView extends TableView {
 
 
     updateThead() {
+        let self = this;
+
         this.checkTHeaderArray();
         this.thead.innerHTML = '';
         this.header_elements_array = [];
@@ -88,21 +90,38 @@ export class CollectionTableView extends TableView {
                     }
                     if (typeof col_def.array !== 'undefined' && col_def.array == true) {
                         //this.CreateTheadArray(col_def,);
+                        let header_array = [];
+
 
                         col_def.caption.forEach((caption_row, row) => {
-                            caption_row.forEach(caption_entry => {
+                            header_array[row] = []
+                            caption_row.forEach((caption_entry, col)=> {
 
                                 let th = document.createElement('th');
                                 th.innerHTML = caption_entry;
+                                header_array[row][col] = th;
+
+                                //if the user clicks the header array we may want a callback....
+
+                                th.addEventListener("click", function (e) {
+                                    self.onHeaderArrayClick.notify({e, col_def})
+                                });
+
                                 this.th_width(col_def, th);
 
                                 tr[row].appendChild(th);
+
+
+
+
                             })
                         });
+                        this.header_elements_array.push(header_array);
+
+                        this.header_elements[col_def.db_field] = header_array;
                     }
                     else {
                         let th = document.createElement('th');
-                        let self = this;
                         th.col_def = col_def;
                         th.id = col_def.db_field + '_header';
                         th.sort = 0;
@@ -148,9 +167,12 @@ export class CollectionTableView extends TableView {
 
         //first remove all formatting....
         this.header_elements_array.forEach(th => {
-            th.classList.remove("thHighlight")
-            th.childNodes[1].className = 'fa fa-sort';
-            th.sort = 0;
+            if(! Array.isArray(th))
+            {
+                th.classList.remove("thHighlight")
+                th.childNodes[1].className = 'fa fa-sort';
+                th.sort = 0;
+            }
         })
         //now based on the sort set the format
         this.model.sort.forEach(sort_value => {
@@ -449,8 +471,25 @@ export class CollectionTableView extends TableView {
         this.updateButtons();
 
 
-    }
 
+
+
+
+    }
+    highlightHeaderRow(col_name, selected_row){
+        let header_elements = this.header_elements;
+        for(let i=0;i<header_elements[col_name].length;i++){
+            for(let j=0;j<header_elements[col_name][i].length;j++)
+            {
+                if(i==selected_row){
+                    header_elements[col_name][i][j].classList.add("header_selected");
+                }
+                else{
+                    header_elements[col_name][i][j].classList.remove("header_selected");
+                }
+            }
+        }
+    }
     createTableModifyButtons() {
 
         let div = document.createElement('div');
