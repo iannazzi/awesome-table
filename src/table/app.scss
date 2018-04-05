@@ -1,24 +1,9 @@
-
+@import "./AwesomeTable";
 @import "./CollectionTable";
 @import "./recordTable";
 @import "./searchTable";
 
 
-
-// Yeah I use bootstrap...... Core variables and mixins
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/normalize";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/print";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/scaffolding";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/type";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/grid";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/tables";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/forms";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/buttons";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/navs";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/navbar";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/modals";
 
 
 .header_selected{
@@ -34,6 +19,7 @@ html {
 }
 
 body {
+  font-size: 20px;
   font-weight: 300;
   margin-bottom: 80px;
   padding-top: 25px;
@@ -42,12 +28,7 @@ body {
 .container{
   margin-left:10px;
 }
-.table td input {
-  width: 100%;
-}
-.table thead {
-  background-color: rgb(250,250,250);
-}
+
 
 
 
@@ -62,7 +43,6 @@ body {
 .errorMessage {
 }
 .errorList {
-  @extend .bg-danger;
 }
 .errorList li {
 

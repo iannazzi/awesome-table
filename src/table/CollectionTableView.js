@@ -50,7 +50,21 @@ export class CollectionTableView extends TableView {
     createTable(name) {
         let tbl = document.createElement('table');
         tbl.id = name + '_table';
-        tbl.className = 'data_table';
+
+
+        tbl.classList.add('awesome-table')
+
+        tbl.classList.add('table')
+        //bootstrap
+        // tbl.classList.add('table-bordered')
+        // tbl.classList.add('table-striped')
+
+        //bulma
+        // tbl.classList.add('is-bordered')
+        // tbl.classList.add('is-striped')
+
+
+
         tbl.appendChild(this.createThead(name));
         tbl.appendChild(this.createTotalsBody(name));
         this.createTBody(name);
@@ -156,8 +170,14 @@ export class CollectionTableView extends TableView {
     }
 
     th_width(col_def, th) {
-        if (typeof col_def['th_width'] != 'undefined') {
-            th.style.width = col_def['th_width'];
+        if(col_def.db_field == 'row_number'){
+            th.style.width = '30px';
+        }
+        if(col_def.db_field == 'row_checkbox'){
+            th.style.width = '30px';
+        }
+        if (typeof col_def['width'] != 'undefined') {
+            th.style.width = col_def['width'];
         }
     }
 
@@ -216,6 +236,8 @@ export class CollectionTableView extends TableView {
     createTotalsBody(name) {
         this.total_tbody = document.createElement('tbody');
         this.total_tbody.id = name + '_data_totals_tbody';
+        this.total_tbody.classList.add('awesome-table-totals')
+
         // this.updateTotals();
         return this.total_tbody;
 
@@ -279,6 +301,8 @@ export class CollectionTableView extends TableView {
     createTBody(name) {
         this.tbody = document.createElement('tbody');
         this.tbody.id = name + '_data_tbody';
+        this.tbody.classList.add('awesome-table-tbody')
+
         // this.updateTBody();
         return this.tbody;
     }
@@ -510,10 +534,10 @@ export class CollectionTableView extends TableView {
 
         let div = document.createElement('div');
         div.id = this.model.td.name + '_buttons';
-        div.className = 'data_table_buttons';
+        div.className = 'at-collection-table_buttons';
 
         let table_modify_div = document.createElement('div');
-        table_modify_div.className = 'data_table_modify_buttons';
+        table_modify_div.className = 'at-collection-table_modify_buttons';
         div.appendChild(table_modify_div);
 
         let self = this;
@@ -656,7 +680,7 @@ export class CollectionTableView extends TableView {
 
     createEditButtonDiv() {
         let edit_button_div = document.createElement('div');
-        edit_button_div.className = 'data_table_edit_buttons';
+        edit_button_div.className = 'at-collection-table_edit_buttons';
         return edit_button_div;
     }
 

@@ -268,7 +268,8 @@ export class TableView {
     }
 
     createRowNumber(col_def, data) {
-        return document.createTextNode(data);
+        let element = document.createTextNode(data);
+        return element;
     }
 
     createNumberInput(col_def, data) {
