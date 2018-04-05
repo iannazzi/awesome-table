@@ -44,7 +44,8 @@ export class ColumnDefinition {
             "db_field": "style",
             "type": "text",
             'default_value': 'default value',
-            "caption": "Style"
+            "caption": "Style",
+            "width":"100px"
         }
     }
 
@@ -57,6 +58,7 @@ export class ColumnDefinition {
             "db_field": "cost",
             "type": "number",
             "caption": "Cost",
+            "width": '100px',
             "events": {
                 "change": updateRow,
                 "keyup": updateRow,
@@ -71,6 +73,7 @@ export class ColumnDefinition {
             "type": "text",
             "properties": [{"readOnly": true}],
             "caption": "Total",
+            "width": '100px',
             "total": 2,
             "round":2,
         }
@@ -96,8 +99,7 @@ export class ColumnDefinition {
             "show_on_view": true,
             "show_on_edit": true,
             "show_on_create": true,
-            th_width: '50px',
-            "td_tags": "",
+            width: '50px',
             "class": "",
             "events": {
                 "keyup": updateRow,
@@ -139,7 +141,7 @@ export class ColumnDefinition {
                 "show_on_view": true,
                 "show_on_edit": true,
                 "show_on_create": true,
-                "th_width": '',
+                "width": '100px',
                 "td_tags": "",
                 "class": "",
                 "events": [],
@@ -378,15 +380,18 @@ export class ColumnDefinition {
         return {
             "type": "row_number",
             "db_field": "row_number",
-            "caption": "row",
+            "caption": "Row",
+            width:"100px"
         };
     }
 
     row_checkbox() {
 
         return {
-            "type": "row_checkbox",
-            "db_field": "row_checkbox",
+            type: "row_checkbox",
+            db_field: "row_checkbox",
+            width:"100px"
+
         }
 
     }

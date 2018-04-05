@@ -4,6 +4,8 @@
     <meta charset='utf-8'/>
 
     <title>Awesome Table</title>
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css" >-->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
 
     <script src='../../node_modules/jquery/dist/jquery.js'></script>
     <script src='../../dist/awesome-table-dist.js'></script>
@@ -19,6 +21,11 @@
     <h1>Testing Results</h1>
     <div id='tdv'></div>
 </body>
+<style>
+    #awesome-table_table{
+        width:850px;
+    }
+</style>
 <script>
 
     //setup
@@ -54,7 +61,7 @@
     let data_generator = new dataGenerator.DataGenerator();
 
     let config = {
-        name: 'awesomeTable',
+        name: 'awesome-table',
         data,
         column_definition,
         row_calculations: [updateQuantity, updateTotal], //fired on .draw() good for updating cell values
@@ -210,7 +217,7 @@
     awesomeTable.controller.makeReadable();
     //check the actual render.....
     //check by finding the last id.... changing the col_def would ruin something like this.....
-    let tbody  = document.getElementById("awesomeTable_data_tbody");
+    let tbody  = document.getElementById("awesome-table_data_tbody");
     let tr = tbody.firstChild;
     test_val  = tr.lastChild.innerHTML;
     if(test_val != 305){
@@ -220,7 +227,7 @@
 
     test = 'Total from editable view finding the total via element id is not 305';
     awesomeTable.controller.makeEditable();
-    test_val = document.getElementById("awesomeTable_r0_total").value;
+    test_val = document.getElementById("awesome-table_r0_total").value;
     if(test_val != 305){
         passing=false;
         errors.push(test)
@@ -229,7 +236,7 @@
     test = 'Total from writable view finding the total via element id is not 305';
     awesomeTable.controller.makeReadable();
     //from the td element //thought I could use textNode again but i guess not....
-    test_val = document.getElementById("awesomeTable_td_r0_total").innerHTML;
+    test_val = document.getElementById("awesome-table_td_r0_total").innerHTML;
     if(test_val != '305'){
         passing=false;
         errors.push(test)
@@ -237,7 +244,7 @@
 
 
     test = 'Total from render via id is not 305';
-    test_val = document.getElementById("awesomeTable_totalrow_total").innerHTML;
+    test_val = document.getElementById("awesome-table_totalrow_total").innerHTML;
     if(test_val != 305){
         passing=false;
         errors.push(test)
@@ -254,7 +261,7 @@
     test = 'Row 1 is not checked';
     awesomeTable.controller.makeEditable();
     awesomeTable.setValue('row_checkbox',1,1);
-    test_val = document.getElementById("awesomeTable_r1_row_checkbox").checked;
+    test_val = document.getElementById("awesome-table_r1_row_checkbox").checked;
     if(!test_val){
         passing=false;
         errors.push(test)
@@ -262,7 +269,7 @@
 
     test = 'Row 1 is still checked';
     awesomeTable.setValue('row_checkbox',1,0);
-    test_val = document.getElementById("awesomeTable_r1_row_checkbox").checked;
+    test_val = document.getElementById("awesome-table_r1_row_checkbox").checked;
     if(test_val){
         passing=false;
         errors.push(test)

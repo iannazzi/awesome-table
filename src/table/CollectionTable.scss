@@ -1,38 +1,34 @@
-.data_table {
-  @extend .table;
-  @extend .table-condensed;
-  @extend .table-bordered;
-  @extend .table-hover;
+.at-collection-table {
   margin: 5px 0px 5px 0px;
   a {
     text-decoration: underline;
   }
 }
-.data_table th{
+.at-collection-table th{
   overflow: hidden;
   white-space: nowrap;
   text-overflow:ellipsis;
 }
 
-.data_table th p {
+.at-collection-table th p {
   display: inline-block;
   text-align: center;
   margin: auto;
 }
-.data_table th i {
+.at-collection-table th i {
   float: right;
   display: inline-block;
   vertical-align:middle;
   padding-left: 5px;
 }
 
-.data_table tbody tr:nth-child(even){
+.at-collection-table tbody tr:nth-child(even){
   background: RGB(240,240,240);
 }
-.data_table tbody tr:nth-child(odd){
+.at-collection-table tbody tr:nth-child(odd){
   background: RGB(255,255,255);
 }
-.data_table tbody tr:hover{
+.at-collection-table tbody tr:hover{
   background: RGB(210,210,210);
 }
  .thHighlight
@@ -40,26 +36,19 @@
    background-color: yellow;
  }
 
-.data_table_edit_buttons button {
-  @extend .btn ;
-  @extend .btn-default;
-  @extend .btn-lg;
+.at-collection-table_edit_buttons button {
   margin: 5px 5px 5px 0px;
 
 }
-.data_table_edit_buttons .edit {
-  @extend .btn-primary;
+.at-collection-table_edit_buttons .edit {
   margin: 5px 5px 5px 0px;
 }
-.data_table_edit_buttons .save {
-  @extend .btn-primary;
+.at-collection-table_edit_buttons .save {
   margin: 5px 5px 5px 0px;
 }
-.data_table_edit_buttons .cancel {
-  @extend .btn-danger-light;
+.at-collection-table_edit_buttons .cancel {
   margin: 5px 5px 5px 0px;
 }
-.data_table_edit_buttons .delete {
-  @extend .btn-danger-light;
+.at-collection-table_edit_buttons .delete {
   margin: 5px 5px 5px 0px;
 }
