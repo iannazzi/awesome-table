@@ -392,7 +392,12 @@
     //header click array area..... get back the row of data.....
     test="click header get header row"
     awesomeTable.controller.selectHeaderRow('sizes', 1)
-    
+
+    awesomeTable.addDataArray(data);
+    //click on a row
+    awesomeTable.controller.selectRow(1);
+
+
 
 
     //highlight the header row when click on rows

@@ -285,17 +285,22 @@ export class CollectionTableView extends TableView {
 
     updateTBody() {
         this.tbody.innerHTML = '';
+        this.rows = [];
         this.elements = [];
         this.elements_array = [];
+        let self = this;
         this.model.tdo.forEach((data_row, r) => {
             this.elements[r] = {};
             this.elements_array[r] = [];
             let tr = this.tbody.insertRow();
             tr.id = this.model.td.name +'_r' + r;
             tr.addEventListener("click", function () {
-                //handle the active row setting on the element....
-                // console.log(this.sectionRowIndex);
+
+                self.onRowClick.notify(tr);
+
+
             });
+            this.rows[r]=tr;
 
             //set the row properties
             // for (var index in data_row['_data_row']) {
@@ -475,6 +480,17 @@ export class CollectionTableView extends TableView {
 
 
 
+    }
+    highlightRow(row){
+        for(let i=0; i<this.rows.length;i++){
+            if(i == row){
+                this.rows[i].classList.add('row_selected')
+            }
+            else{
+
+                this.rows[i].classList.remove('row_selected')
+            }
+        }
     }
     highlightHeaderRow(col_name, selected_row){
         let header_elements = this.header_elements;

@@ -90,6 +90,12 @@ export class CollectionTableEvents extends TableEvents {
 
 
         let self = controller;
+        view.onRowClick = new TableEvent(view);
+        view.onRowClick.attach(
+            function (sender, args) {
+                controller.selectRow(args.sectionRowIndex)
+            }
+        );
         view.onHeaderArrayClick = new TableEvent(view);
         view.onHeaderArrayClick.attach(
             function (sender, args) {

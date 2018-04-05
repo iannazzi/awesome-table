@@ -151,7 +151,10 @@ export class CollectionTableController extends TableController {
             })
         }
     }
-
+    selectRow(row){
+        this.active_row = row;
+        this.view.highlightRow(row);
+    }
     selectHeaderRow(db_field, header_row ) {
 
 
