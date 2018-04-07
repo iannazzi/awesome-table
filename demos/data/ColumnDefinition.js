@@ -88,12 +88,11 @@ export class ColumnDefinition {
 
 
         return [{
-            "db_field": "sizes",
-            "caption": [["XS", "S", "M", "L", ""], ["40", "42", "44", "46", ""], ["1", "2", "3", "4", "5"]],
-            "array": true,
-            'min': 0,
+            db_field: "sizes",
+            caption: [["XS", "S", "M", "L", ""], ["40", "42", "44", "46", ""], ["1", "2", "3", "4", "5"]],
+            min: 0,
             //'max':5,
-            "type": "number",
+            type: "number",
             "default_value": '',
             "show_on_list": true,
             "show_on_view": true,

@@ -21,7 +21,7 @@ export class CollectionTableView extends TableView {
         this.collectionTableDiv = this.createCollectionTableDiv();
         this.table = this.createTable(name);
         this.collectionTableDiv.appendChild(this.table);
-        this.table_modify_div = this.createTableModifyButtons()
+        this.table_modify_div = this.createTableModifyDiv()
         this.collectionTableDiv.appendChild(this.table_modify_div);
         this.edit_button_div = this.createEditButtonDiv();
         this.collectionTableDiv.appendChild(this.edit_button_div);
@@ -74,11 +74,9 @@ export class CollectionTableView extends TableView {
     }
 
     createThead(name) {
-        //create the header
         let thead = document.createElement('thead');
-        //thead.id = this.id + '_data_thead';
+        thead.id = name + '_thead';
         this.thead = thead;
-        // this.updateThead();
         return thead;
     }
 
@@ -102,7 +100,7 @@ export class CollectionTableView extends TableView {
                     if (typeof col_def['caption'] !== 'undefined') {
                         caption = col_def['caption'];
                     }
-                    if (typeof col_def.array !== 'undefined' && col_def.array == true) {
+                    if (typeof col_def.caption !== 'undefined' && Array.isArray(col_def.caption)) {
                         //this.CreateTheadArray(col_def,);
                         let header_array = [];
 
@@ -301,7 +299,7 @@ export class CollectionTableView extends TableView {
     createTBody(name) {
         this.tbody = document.createElement('tbody');
         this.tbody.id = name + '_data_tbody';
-        this.tbody.classList.add('awesome-table-tbody')
+        this.tbody.classList.add('at-collection-table-tbody')
 
         // this.updateTBody();
         return this.tbody;
@@ -358,9 +356,10 @@ export class CollectionTableView extends TableView {
                     // element.id = this.model.td.name + '_r' + r + 'c' + col_counter;
                     element.id = this.model.td.name  +'_r' + r + '_' + col_def.db_field + col_counter;
 
-                    col_counter++;
                     this.elements[r][col_def.db_field][col] = element;
                     this.elements_array[r][col_counter] = element;
+                    col_counter++;
+
                 });
             }
             else {
@@ -370,9 +369,10 @@ export class CollectionTableView extends TableView {
                 element.id = this.model.td.name +'_r' + r + '_' + col_def.db_field;
 
 
-                col_counter++;
                 this.elements[r][col_def.db_field] = element;
                 this.elements_array[r][col_counter] = element;
+                col_counter++;
+
             }
 
         }
@@ -530,15 +530,18 @@ export class CollectionTableView extends TableView {
             }
         }
     }
-    createTableModifyButtons() {
-
+    createTableModifyDiv(){
         let div = document.createElement('div');
         div.id = this.model.td.name + '_buttons';
         div.className = 'at-collection-table_buttons';
+        return div;
+    }
+    createTableModifyButtons() {
+
+
 
         let table_modify_div = document.createElement('div');
         table_modify_div.className = 'at-collection-table_modify_buttons';
-        div.appendChild(table_modify_div);
 
         let self = this;
         let element;
@@ -659,22 +662,21 @@ export class CollectionTableView extends TableView {
 
         }
 
-        if (this.model.td.access == 'read') {
-            div.style.visibility = "hidden";
-        }
-        return div
+
+        return table_modify_div;
 
     }
 
     showRowModifyButtons() {
         //this needs to be show/hidden.......
-        // this.table_modify_div = this.createTableModifyButtons()
-        this.table_modify_div.style.visibility = "visible"
+        this.table_modify_div.appendChild(this.createTableModifyButtons());
+        // this.table_modify_div.style.visibility = "visible"
     }
 
     hideRowModifyButtons() {
-        // this.table_modify_div = '';
-        this.table_modify_div.style.visibility = "hidden"
+        this.table_modify_div.innerHTML = '';
+        // this.table_modify_div.style.visibility = "hidden"
+
 
     }
 

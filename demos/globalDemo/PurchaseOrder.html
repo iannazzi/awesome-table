@@ -396,27 +396,43 @@
         errors.push(test);
     }
 
-    //header click array area..... get back the row of data.....
+    //header click array area.....
     test="click header get header row"
     awesomeTable.controller.selectHeaderRow('sizes', 1)
+    test_val = document.getElementById('awesome-table_thead').childNodes[1].childNodes[0].classList[0];
+    if(test_val != 'header_selected')
+    {
+        passing = false;
+        errors.push(test);
+    }
 
+
+    test = 'set a header_row on a table row';
     awesomeTable.addDataArray(data);
     //click on a row
     awesomeTable.controller.selectRow(1);
+    awesomeTable.controller.selectHeaderRow('sizes', 1)
+    awesomeTable.controller.selectRow(0);
+    test_val = document.getElementById('awesome-table_thead').childNodes[0].childNodes[0].classList[0];
+    if(test_val !== undefined)
+    {
+        passing = false;
+        errors.push(test);
+    }
+    awesomeTable.controller.selectRow(1);
+    test_val = document.getElementById('awesome-table_thead').childNodes[1].childNodes[0].classList[0];
+    if(test_val !== 'header_selected')
+    {
+        passing = false;
+        errors.push(test);
+    }
 
 
 
 
-    //highlight the header row when click on rows
 
 
 
-
-    //this data needs to be stored where? _row['header'] = 1?
-
-    //row header click change class highlight
-
-    //row click change class highlight
 
     //footer?
 

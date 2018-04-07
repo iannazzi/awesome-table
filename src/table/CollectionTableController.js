@@ -154,12 +154,22 @@ export class CollectionTableController extends TableController {
     selectRow(row){
         this.active_row = row;
         this.view.highlightRow(row);
+        //highlight the header array if one or two is used for the row
+        let header_array_data = this.model.tdo[row].__row__.header_row;
+        //if it is empty there should be no header row highlighted...
+
+        for (var key in header_array_data)
+        {
+            this.view.highlightHeaderRow(key, header_array_data[key])
+        }
+
+
+
     }
     selectHeaderRow(db_field, header_row ) {
 
-
         if (this.active_row !== null) {
-            this.model.tdo[this.active_row].__row__.header_row = header_row;
+            this.model.tdo[this.active_row].__row__.header_row[db_field] = header_row;
         }
 
         this.view.highlightHeaderRow(db_field, header_row)
@@ -167,6 +177,8 @@ export class CollectionTableController extends TableController {
     }
 
     setFocusToFirstInputOfRow(row_number) {
+
+
 
         let elements = this.view.elements_array[row_number];
         for (let i = 0; i < elements.length; i++) {

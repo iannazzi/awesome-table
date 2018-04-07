@@ -166,7 +166,7 @@ export class TableModel {
         this.tdo[row] = {};
         //'_row' holds the properties for the row.
         this.tdo[row].__row__ = {};
-        this.tdo[row].__row__.header_row = null;
+        this.tdo[row].__row__.header_row = {};
 
 
         this.cdo.forEach(col => {
@@ -174,7 +174,8 @@ export class TableModel {
             if (typeof col['default_value'] !== 'undefined') {
                 data = col['default_value']
             }
-            if (typeof col['array'] !== 'undefined' && col['array'] == true) {
+            if (typeof col.caption !== 'undefined' && Array.isArray(col.caption)) {
+
                 let data_array = [];
                 this.tdo[row][col['db_field']] = {};
                 col.caption[0].forEach((capt, i) => {
@@ -182,6 +183,10 @@ export class TableModel {
                 });
                 this.tdo[row][col['db_field']]['data'] = data_array;
                 this.tdo[row][col['db_field']]['cell'] = {};
+                //this keeps track of which header row correlates to the data row...
+                this.tdo[row].__row__.header_row[col.db_field] = null;
+
+
             }
             else {
                 this.tdo[row][col['db_field']] = {};

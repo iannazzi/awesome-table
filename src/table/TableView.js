@@ -101,32 +101,20 @@ export class TableView {
 
         this.edit_button_div.innerHTML = '';
         if (this.checkRead()) {
-            if (this.model.td.table_buttons.includes('edit')) {
-                this.edit_button_div.appendChild(this.createEditButton());
-            }
             if (this.model.td.table_buttons.includes('delete')) {
                 this.edit_button_div.appendChild(this.createDeleteButton());
             }
+            if (this.model.td.table_buttons.includes('edit')) {
+                this.edit_button_div.appendChild(this.createEditButton());
+            }
+
         }
         else {
             if (this.model.td.table_buttons.includes('edit')) {
-                this.edit_button_div.appendChild(this.createSaveButton());
                 this.edit_button_div.appendChild(this.createCancelButton());
+                this.edit_button_div.appendChild(this.createSaveButton());
+
             }
-
-
-            // if (this.model.td.edit_display == 'on_page') {
-            //     this.edit_button_div.appendChild(this.createSaveButton());
-            //     this.edit_button_div.appendChild(this.createCancelButton());
-            // }
-            // else if (this.model.td.edit_display == 'modal') {
-            // //differnet instantiation
-            //
-            // }
-            // else if (this.model.td.edit_display == 'modal_only') {
-            //
-            // }
-
 
         }
 
@@ -703,6 +691,8 @@ export class TableView {
         let editButton = document.createElement('button');
         editButton.innerHTML = 'Edit';
         editButton.className = 'edit';
+        editButton.classList.add("button");
+
         editButton.onclick = function () {
             self.onEditClick.notify();
         }
@@ -715,6 +705,7 @@ export class TableView {
         let self = this;
         cancelButton.innerHTML = 'Cancel';
         cancelButton.className = 'cancel';
+        cancelButton.classList.add("button");
 
         cancelButton.onclick = function () {
             self.onCancelClick.notify();
@@ -731,6 +722,8 @@ export class TableView {
             self.onDeleteClick.notify();
         }
         deleteButton.className = 'delete';
+        deleteButton.classList.add("button");
+
         this.deleteButton = deleteButton;
         return deleteButton;
     }
@@ -739,6 +732,8 @@ export class TableView {
         let saveButton = document.createElement('button');
         saveButton.innerHTML = 'Save';
         saveButton.className = 'save';
+        saveButton.classList.add("button");
+
         let self = this;
         saveButton.onclick = function () {
             self.onSaveClick.notify();

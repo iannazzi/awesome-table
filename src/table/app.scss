@@ -6,12 +6,7 @@
 
 
 
-.header_selected{
-  background-color: green;
-}
-.row_selected {
-  background-color: green;
-}
+
 
 html {
   min-height: 100%;
@@ -22,33 +17,10 @@ body {
   font-size: 20px;
   font-weight: 300;
   margin-bottom: 80px;
-  padding-top: 25px;
+  //padding-top: 25px;
   background-color: white;
 }
 .container{
   margin-left:10px;
 }
-
-
-
-
-.btn-back {
-  //why will this not go down?
-  margin: 5px 5px 5px 0px;
-}
-.btn-danger-light{
-  color: #d9534f;
-  border-color: #d43f3a;
-}
-.errorMessage {
-}
-.errorList {
-}
-.errorList li {
-
-  font-size: 1.5em;
-}
-
-
-
 

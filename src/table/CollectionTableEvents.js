@@ -36,7 +36,6 @@ export class CollectionTableEvents extends TableEvents {
             }
             else {
                 controller.makeEditable()
-                view.showRowModifyButtons();
             }
 
         }

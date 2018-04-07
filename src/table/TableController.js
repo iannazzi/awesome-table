@@ -107,6 +107,7 @@ export class TableController {
         //collection table might want table modify buttons...
         this.view.showRowModifyButtons();
 
+
     }
 
     makeReadable() {
