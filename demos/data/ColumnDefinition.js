@@ -34,7 +34,7 @@ export class ColumnDefinition {
         cd.push(this.style());
         cd = cd.concat(this.sizes(awesomeTable, updateQuantity));
         cd.push(this.cost(awesomeTable, updateTotal));
-        cd.push(this.total());
+        cd.push(this.total(awesomeTable));
         return cd;
 
     }
@@ -45,7 +45,7 @@ export class ColumnDefinition {
             "type": "text",
             'default_value': 'default value',
             "caption": "Style",
-            "width":"100px"
+            "width": "100px"
         }
     }
 
@@ -67,21 +67,52 @@ export class ColumnDefinition {
         }
     }
 
-    total() {
+    total(awesomeTable) {
+        let getTotal = function(){
+            let total_sum = awesomeTable.model.sumColumn('total');
+            console.log(total_sum)
+            return total_sum
+        }
+        let getTax = function(){
+            return 0.08 * getTotal();
+        }
+
+
         return {
             "db_field": "total",
             "type": "text",
             "properties": [{"readOnly": true}],
             "caption": "Total",
             "width": '100px',
+            "footer": [
+                {
+                    caption: 'Subtotal',
+                    getValue: function () {
+                        return getTotal();
+                    }
+                },
+                {
+                    caption: 'Tax',
+                    getValue: function () {
+                        return getTax()
+                    }
+                },
+                {
+                    caption: 'Total',
+                    getValue: function () {
+                        return  getTotal() + getTax();
+                    }
+                },
+
+            ],
             "total": 2,
-            "round":2,
+            "round": 2,
         }
     }
 
     sizes(awesomeTable, updateQuantity) {
 
-        let updateRow = function(event){
+        let updateRow = function (event) {
             let r = awesomeTable.getRow(event.srcElement);
             updateQuantity(r)
         }
@@ -136,10 +167,12 @@ export class ColumnDefinition {
                 "caption": "Quantity",
                 "type": "text",
                 "default_value": '',
-                "show_on_list": true,
-                "show_on_view": true,
-                "show_on_edit": true,
-                "show_on_create": true,
+                footer:[
+                    {   caption: 'Total Quantity',
+                        getValue: function(){
+                        return awesomeTable.model.sumColumn('qty')
+                    }}
+                ],
                 "width": '100px',
                 "td_tags": "",
                 "class": "",
@@ -380,7 +413,7 @@ export class ColumnDefinition {
             "type": "row_number",
             "db_field": "row_number",
             "caption": "Row",
-            width:"100px"
+            width: "100px"
         };
     }
 
@@ -389,7 +422,7 @@ export class ColumnDefinition {
         return {
             type: "row_checkbox",
             db_field: "row_checkbox",
-            width:"100px"
+            width: "100px"
 
         }
 

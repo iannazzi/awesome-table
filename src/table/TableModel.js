@@ -55,6 +55,13 @@ export class TableModel {
 
         }
     }
+    sumColumn(db_field){
+        let sum = 0;
+        for(let i=0; i<this.tdo.length; i++){
+            sum += myParseFloat(this.tdo[i][db_field].data);
+        }
+        return sum
+    }
     loadColumnDefinition(column_definition) {
         //the column definition has view properties and data properties
         //I feel it is mostly related to the model
@@ -373,5 +380,18 @@ export class TableModel {
         });
         this.modelChanged.notify();
     }
+    getFooterValue(db_field, footer_row){
+        let col = this.getCDOColumnNumberFromName(db_field);
+        //execute the function...
+        if (typeof this.cdo[col].footer[footer_row].getValue === 'function'){
+            return this.cdo[col].footer[footer_row].getValue();
+        }
+        else{
+            console.log('Developer alert ' + db_field + ' footer .getValue needs to be a function')
+        }
+    }
+
+
+
 
 }

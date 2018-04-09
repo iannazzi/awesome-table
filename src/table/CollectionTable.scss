@@ -1,45 +1,61 @@
-.at-collection-table {
+.awesome-collection-table {
   margin: 5px 0px 5px 0px;
+  border-collapse: collapse;
+  border: 1px solid gray;
   a {
     text-decoration: underline;
   }
 }
-.at-collection-table th{
+.awesome-collection-table tfoot tr td {
+  text-align: right;
+}
+.awesome-collection-table th{
   overflow: hidden;
   white-space: nowrap;
   text-overflow:ellipsis;
 }
-
-.at-collection-table th p {
+.awesome-collection-table th p {
   display: inline-block;
   text-align: center;
   margin: auto;
 }
-.at-collection-table th i {
+.awesome-collection-table th i {
   float: right;
   display: inline-block;
   vertical-align:middle;
   padding-left: 5px;
 }
+.awesome-collection-table thead {
+  background-color: rgb(250,250,250);
+}
+.awesome-collection-table thead th{
+  text-align: center;
+  vertical-align:center;
+  border: 1px solid gray;
+}
+
+
+
+
 
 
 //tbody
-.at-collection-table-tbody {
+.awesome-collection-table-tbody {
   border: 1px solid black;
   //background-color:blue;
 }
-.at-collection-table-tbody tr {
+.awesome-collection-table-tbody tr {
   //text-align: right;
   //padding:20px;
 }
-.at-collection-table-tbody td {
+.awesome-collection-table-tbody td {
   border: 1px solid black;
 
 
   text-align: right; /* center checkbox horizontally */
   //vertical-align: middle; /* center checkbox vertically */
 }
-.at-collection-table-tbody tr td input{
+.awesome-collection-table-tbody tr td input{
   //text-align: center;
 
   width:90%;
@@ -52,10 +68,10 @@
 }
 
 
-.at-collection-table-tbody tr:nth-child(even) {background: #EEE}
-.at-collection-table-tbody tr:nth-child(odd) {background: #FFF}
+.awesome-collection-table-tbody tr:nth-child(even) {background: #EEE}
+.awesome-collection-table-tbody tr:nth-child(odd) {background: #FFF}
 
-.at-collection-table-tbody tr:hover{
+.awesome-collection-table-tbody tr:hover{
   background: RGB(210,210,210);
 }
  .thHighlight
@@ -63,29 +79,29 @@
    background-color: yellow;
  }
 
-.awesome-table-totals tr {
+.awesome-collection-table-totals tr {
   text-align: right;
 }
-.awesome-table-totals td {
+.awesome-collection-table-totals td {
   border: 1px solid black;
 }
 
 
 
-.at-collection-table_edit_buttons button {
+.awesome-collection-table_edit_buttons button {
   margin: 5px 5px 5px 0px;
 
 }
-.at-collection-table_edit_buttons .edit {
+.awesome-collection-table_edit_buttons .edit {
   margin: 5px 5px 5px 0px;
 }
-.at-collection-table_edit_buttons .save {
+.awesome-collection-table_edit_buttons .save {
   margin: 5px 5px 5px 0px;
 }
-.at-collection-table_edit_buttons .cancel {
+.awesome-collection-table_edit_buttons .cancel {
   margin: 5px 5px 5px 0px;
 }
-.at-collection-table_edit_buttons .delete {
+.awesome-collection-table_edit_buttons .delete {
   margin: 5px 5px 5px 0px;
 }
 
@@ -95,3 +111,4 @@
 .row_selected {
   background-color: green;
 }
+

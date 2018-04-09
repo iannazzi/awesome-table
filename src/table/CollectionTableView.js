@@ -12,6 +12,7 @@ export class CollectionTableView extends TableView {
         //use these to set and track sorting
         this.header_elements_array = []; //array of th's
         this.header_elements = {}; //th's by name
+        this.footer_elements = {};
 
 
     }
@@ -50,9 +51,7 @@ export class CollectionTableView extends TableView {
     createTable(name) {
         let tbl = document.createElement('table');
         tbl.id = name + '_table';
-
-
-        tbl.classList.add('awesome-table')
+        tbl.classList.add('awesome-collection-table')
 
         tbl.classList.add('table')
         //bootstrap
@@ -62,8 +61,6 @@ export class CollectionTableView extends TableView {
         //bulma
         // tbl.classList.add('is-bordered')
         // tbl.classList.add('is-striped')
-
-
 
         tbl.appendChild(this.createThead(name));
         tbl.appendChild(this.createTotalsBody(name));
@@ -107,7 +104,7 @@ export class CollectionTableView extends TableView {
 
                         col_def.caption.forEach((caption_row, row) => {
                             header_array[row] = []
-                            caption_row.forEach((caption_entry, col)=> {
+                            caption_row.forEach((caption_entry, col) => {
 
                                 let th = document.createElement('th');
                                 th.innerHTML = caption_entry;
@@ -122,8 +119,6 @@ export class CollectionTableView extends TableView {
                                 this.th_width(col_def, th);
 
                                 tr[row].appendChild(th);
-
-
 
 
                             })
@@ -168,10 +163,10 @@ export class CollectionTableView extends TableView {
     }
 
     th_width(col_def, th) {
-        if(col_def.db_field == 'row_number'){
+        if (col_def.db_field == 'row_number') {
             th.style.width = '30px';
         }
-        if(col_def.db_field == 'row_checkbox'){
+        if (col_def.db_field == 'row_checkbox') {
             th.style.width = '30px';
         }
         if (typeof col_def['width'] != 'undefined') {
@@ -185,8 +180,7 @@ export class CollectionTableView extends TableView {
 
         //first remove all formatting....
         this.header_elements_array.forEach(th => {
-            if(! Array.isArray(th))
-            {
+            if (!Array.isArray(th)) {
                 th.classList.remove("thHighlight")
                 th.childNodes[1].className = 'fa fa-sort';
                 th.sort = 0;
@@ -234,7 +228,7 @@ export class CollectionTableView extends TableView {
     createTotalsBody(name) {
         this.total_tbody = document.createElement('tbody');
         this.total_tbody.id = name + '_data_totals_tbody';
-        this.total_tbody.classList.add('awesome-table-totals')
+        this.total_tbody.classList.add('awesome-collection-table-totals')
 
         // this.updateTotals();
         return this.total_tbody;
@@ -282,10 +276,7 @@ export class CollectionTableView extends TableView {
                             }
 
                             if (typeof col_def['total'] != 'undefined') {
-                                var total = 0.0;
-                                this.model.tdo.forEach(row => {
-                                    total = total + myParseFloat(row[col_def['db_field']]['data']);
-                                })
+                                var total = this.model.sumColumn(col_def.db_field);
                                 cell.innerHTML = round2(total, col_def['total']);
                             }
                         }
@@ -299,7 +290,7 @@ export class CollectionTableView extends TableView {
     createTBody(name) {
         this.tbody = document.createElement('tbody');
         this.tbody.id = name + '_data_tbody';
-        this.tbody.classList.add('at-collection-table-tbody')
+        this.tbody.classList.add('awesome-collection-table-tbody')
 
         // this.updateTBody();
         return this.tbody;
@@ -315,14 +306,14 @@ export class CollectionTableView extends TableView {
             this.elements[r] = {};
             this.elements_array[r] = [];
             let tr = this.tbody.insertRow();
-            tr.id = this.model.td.name +'_r' + r;
+            tr.id = this.model.td.name + '_r' + r;
             tr.addEventListener("click", function () {
 
                 self.onRowClick.notify(tr);
 
 
             });
-            this.rows[r]=tr;
+            this.rows[r] = tr;
 
             //set the row properties
             // for (var index in data_row['_data_row']) {
@@ -351,10 +342,10 @@ export class CollectionTableView extends TableView {
                 this.elements[r][col_def.db_field] = [];
                 col_def.caption[0].forEach((caption_row, col) => {
 
-                    element = this.createCell(tr, col_def, data[col],r,col);
+                    element = this.createCell(tr, col_def, data[col], r, col);
                     element.array_index = col;
                     // element.id = this.model.td.name + '_r' + r + 'c' + col_counter;
-                    element.id = this.model.td.name  +'_r' + r + '_' + col_def.db_field + col_counter;
+                    element.id = this.model.td.name + '_r' + r + '_' + col_def.db_field + col_counter;
 
                     this.elements[r][col_def.db_field][col] = element;
                     this.elements_array[r][col_counter] = element;
@@ -366,7 +357,7 @@ export class CollectionTableView extends TableView {
 
                 element = this.createCell(tr, col_def, data, r);
                 // element.id = this.model.td.name + '_r' + r + 'c' + col_counter;
-                element.id = this.model.td.name +'_r' + r + '_' + col_def.db_field;
+                element.id = this.model.td.name + '_r' + r + '_' + col_def.db_field;
 
 
                 this.elements[r][col_def.db_field] = element;
@@ -380,13 +371,13 @@ export class CollectionTableView extends TableView {
         return col_counter;
     }
 
-    createCell(tr, col_def, data, r,col='undefined') {
+    createCell(tr, col_def, data, r, col = 'undefined') {
         let self = this;
         let cell = tr.insertCell(-1);
-        if(col !== 'undefined'){
-            cell.id = this.model.td.name +'_td_r' + r + '_' + col_def.db_field + col;
+        if (col !== 'undefined') {
+            cell.id = this.model.td.name + '_td_r' + r + '_' + col_def.db_field + col;
         }
-        else{
+        else {
             cell.id = this.model.td.name + '_td_r' + r + '_' + col_def.db_field;
 
         }
@@ -402,9 +393,116 @@ export class CollectionTableView extends TableView {
     createTFoot(name) {
 
         let tfoot = document.createElement('tfoot');
-        tfoot.id = name + '_data_footer';
         this.tfoot = tfoot;
         return tfoot;
+    }
+
+    drawFooter() {
+        this.tfoot.innerHTML = '';
+
+        //how many rows:
+        let rows = 0;
+        this.model.cdo.forEach(col_def => {
+            if (col_def['show_on_list'] !== false) {
+                if (typeof col_def.footer !== 'undefined') {
+                    this.footer_elements[col_def.db_field] = [];
+                    if (col_def.footer.length > rows) {
+                        rows = col_def.footer.length;
+                    }
+                }
+            }
+        });
+        if (rows == 0) return;
+
+        let tr;let col_span;
+
+
+
+        for (let row = 0; row < rows; row++) {
+            tr = document.createElement('tr');
+            let col_counter = 0;
+            let element;
+            this.model.cdo.forEach(col_def => {
+                //keep track of the span of the td....
+
+                element = document.createElement('td')
+                if (typeof col_def.footer !== 'undefined') {
+                    console.log(col_def.footer);
+                    //draw an extended cell for anything before the footer... add the caption there.....
+                    if(col_counter > 0)
+                    {
+
+                        element = document.createElement('td')
+                        tr.appendChild(element);
+                        element.colSpan = col_counter;
+                        if(typeof col_def.footer[row] !== 'undefined'){
+                            element.innerHTML = col_def.footer[row].caption;
+
+                        }
+                        col_counter = 0;
+                    }
+
+                    element = document.createElement('td')
+                    tr.appendChild(element);
+                    this.footer_elements[col_def.db_field][row] = element;
+
+                }
+                else{
+                    //the column did not have a footer column....
+                    console.log('col spn +')
+                    if(Array.isArray(col_def.caption)){
+                        col_counter = col_counter + col_def.caption[0].length;
+                    }
+                    else{
+                        col_counter++;
+
+                    }
+                }
+
+
+            })
+            this.tfoot.appendChild(tr);
+
+
+        }
+
+
+        //find out how many rows...
+        //for each column
+        //if the column is visible
+
+
+    }
+
+    updateTfoot() {
+
+        // this.model.cdo.forEach(col_def => {
+        //     element = document.createElement('td')
+        //     if (typeof col_def.footer !== 'undefined') {
+        //         this.footer_elements[col_def.db_field][row] =
+        //             element.innerHTML = col_def.footer[row].getValue();
+        //     }
+        //     else{
+        //         element.classList.add('borderless');
+        //     }
+        //     tr.appendChild(element);
+        //     this.footer_elements[col_def.db]=[]
+        //
+        //
+        // })
+        // this.tfoot.appendChild(tr);
+        //
+        // this.footer_elements.forEach((footer_col, col) =>{
+        //     for(let i = 0; i<footer[])
+        // })
+        // this.model.td.footer.forEach((footer_col, col) => {
+        //     console.log('footer col')
+        //     console.log(footer_col)
+        //     console.log(col)
+        //     // footer_col['total'][0] //subtotal?
+        //     // this.model.td.footer['total'][1] //tax?
+        //
+        // });
     }
 
     checkRows(array) {
@@ -497,51 +595,51 @@ export class CollectionTableView extends TableView {
         //this.dataTableChanged.notify();
         //we need to run any row calculations here?
         this.updateTotals();
+        this.drawFooter();
+
         this.updateButtons();
 
 
-
-
-
-
     }
-    highlightRow(row){
-        for(let i=0; i<this.rows.length;i++){
-            if(i == row){
+
+    highlightRow(row) {
+        for (let i = 0; i < this.rows.length; i++) {
+            if (i == row) {
                 this.rows[i].classList.add('row_selected')
             }
-            else{
+            else {
 
                 this.rows[i].classList.remove('row_selected')
             }
         }
     }
-    highlightHeaderRow(col_name, selected_row){
+
+    highlightHeaderRow(col_name, selected_row) {
         let header_elements = this.header_elements;
-        for(let i=0;i<header_elements[col_name].length;i++){
-            for(let j=0;j<header_elements[col_name][i].length;j++)
-            {
-                if(i==selected_row){
+        for (let i = 0; i < header_elements[col_name].length; i++) {
+            for (let j = 0; j < header_elements[col_name][i].length; j++) {
+                if (i == selected_row) {
                     header_elements[col_name][i][j].classList.add("header_selected");
                 }
-                else{
+                else {
                     header_elements[col_name][i][j].classList.remove("header_selected");
                 }
             }
         }
     }
-    createTableModifyDiv(){
+
+    createTableModifyDiv() {
         let div = document.createElement('div');
         div.id = this.model.td.name + '_buttons';
-        div.className = 'at-collection-table_buttons';
+        div.className = 'awesome-collection-table_buttons';
         return div;
     }
+
     createTableModifyButtons() {
 
 
-
         let table_modify_div = document.createElement('div');
-        table_modify_div.className = 'at-collection-table_modify_buttons';
+        table_modify_div.className = 'awesome-collection-table_modify_buttons';
 
         let self = this;
         let element;
@@ -566,10 +664,6 @@ export class CollectionTableView extends TableView {
                 self.selectNoneClicked.notify();
             });
             table_modify_div.appendChild(element);
-
-
-
-
 
 
         }
@@ -682,7 +776,7 @@ export class CollectionTableView extends TableView {
 
     createEditButtonDiv() {
         let edit_button_div = document.createElement('div');
-        edit_button_div.className = 'at-collection-table_edit_buttons';
+        edit_button_div.className = 'awesome-collection-table_edit_buttons';
         return edit_button_div;
     }
 

@@ -176,6 +176,7 @@ export class CollectionTableController extends TableController {
 
     }
 
+
     setFocusToFirstInputOfRow(row_number) {
 
 
