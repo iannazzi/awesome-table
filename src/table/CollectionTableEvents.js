@@ -218,7 +218,7 @@ export class CollectionTableEvents extends TableEvents {
                 let r = row.sectionRowIndex;
 
                 self.copyTable()
-                self.view.updateTotals()
+                self.view.updateTableValues()
                 // self.view.updateFooter()
 
 

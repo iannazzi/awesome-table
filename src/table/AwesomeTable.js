@@ -140,9 +140,10 @@ export class AwesomeTable {
         //add a row to the model, then re-draw the table......
 
         let row = this.model.addDataRow(data_row);
+        //we need to reDraw and update values... w
         this.view.drawTable();
-        this.view.updateTotals();
-        // this.view.updateFooter();
+        this.controller.updateTable()
+
 
     }
 

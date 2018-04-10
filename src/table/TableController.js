@@ -9,7 +9,7 @@ export class TableController {
     }
     updateCellValue(column_name, row, val){
         this.model.tdo[row][column_name]['data'] = val;
-        this.view.updateTableValues(row);
+        this.view.updateRowValues(row);
     }
     findElement(element) {
         let arr = this.view.elements_array;

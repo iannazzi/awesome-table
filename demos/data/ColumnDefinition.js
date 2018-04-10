@@ -86,18 +86,21 @@ export class ColumnDefinition {
             "footer": [
                 {
                     caption: 'Subtotal',
+                    round:2,
                     getValue: function () {
                         return getTotal();
                     }
                 },
                 {
                     caption: 'Tax',
+                    round:2,
                     getValue: function () {
                         return getTax()
                     }
                 },
                 {
                     caption: 'Total',
+                    round:2,
                     getValue: function () {
                         return  getTotal() + getTax();
                     }
@@ -168,6 +171,7 @@ export class ColumnDefinition {
                 "default_value": '',
                 footer:[
                     {   caption: 'Total Quantity',
+                        round:0,
                         getValue: function(){
                         return awesomeTable.model.sumColumn('qty')
                     }}

@@ -390,6 +390,22 @@ export class TableModel {
             console.log('Developer alert ' + db_field + ' footer .getValue needs to be a function')
         }
     }
+    calculate() {
+
+
+        let row_functions = this.td.row_calculations;
+        if (typeof  row_functions !== 'undefined'){
+            for (let i = 0; i < this.tdo.length; i++) {
+                //pass the row in to each function defined
+                for (let j = 0; j < row_functions.length; j++) {
+                    row_functions[j](i);
+                }
+            }
+        }
+
+
+
+    }
 
 
 

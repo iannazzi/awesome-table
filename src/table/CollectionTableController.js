@@ -175,7 +175,19 @@ export class CollectionTableController extends TableController {
         this.view.highlightHeaderRow(db_field, header_row)
 
     }
+    updateTable(){
+        //what we want to do now is
+        //run any row based calculations
+        //update the view of the tbody
+        //update the view of the total body
+        //update the view of the footer body
 
+        this.model.calculate();
+
+        this.view.updateTableValues();
+
+
+    }
 
     setFocusToFirstInputOfRow(row_number) {
 

@@ -27,8 +27,7 @@ export class TableView {
         // this.name = this.id;
     }
 
-
-    updateTableValues(r) {
+    updateRowValues(r){
         // console.log(this.elements);
         for (let db_field in this.elements[r]) {
             //might need a hasOwnProperty thingy......
@@ -41,8 +40,12 @@ export class TableView {
         }
         //this is on only for a collection table
         this.updateTotals()
-        // this.updateFooter()
-
+        this.updateFooter()
+    }
+    updateTableValues() {
+        for(let i=0; i<this.model.tdo.length;i++){
+            this.updateRowValues(i)
+        }
     }
 
 

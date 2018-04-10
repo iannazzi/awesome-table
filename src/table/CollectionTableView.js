@@ -477,8 +477,14 @@ export class CollectionTableView extends TableView {
         this.model.cdo.forEach(col_def => {
             if (typeof col_def.footer !== 'undefined') {
                 for(let i=0;i<col_def.footer.length;i++){
-                    console.log('updating footer');
-                    this.footer_elements[col_def.db_field][i].innerHTML = col_def.footer[i].getValue();
+                    if (typeof col_def.footer[i].round !== 'undefined'){
+                        this.footer_elements[col_def.db_field][i].innerHTML = round2(col_def.footer[i].getValue(), 2);
+
+                    }
+                    else{
+                        this.footer_elements[col_def.db_field][i].innerHTML = col_def.footer[i].getValue();
+
+                    }
                 }
             }
         })
