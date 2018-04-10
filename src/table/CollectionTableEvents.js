@@ -219,6 +219,8 @@ export class CollectionTableEvents extends TableEvents {
 
                 self.copyTable()
                 self.view.updateTotals()
+                // self.view.updateFooter()
+
 
                 controller.active_row = r;
 

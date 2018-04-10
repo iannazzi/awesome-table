@@ -141,14 +141,15 @@ export class RecordTableView extends TableView {
     updateTotals(){
         //this is a blank function to make any update calls for totals...
     }
+    updateFooter(){
+        //dummy function
+    }
     showRowModifyButtons(){
         //dummy function the controller will call this .... collection table functionality....
-
     }
 
     hideRowModifyButtons(){
         //dummy function the controller will call this .... collection table functionality....
-
     }
 
 

@@ -70,7 +70,6 @@ export class ColumnDefinition {
     total(awesomeTable) {
         let getTotal = function(){
             let total_sum = awesomeTable.model.sumColumn('total');
-            console.log(total_sum)
             return total_sum
         }
         let getTax = function(){

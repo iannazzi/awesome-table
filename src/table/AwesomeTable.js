@@ -140,9 +140,9 @@ export class AwesomeTable {
         //add a row to the model, then re-draw the table......
 
         let row = this.model.addDataRow(data_row);
-        this.calculate();
         this.view.drawTable();
         this.view.updateTotals();
+        // this.view.updateFooter();
 
     }
 
@@ -158,23 +158,6 @@ export class AwesomeTable {
 
     }
 
-
-    calculate() {
-
-
-        let row_functions = this.model.td.row_calculations;
-        if (typeof  row_functions !== 'undefined'){
-            for (let i = 0; i < this.model.tdo.length; i++) {
-                //pass the row in to each function defined
-                for (let j = 0; j < row_functions.length; j++) {
-                    row_functions[j](i);
-                }
-            }
-        }
-
-
-
-    }
 
     reCalculateTable(rowFunctions) {
 

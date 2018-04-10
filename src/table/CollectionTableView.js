@@ -427,7 +427,6 @@ export class CollectionTableView extends TableView {
 
                 element = document.createElement('td')
                 if (typeof col_def.footer !== 'undefined') {
-                    console.log(col_def.footer);
                     //draw an extended cell for anything before the footer... add the caption there.....
                     if(col_counter > 0)
                     {
@@ -449,7 +448,6 @@ export class CollectionTableView extends TableView {
                 }
                 else{
                     //the column did not have a footer column....
-                    console.log('col spn +')
                     if(Array.isArray(col_def.caption)){
                         col_counter = col_counter + col_def.caption[0].length;
                     }
@@ -467,29 +465,23 @@ export class CollectionTableView extends TableView {
         }
 
 
-        //find out how many rows...
-        //for each column
-        //if the column is visible
+
 
 
     }
 
-    updateTfoot() {
+    updateFooter() {
 
-        // this.model.cdo.forEach(col_def => {
-        //     element = document.createElement('td')
-        //     if (typeof col_def.footer !== 'undefined') {
-        //         this.footer_elements[col_def.db_field][row] =
-        //             element.innerHTML = col_def.footer[row].getValue();
-        //     }
-        //     else{
-        //         element.classList.add('borderless');
-        //     }
-        //     tr.appendChild(element);
-        //     this.footer_elements[col_def.db]=[]
-        //
-        //
-        // })
+
+
+        this.model.cdo.forEach(col_def => {
+            if (typeof col_def.footer !== 'undefined') {
+                for(let i=0;i<col_def.footer.length;i++){
+                    console.log('updating footer');
+                    this.footer_elements[col_def.db_field][i].innerHTML = col_def.footer[i].getValue();
+                }
+            }
+        })
         // this.tfoot.appendChild(tr);
         //
         // this.footer_elements.forEach((footer_col, col) =>{

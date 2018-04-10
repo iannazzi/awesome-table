@@ -41,6 +41,8 @@ export class TableView {
         }
         //this is on only for a collection table
         this.updateTotals()
+        // this.updateFooter()
+
     }
 
 
