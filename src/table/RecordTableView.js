@@ -106,7 +106,7 @@ export class RecordTableView extends TableView {
                     console.log('error in the column definition - table_view was not set....');
             }
         })
-        this.updateButtons();
+        this.drawTableEditSaveButtons();
 
     }
 
@@ -138,7 +138,7 @@ export class RecordTableView extends TableView {
 
 
     // these funcions are here because the controller will call these for the collection table.... might eventually be useful here....
-    updateTotals(){
+    updateTotalsRow(){
         //this is a blank function to make any update calls for totals...
     }
     updateFooter(){

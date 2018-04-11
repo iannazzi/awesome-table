@@ -175,18 +175,48 @@ export class CollectionTableController extends TableController {
         this.view.highlightHeaderRow(db_field, header_row)
 
     }
+
+    addDataRow(data_row) {
+
+        if (Array.isArray(data_row)) {
+            this.developerAlert('data is an array, just send in one row or use addDataArray')
+            return false;
+        }
+        //add a row to the model, then re-draw the table......
+
+        let row = this.model.addDataRow(data_row);
+        //we need to reDraw and update values... w
+        //redraw tbody
+        //this.view.drawTable();
+        //recalculate values....
+
+        this.view.drawTbody();
+
+        this.updateTable()
+
+
+    }
+
+
+
+    addDataArray(data) {
+
+        if (!Array.isArray(data)) {
+            this.developerAlert('data is not an array.... use addDataRow for just one row')
+            return false;
+        }
+        for (let i = 0; i < data.length; i++) {
+            this.addDataRow(data[i]);
+        }
+
+    }
+
+
+
     updateTable(){
-        //what we want to do now is
-        //run any row based calculations
-        //update the view of the tbody
-        //update the view of the total body
-        //update the view of the footer body
 
         this.model.calculate();
-
         this.view.updateTableValues();
-
-
     }
 
     setFocusToFirstInputOfRow(row_number) {

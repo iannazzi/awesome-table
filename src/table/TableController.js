@@ -7,6 +7,16 @@ export class TableController {
 
         //i need to get the value of an element....
     }
+    developerAlert(msg) {
+        let warning = 'console' //alert
+        if (warning == 'console') {
+            console.log('Developer Alert! \n' + msg)
+        }
+        else {
+            alert('Developer Alert! \n' + msg);
+        }
+
+    }
     updateCellValue(column_name, row, val){
         this.model.tdo[row][column_name]['data'] = val;
         this.view.updateRowValues(row);
@@ -102,7 +112,7 @@ export class TableController {
         this.model.td.table_view = 'edit';
         this.model.td.access = 'write';
         this.view.drawTable();
-        this.view.updateButtons();
+        this.view.drawTableEditSaveButtons();
         this.setFocusToFirstInput();
         //collection table might want table modify buttons...
         this.view.showRowModifyButtons();
@@ -114,7 +124,7 @@ export class TableController {
         this.model.td.table_view = 'edit';
         this.model.td.access = 'read';
         this.view.drawTable();
-        this.view.updateButtons();
+        this.view.drawTableEditSaveButtons();
         //collection table might want table modify buttons...
         this.view.hideRowModifyButtons();
 

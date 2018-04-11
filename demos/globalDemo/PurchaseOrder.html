@@ -178,17 +178,24 @@
     let expect_false,expect_true,test_val;
     let test;
 
-    test = 'Load one row of data';
     data = data_generator.purchaseOrder(1);
+
+
+
+    awesomeTable.addDataRow(data[0]);
+    //at this point user can hit edit then cancel and the new row would be lost....
+    //so we would want to rewrite the backup data....
+//    throw new Error('This is not an error. This is just to abort javascript');
+
+    awesomeTable.model.saveBackupData();
+
+    test = 'Try to send an array of rows to addDataRow - should fail';
     test_val = awesomeTable.addDataRow(data);
+
     //here we would want to check check_data_is_a_row == false
     if(! test_val){
         handeled_errors.push(test)
     }
-    awesomeTable.addDataRow(data[0]);
-    //at this point user can hit edit then cancel and the new row would be lost....
-    //so we would want to rewrite the backup data....
-    awesomeTable.model.saveBackupData();
 
     test = 'Total from model is 305';
     let total = awesomeTable.getValue('total', 0);
@@ -200,10 +207,13 @@
 
     test = 'Total from readonly awesome table element array is not 305';
     test_val = awesomeTable.getElement('total',0).nodeValue;
+    console.log(test_val)
+    console.log(test_val)
     if(test_val != '305'){
         passing=false;
         errors.push(test)
     }
+
 
     test = 'Total from editable awesome table element array is not 305';
     awesomeTable.controller.makeEditable();

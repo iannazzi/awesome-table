@@ -27,44 +27,36 @@ export class TableView {
         // this.name = this.id;
     }
 
-    updateRowValues(r){
-        // console.log(this.elements);
-        for (let db_field in this.elements[r]) {
-            //might need a hasOwnProperty thingy......
-            if (this.elements[r].hasOwnProperty(db_field)) {
-                let col_def = this.model.getColDef(db_field);
-                //might be an array.....
-                let data = this.model.getData(db_field, r);
-                this.writeElementValue(this.elements[r][db_field], col_def, data)
+
+
+    writeElementValue(col_def, element, value) {
+
+        //can I write a value without the col_def?
+
+        if(this.checkRead()){
+            element.innerHTML=value;
+        }
+        else{
+            let ele = element.childNodes[0];
+            if (col_def['type'] == 'row_checkbox'
+                || col_def['type'] == 'checkbox'
+                || col_def['type'] == 'radio') {
+                if (value == 1) {
+                    ele.checked = true;
+                }
+                else {
+                    ele.checked = false;
+                }
+
             }
-        }
-        //this is on only for a collection table
-        this.updateTotals()
-        this.updateFooter()
-    }
-    updateTableValues() {
-        for(let i=0; i<this.model.tdo.length;i++){
-            this.updateRowValues(i)
-        }
-    }
-
-
-    writeElementValue(element, col_def, value) {
-        //read vs write different values to write
-        if (col_def['type'] == 'row_checkbox'
-            || col_def['type'] == 'checkbox'
-            || col_def['type'] == 'radio') {
-            if (value == 1) {
-                element.checked = true;
+            else if (col_def.type == 'row_number'){
+                element.innerHTML=value;
             }
             else {
-                element.checked = false;
+                ele.value = value;
             }
+        }
 
-        }
-        else {
-            element.value = value;
-        }
     }
 
     checkWrite() {
@@ -102,7 +94,7 @@ export class TableView {
     //     this.formModal.hide();
     // }
 
-    updateButtons() {
+    drawTableEditSaveButtons() {
 
         this.edit_button_div.innerHTML = '';
         if (this.checkRead()) {

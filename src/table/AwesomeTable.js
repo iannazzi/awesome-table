@@ -132,32 +132,6 @@ export class AwesomeTable {
         // }
     }
 
-    addDataRow(data_row) {
-        if (Array.isArray(data_row)) {
-            this.developerAlert('data is an array, just send in one row or use addDataArray')
-            return false;
-        }
-        //add a row to the model, then re-draw the table......
-
-        let row = this.model.addDataRow(data_row);
-        //we need to reDraw and update values... w
-        this.view.drawTable();
-        this.controller.updateTable()
-
-
-    }
-
-    addDataArray(data) {
-
-        if (!Array.isArray(data)) {
-            this.developerAlert('data is not an array.... use addDataRow for just one row')
-            return false;
-        }
-        for (let i = 0; i < data.length; i++) {
-            this.addDataRow(data[i]);
-        }
-
-    }
 
 
     reCalculateTable(rowFunctions) {
@@ -178,6 +152,14 @@ export class AwesomeTable {
         let rc = this.controller.findElement(element);
         return rc[0];
 
+    }
+    addDataRow(data_row){
+        //seems silly, but the consumer will use this a lot... so put a reference here..
+        this.controller.addDataRow(data_row)
+    }
+    addDataArray(data){
+        //seems silly, but the consumer will use this a lot... so put a reference here..
+        this.controller.addDataArray(data)
     }
 
     sumArray(column_name, row) {
