@@ -209,8 +209,7 @@
 
     test = 'Total from readonly awesome table element array is not 305';
 
-    test_val = awesomeTable.getElement('total',0).nodeValue;
-
+    test_val = awesomeTable.getCellByName('total',0).innerHTML;
 
     if(test_val != '305'){
         passing=false;
@@ -218,29 +217,34 @@
     }
 
 
-        throw new Error('This is not an error. This is just to abort javascript');
 
 
 
     test = 'Total from editable awesome table element array is not 305';
     awesomeTable.controller.makeEditable();
-    test_val = awesomeTable.getElement('total',0).value;
+    test_val = awesomeTable.getCellByName('total',0).childNodes[0].value;
     if(test_val != '305'){
         passing=false;
         errors.push(test)
     }
 
-    test = 'Total from editable awesome table element array is not 305';
+//    throw new Error('my error')
+
+    test = 'Total from editable awesome table found via DOM is not 305';
     awesomeTable.controller.makeReadable();
     //check the actual render.....
     //check by finding the last id.... changing the col_def would ruin something like this.....
     let tbody  = document.getElementById("awesome-table_data_tbody");
     let tr = tbody.firstChild;
     test_val  = tr.lastChild.innerHTML;
+
     if(test_val != 305){
+        console.log(test_val)
+
         passing=false;
         errors.push(test)
     }
+
 
     test = 'Total from editable view finding the total via element id is not 305';
     awesomeTable.controller.makeEditable();
@@ -278,11 +282,12 @@
     test = 'Row 1 is not checked';
     awesomeTable.controller.makeEditable();
     awesomeTable.setValue('row_checkbox',1,1);
-    test_val = document.getElementById("awesome-table_r1_row_checkbox").checked;
+    test_val = document.getElementById("awesome-table_td_r1_row_checkbox").checked;
     if(!test_val){
         passing=false;
         errors.push(test)
     }
+
 
     test = 'Row 1 is still checked';
     awesomeTable.setValue('row_checkbox',1,0);

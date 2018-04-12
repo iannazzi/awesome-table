@@ -347,7 +347,7 @@ export class CollectionTableView extends TableView {
     drawTbody() {
         this.tbody.innerHTML = '';
         this.rows = [];
-        this.elements = [];
+        this.cells_by_name = [];
         this.elements_array = [];
         this.tbody_cells = [];
         // let self = this;
@@ -362,12 +362,13 @@ export class CollectionTableView extends TableView {
     }
 
     drawTbodyRow(r) {
-        this.elements[r] = {};
+        this.cells_by_name[r] = {};
         this.elements_array[r] = [];
         this.tbody_cells[r] = [];
 
         let tr = this.tbody.insertRow();
         tr.id = this.model.td.name + '_r' + r;
+        let self = this;
         tr.addEventListener("click", function () {
             self.onRowClick.notify(tr);
         });
@@ -391,11 +392,11 @@ export class CollectionTableView extends TableView {
 
         // let data = data_row[col_def.db_field].data; //data can be an array.....
         if (this.isColArray(col_def)) {
-            this.elements[r][col_def.db_field] = [];
+            this.cells_by_name[r][col_def.db_field] = [];
             col_def.caption[0].forEach((caption_row, col) => {
                 cell = this.createCell(tr, col_def, r, col);
                 cell.id = this.model.td.name + '_r' + r + '_' + col_def.db_field + col_counter;
-                this.updateCellArray(r, col_counter, cell, col_def);
+                this.updateCellArray(r, col_counter, cell, col_def, col);
                 col_counter++;
             });
         }
@@ -418,7 +419,6 @@ export class CollectionTableView extends TableView {
 
         if (col !== 'undefined') {
             element.id = this.model.td.name + '_td_r' + r + '_' + col_def.db_field + col;
-            this.elements[r][col_def.db_field][col] = element;
 
         }
         else {
@@ -429,7 +429,16 @@ export class CollectionTableView extends TableView {
         return cell;
     }
 
-    updateCellArray(r, c, cell, col_def) {
+    updateCellArray(r, c, cell, col_def, col = false) {
+
+
+        if(col !== false){
+            this.cells_by_name[r][col_def.db_field][col] = cell;
+        }
+        else{
+            this.cells_by_name[r][col_def.db_field] = cell;
+        }
+
 
         //I am using this one to find elements --- probably just broke it......
         this.elements_array[r][c] = cell;

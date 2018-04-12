@@ -139,12 +139,12 @@ export class AwesomeTable {
     }
 
 
-    getElement(db_field, r, c = 'undefined') {
+    getCellByName(db_field, r, c = 'undefined') {
         if (c !== 'undefined') {
-            return this.view.elements[r][db_field][c];
+            return this.view.cells_by_name[r][db_field][c];
         }
         else {
-            return this.view.elements[r][db_field];
+            return this.view.cells_by_name[r][db_field];
         }
     }
 
