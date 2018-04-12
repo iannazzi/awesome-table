@@ -29,35 +29,37 @@ export class TableView {
 
 
 
-    writeElementValue(col_def, element, value) {
-
+    writeCellValue(col_def, cell, value) {
         //can I write a value without the col_def?
+        //why would I ?
 
         if(this.checkRead()){
-            element.innerHTML=value;
+            //this is a td
+            cell.innerHTML=value;
         }
         else{
-            let ele = element.childNodes[0];
+            let element = cell.childNodes[0]
             if (col_def['type'] == 'row_checkbox'
                 || col_def['type'] == 'checkbox'
                 || col_def['type'] == 'radio') {
                 if (value == 1) {
-                    ele.checked = true;
+                    element.checked = true;
                 }
                 else {
-                    ele.checked = false;
+                    element.checked = false;
                 }
 
             }
             else if (col_def.type == 'row_number'){
-                element.innerHTML=value;
+                cell.innerHTML=value;
             }
             else {
-                ele.value = value;
+                element.value = value;
             }
         }
 
     }
+
 
     checkWrite() {
         let write = false;

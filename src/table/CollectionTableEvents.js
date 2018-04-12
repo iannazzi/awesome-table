@@ -170,9 +170,7 @@ export class CollectionTableEvents extends TableEvents {
         )
         controller.view.addRowClicked.attach(
             function () {
-                let row = controller.addRow();
-
-
+                let row = controller.addNewRow();
                 return row;
             }
         );

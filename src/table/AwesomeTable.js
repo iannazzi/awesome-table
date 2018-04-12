@@ -199,7 +199,7 @@ export class AwesomeTable {
         if (!this.checkColumnName(column_name)) return
 
 
-        return this.model.tdo[row_number][column_name].data
+
         if (typeof array_index !== 'undefined') {
             return this.model.tdo[row_number][column_name].data[array_index]
         }
@@ -207,12 +207,6 @@ export class AwesomeTable {
             return this.model.tdo[row_number][column_name].data
         }
 
-        if (this.options.edit_display == 'on_page') {
-            return this.model.tdo[row_number][column_name].data
-        }
-        else {
-            return this.modelModal.tdo[row_number][column_name].data
-        }
 
     }
 

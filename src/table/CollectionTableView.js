@@ -309,6 +309,11 @@ export class CollectionTableView extends TableView {
         return false;
     }
 
+    isTableReadAndColRowCheckbox(col_def) {
+
+
+    }
+
     isTotalCol(col_def) {
         if (col_def['show_on_list'] !== false) {
             if (typeof col_def['total'] !== 'undefined') {
@@ -344,70 +349,61 @@ export class CollectionTableView extends TableView {
         this.rows = [];
         this.elements = [];
         this.elements_array = [];
-        let self = this;
-        this.model.tdo.forEach((data_row, r) => {
-            this.elements[r] = {};
-            this.elements_array[r] = [];
-            let tr = this.tbody.insertRow();
-            tr.id = this.model.td.name + '_r' + r;
-            tr.addEventListener("click", function () {
-
-                self.onRowClick.notify(tr);
-
-
-            });
-            this.rows[r] = tr;
-
-            //set the row properties
-            // for (var index in data_row['_data_row']) {
-            //     eval('tr.' + index + '= ' + data_row['_data_row'][index] + ';');
-            // }
-            let col_counter = 0;
-            this.model.cdo.forEach((col_def) => {
-                if (col_def['show_on_list'] !== false) {
-                    col_counter = this.createColumn(tr, r, col_def, col_counter);
-                }
-            })
-        })
+        this.tbody_cells = [];
+        // let self = this;
+        // this.model.tdo.forEach((data_row, r) => {
+        // })
+        for (let r = 0; r < this.model.tdo.length; r++) {
+            this.drawTbodyRow(r);
+        }
         if (this.checkWrite()) {
             this.updateIndividualSelectOptions();
         }
     }
 
+    drawTbodyRow(r) {
+        this.elements[r] = {};
+        this.elements_array[r] = [];
+        this.tbody_cells[r] = [];
+
+        let tr = this.tbody.insertRow();
+        tr.id = this.model.td.name + '_r' + r;
+        tr.addEventListener("click", function () {
+            self.onRowClick.notify(tr);
+        });
+        this.rows[r] = tr;
+
+        let col_counter = 0;
+        this.model.cdo.forEach((col_def) => {
+            if (col_def['show_on_list'] !== false) {
+                if (this.checkRead() && this.isRowCheckbox(col_def)) {
+                    //skip this column if the table is read only and the row is a checkbox
+                }
+                else {
+                    col_counter = this.createColumn(tr, r, col_def, col_counter);
+                }
+            }
+        })
+    }
+
     createColumn(tr, r, col_def, col_counter) {
-        let element;
+        let cell;
 
-        if (!(!this.checkWrite() && col_def.type == 'row_checkbox')) {
-            // let data = data_row[col_def.db_field].data; //data can be an array.....
-            if (this.isColArray(col_def)) {
-
-                this.elements[r][col_def.db_field] = [];
-                col_def.caption[0].forEach((caption_row, col) => {
-
-                    element = this.createCell(tr, col_def, r, col);
-                    element.array_index = col;
-                    // element.id = this.model.td.name + '_r' + r + 'c' + col_counter;
-                    element.id = this.model.td.name + '_r' + r + '_' + col_def.db_field + col_counter;
-
-                    this.elements[r][col_def.db_field][col] = element;
-                    this.elements_array[r][col_counter] = element;
-                    col_counter++;
-
-                });
-            }
-            else {
-
-                element = this.createCell(tr, col_def, r);
-                // element.id = this.model.td.name + '_r' + r + 'c' + col_counter;
-                element.id = this.model.td.name + '_r' + r + '_' + col_def.db_field;
-
-
-                this.elements[r][col_def.db_field] = element;
-                this.elements_array[r][col_counter] = element;
+        // let data = data_row[col_def.db_field].data; //data can be an array.....
+        if (this.isColArray(col_def)) {
+            this.elements[r][col_def.db_field] = [];
+            col_def.caption[0].forEach((caption_row, col) => {
+                cell = this.createCell(tr, col_def, r, col);
+                cell.id = this.model.td.name + '_r' + r + '_' + col_def.db_field + col_counter;
+                this.updateCellArray(r, col_counter, cell, col_def);
                 col_counter++;
-
-            }
-
+            });
+        }
+        else {
+            cell = this.createCell(tr, col_def, r);
+            cell.id = this.model.td.name + '_r' + r + '_' + col_def.db_field;
+            this.updateCellArray(r, col_counter, cell, col_def);
+            col_counter++;
         }
 
         return col_counter;
@@ -415,21 +411,34 @@ export class CollectionTableView extends TableView {
 
     createCell(tr, col_def, r, col = 'undefined') {
         let self = this;
-        let cell = tr.insertCell(-1);
-        if (col !== 'undefined') {
-            cell.id = this.model.td.name + '_td_r' + r + '_' + col_def.db_field + col;
-        }
-        else {
-            cell.id = this.model.td.name + '_td_r' + r + '_' + col_def.db_field;
-
-        }
         let element = this.createElement(null, col_def);
         element.addEventListener("focus", function () {
             self.activeRow = tr.sectionRowIndex
         });
+
+        if (col !== 'undefined') {
+            element.id = this.model.td.name + '_td_r' + r + '_' + col_def.db_field + col;
+            this.elements[r][col_def.db_field][col] = element;
+
+        }
+        else {
+            element.id = this.model.td.name + '_td_r' + r + '_' + col_def.db_field;
+        }
+        let cell = tr.insertCell(-1);
         cell.appendChild(element);
-        return element;
+        return cell;
     }
+
+    updateCellArray(r, c, cell, col_def) {
+
+        //I am using this one to find elements --- probably just broke it......
+        this.elements_array[r][c] = cell;
+        //this one will tie the col_def to the element, making working with the model easier
+        this.tbody_cells[r][c] = {};
+        this.tbody_cells[r][c].col_def = col_def;
+        this.tbody_cells[r][c].td = cell;
+    }
+
 
     createTFoot(name) {
 
@@ -815,78 +824,49 @@ export class CollectionTableView extends TableView {
         return edit_button_div;
     }
 
-    getRCValue(r, c) {
-        //given the row and column of an element or cell
+    updateTableValues() {
 
-        let col_counter = 0;
-        let found = false;
-        let return_data = false;
+        //we can loop through the child nodes or through tbody_cells....
 
-        this.model.cdo.forEach(col_def =>{
-            if (col_def.show_on_list !== false) {
-                if (this.isRowCheckbox(col_def) && this.checkRead()) {
-                    //nothing here
-                }
-                else {
-
-                    if (this.isColArray(col_def)) {
-                        for (let i = 0; i < col_def.caption[0].length; i++) {
-                            if (col_counter == c && !found) {
-                                found = true
-                                return_data= {data: this.model.tdo[r][col_def.db_field].data[i],
-                                        col_def}
-                            }
-                            else {
-                                col_counter++;
-                            }
-                        }
-                    }
-                    else{
-
-                        if (col_counter == c && !found) {
-                            found = true
-
-                            return_data=   {data: this.model.tdo[r][col_def.db_field].data,
-                                col_def}
-                        }
-                        else {
-                            col_counter++;
-                        }
-                    }
-
-
-                }
-            }
-
-        })
-
-        return return_data;
+        for (let i = 0; i < this.tbody.childNodes.length; i++) {
+            // for (let i = 0; i < this.tbody_cells.length; i++) {
+            this.updateRowValues(i)
+        }
+        this.updateTotalsRow()
+        this.updateFooter()
     }
 
 
     updateRowValues(r) {
 
-        //method 1: go through the physical table and update..... weird passing col_def around....
-        //only works for td, not child
-        let cells = this.tbody.childNodes[r].childNodes;
-        console.log(cells);
-        for (let c = 0; c<cells.length; c++) {
-            let col_and_data = this.getRCValue(r, c);
-            this.writeElementValue(col_and_data.col_def, cells[c], col_and_data.data)
-        }
 
-
-
-
-        //method 2: keep track of elements and go through them...
-        // for (let c = 0; c<this.tbody_elements[r].length; c++) {
-        //     console.log(c)
+        //method 2: go through the physical table and update..... weird passing col_def around....
+        // let cells = this.tbody.childNodes[r].childNodes;
+        // for (let c = 0; c<cells.length; c++) {
         //     let col_and_data = this.getRCValue(r, c);
-        //     this.writeElementValue(col_and_data.col_def, this.tbody_elements[r][c], col_and_data.data)
+        //     this.writeElementValue(col_and_data.col_def, cells[c], col_and_data.data)
         // }
-        //
-        //
-        //
+
+
+        //loop through the elements for some reason this refuses to work?????
+        let row = this.tbody_cells[r];
+
+        for (let c = 0; c < row.length; c++) {
+            let col_def = row[c].col_def;
+            let data = this.model.tdo[r][col_def.db_field].data
+
+            if (Array.isArray(data)) {
+                for (let i = 0; i < data.length; i++) {
+                    this.writeCellValue(col_def, row[c].td, data[i])
+                    c++;
+                }
+                c--;
+            }
+            else {
+                this.writeCellValue(col_def, row[c].td, data)
+            }
+
+        }
 
 
         //running out of steam.... basically loosing the element..... so I can't write to it....
@@ -937,8 +917,7 @@ export class CollectionTableView extends TableView {
         //     }
         // }
         //this is on only for a collection table
-        this.updateTotalsRow()
-        this.updateFooter()
+
     }
 
     isColArray(col_def) {
@@ -948,11 +927,59 @@ export class CollectionTableView extends TableView {
         return false
     }
 
-    updateTableValues() {
-        for (let i = 0; i < this.model.tdo.length; i++) {
-            this.updateRowValues(i)
-        }
-    }
 
+//code stink
+    getRCValue(r, c) {
+        //this is a code stink... so I do not plan on using it...
+        //given the row and column of an element or cell
+
+        let col_counter = 0;
+        let found = false;
+        let return_data = false;
+
+        this.model.cdo.forEach(col_def => {
+            if (col_def.show_on_list !== false) {
+                if (this.isRowCheckbox(col_def) && this.checkRead()) {
+                    //nothing here
+                }
+                else {
+
+                    if (this.isColArray(col_def)) {
+                        for (let i = 0; i < col_def.caption[0].length; i++) {
+                            if (col_counter == c && !found) {
+                                found = true
+                                return_data = {
+                                    data: this.model.tdo[r][col_def.db_field].data[i],
+                                    col_def
+                                }
+                            }
+                            else {
+                                col_counter++;
+                            }
+                        }
+                    }
+                    else {
+
+                        if (col_counter == c && !found) {
+                            found = true
+
+                            return_data = {
+                                data: this.model.tdo[r][col_def.db_field].data,
+                                col_def
+                            }
+                        }
+                        else {
+                            col_counter++;
+                        }
+                    }
+
+
+                }
+            }
+
+        })
+
+        return return_data;
+    }
 
 }

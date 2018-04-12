@@ -17,12 +17,12 @@ export class CollectionTableController extends TableController {
     }
 
 
-    addRow() {
+    addNewRow() {
+
         this.copyTable();
         let row = this.model.addNewRow();
-
-
-        this.view.drawTable();
+        this.view.drawTbody();
+        this.updateTable();
         return row
     }
 
@@ -131,25 +131,62 @@ export class CollectionTableController extends TableController {
 
     copyTable() {
 
-        let tbody = this.view.tbody;
-        let rowCount = tbody.rows.length;
-        for (let r = 0; r < rowCount; r++) {
-            this.model.cdo.forEach((col_def) => {
-                if (typeof col_def['show_on_list'] === 'undefined' || col_def['show_on_list']) {
-                    if (typeof col_def.caption !== 'undefined' && Array.isArray(col_def.caption)) {
-
-                        col_def.caption[0].forEach((caption_row, col) => {
-                            let element = this.view.elements[r][col_def.db_field][col];
-                            this.copyElementValueToModel(element, col_def, r, col);
-                        });
-                    }
-                    else {
-                        let element = this.view.elements[r][col_def.db_field]
-                        this.copyElementValueToModel(element, col_def, r);
-                    }
-                }
-            })
+        //this should be a bit easier now.....
+        for(let r=0; r<this.view.tbody_cells.length;r++){
+            this.copyRowToModel(r)
         }
+
+        //old way.....kinda a mix of dom and not dom....
+        //got to go back through the col_def... awk
+
+        // let tbody = this.view.tbody;
+        // let rowCount = tbody.rows.length;
+        // for (let r = 0; r < rowCount; r++) {
+        //     this.model.cdo.forEach((col_def) => {
+        //         if (typeof col_def['show_on_list'] === 'undefined' || col_def['show_on_list']) {
+        //             if (typeof col_def.caption !== 'undefined' && Array.isArray(col_def.caption)) {
+        //
+        //                 col_def.caption[0].forEach((caption_row, col) => {
+        //                     let element = this.view.elements[r][col_def.db_field][col];
+        //                     this.copyElementValueToModel(element, col_def, r, col);
+        //                 });
+        //             }
+        //             else {
+        //                 let element = this.view.elements[r][col_def.db_field]
+        //                 this.copyElementValueToModel(element, col_def, r);
+        //             }
+        //         }
+        //     })
+        // }
+    }
+    copyRowToModel(r){
+
+        //loop through the table cells array....
+        //pull the input element
+
+        let row = this.view.tbody_cells[r];
+
+        for (let c = 0; c < row.length; c++) {
+            let col_def = row[c].col_def;
+            let data = this.model.tdo[r][col_def.db_field].data
+
+            if(Array.isArray(data)){
+                for(let i=0;i<data.length;i++){
+                    this.copyElementValueToModel(row[c].td.childNodes[0], col_def, r, i)
+                    c++;
+                }
+                c--;
+            }
+            else{
+                //basic td data will be converted to text here.... otherwise we have an element that has element.value
+                let input_element = row[c].td.childNodes[0];
+                this.copyElementValueToModel(input_element, col_def, r)
+            }
+
+        }
+
+
+
     }
     selectRow(row){
         this.active_row = row;
