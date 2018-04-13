@@ -491,7 +491,7 @@ export class CollectionTableView extends TableView {
                         if (typeof col_def.footer !== 'undefined' && typeof col_def.footer[row] !== 'undefined') {
                             //draw an extended cell for anything before the footer... add the caption there.....
                             if (col_counter > 0) {
-                                
+
                                 element = document.createElement('td')
                                 tr.appendChild(element);
                                 element.classList.add('at-footer-label')
@@ -502,10 +502,10 @@ export class CollectionTableView extends TableView {
                             }
                             element = document.createElement('td')
                             element.classList.add('at-footer-data')
+                            element.id = this.model.td.name + '_footer_' + col_def.db_field + row
 
                             tr.appendChild(element);
                             this.footer_elements[col_def.db_field][row] = element;
-
 
                         }
                         else {
@@ -515,7 +515,6 @@ export class CollectionTableView extends TableView {
                             }
                             else {
                                 col_counter++;
-
                             }
                         }
                     }

@@ -457,8 +457,55 @@
 
 
 
-    //footer?
-
+    test = 'get total quantity, sub total, tax, and total values';
+    test_val = awesomeTable.view.footer_elements['qty'][0].innerHTML
+    if(test_val !== '40')
+    {
+        passing = false;
+        errors.push(test);
+    }
+    test_val = document.getElementById('awesome-table_footer_qty0').innerHTML;
+    if(test_val !== '40')
+    {
+        passing = false;
+        errors.push(test);
+    }
+    test_val = awesomeTable.view.footer_elements['total'][0].innerHTML
+    if(test_val !== '1220.00')
+    {
+        passing = false;
+        errors.push(test);
+    }
+    test_val = document.getElementById('awesome-table_footer_total0').innerHTML;
+    if(test_val !== '1220.00')
+    {
+        passing = false;
+        errors.push(test);
+    }
+    test_val = awesomeTable.view.footer_elements['total'][1].innerHTML
+    if(test_val !== '97.60')
+    {
+        passing = false;
+        errors.push(test);
+    }
+    test_val = document.getElementById('awesome-table_footer_total1').innerHTML;
+    if(test_val !== '97.60')
+    {
+        passing = false;
+        errors.push(test);
+    }
+    test_val = awesomeTable.view.footer_elements['total'][2].innerHTML
+    if(test_val !== '1317.60')
+    {
+        passing = false;
+        errors.push(test);
+    }
+    test_val = document.getElementById('awesome-table_footer_total2').innerHTML;
+    if(test_val !== '1317.60')
+    {
+        passing = false;
+        errors.push(test);
+    }
 
 
 
