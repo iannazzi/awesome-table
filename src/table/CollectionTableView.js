@@ -394,14 +394,14 @@ export class CollectionTableView extends TableView {
         if (this.isColArray(col_def)) {
             this.cells_by_name[r][col_def.db_field] = [];
             col_def.caption[0].forEach((caption_row, col) => {
-                cell = this.createCell(tr, col_def, r, col);
+                cell = this.createCell(tr, col_def, r, col_counter, col);
                 cell.id = this.model.td.name + '_r' + r + '_' + col_def.db_field + col_counter;
                 this.updateCellArray(r, col_counter, cell, col_def, col);
                 col_counter++;
             });
         }
         else {
-            cell = this.createCell(tr, col_def, r);
+            cell = this.createCell(tr, col_def, r, col_counter);
             cell.id = this.model.td.name + '_r' + r + '_' + col_def.db_field;
             this.updateCellArray(r, col_counter, cell, col_def);
             col_counter++;
@@ -410,9 +410,9 @@ export class CollectionTableView extends TableView {
         return col_counter;
     }
 
-    createCell(tr, col_def, r, col = 'undefined') {
+    createCell(tr, col_def, r, col_counter, col = 'undefined') {
         let self = this;
-        let element = this.createElement(null, col_def);
+        let element = this.createElement(null, col_def, r, col_counter);
         element.addEventListener("focus", function () {
             self.activeRow = tr.sectionRowIndex
         });
@@ -841,8 +841,7 @@ export class CollectionTableView extends TableView {
             // for (let i = 0; i < this.tbody_cells.length; i++) {
             this.updateRowValues(i)
         }
-        this.updateTotalsRow()
-        this.updateFooter()
+       this.updateTotals();
     }
 
 
@@ -928,7 +927,10 @@ export class CollectionTableView extends TableView {
         //this is on only for a collection table
 
     }
-
+    updateTotals(){
+        this.updateTotalsRow()
+        this.updateFooter()
+    }
     isColArray(col_def) {
         if (typeof col_def.caption !== 'undefined' && Array.isArray(col_def.caption)) {
             return true;

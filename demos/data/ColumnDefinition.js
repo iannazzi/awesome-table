@@ -114,9 +114,14 @@ export class ColumnDefinition {
 
     sizes(awesomeTable, updateQuantity) {
 
-        let updateRow = function (event) {
-            let r = awesomeTable.getRow(event.srcElement);
-            updateQuantity(r)
+        let updateRow = function (event,custom_parameters) {
+
+            //get row goes to find element....
+            // console.log(custom_parameters)
+            //we could find the element this way....
+            //let r = awesomeTable.getRow(event.srcElement);
+            //but we have a row being passed in....
+            updateQuantity(custom_parameters.r)
         }
 
 

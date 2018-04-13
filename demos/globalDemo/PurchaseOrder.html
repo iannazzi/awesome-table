@@ -28,12 +28,14 @@
 </style>
 <script>
 
-    //setup
+    //setup - get an instance of the table so we can set it up
     let data = [];
     let awesomeTable = new AwesomeTable.AwesomeTable('collection');
+
+    //Row Calculation Examples
     //we need to define some callbacks to pass to the column defintion.... thinks like update quantity and total...
     //we will also need these every time the table is rendered
-    let updateTotal = function(row)
+    let updateTotalCol = function(row)
     {
        //this needs to be called
         //when the cost is updated
@@ -45,6 +47,8 @@
         let cost = awesomeTable.getValue('cost', row);
         let total = qty*cost;
         awesomeTable.setValue('total', row, total);
+
+        //now update the table total calculations....
     }
     let updateQuantity = function(row){
         //update quantity whenever a size array value changes
@@ -52,19 +56,19 @@
         //now set a value....
         awesomeTable.setValue('qty', row, sum);
         //call update total..... how?
-        updateTotal(row);
+        updateTotalCol(row);
     }
 
     //add in row calculations....
 
-    let column_definition = new columnDefinition.ColumnDefinition().purchaseOrder(awesomeTable, updateQuantity, updateTotal);
+    let column_definition = new columnDefinition.ColumnDefinition().purchaseOrder(awesomeTable, updateQuantity, updateTotalCol);
     let data_generator = new dataGenerator.DataGenerator();
 
     let config = {
         name: 'awesome-table',
         data,
         column_definition,
-        row_calculations: [updateQuantity, updateTotal], //fired on .draw() good for updating cell values
+        row_calculations: [updateQuantity, updateTotalCol], //fired on .draw() good for updating cell values
         table_buttons: ['selectRows', 'addRow','deleteRow','deleteAllRows', 'moveRows','copyRows', 'edit'],
         access: 'read', //read vs write
         onChange: function (args, r, c) {

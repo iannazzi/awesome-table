@@ -20,17 +20,21 @@ export class TableController {
     updateCellValue(column_name, row, val){
         this.model.tdo[row][column_name]['data'] = val;
         this.view.updateRowValues(row);
+        this.view.updateTotals();
     }
     findElement(element) {
-        let arr = this.view.elements_array;
-        let col;
-        let row;
-        let tmpArr = arr.find(function (subArr) {
-            col = subArr.indexOf(element);
-            return col > -1;
-        });
-        row = arr.indexOf(tmpArr);
-        return [row, col];
+        //when an event is fired from an element like an input, I am unsure which row and column it is from
+        //when the element is created it does not know about which row and column it is on
+
+        for(let r =0;r<this.view.tbody_cells.length;r++){
+            let row = this.view.tbody_cells[r];
+            for(let c =0;c<row.length;c++){
+                if(row[c].td.childNodes[0] == element){
+                    return [r,c]
+                }
+            }
+        }
+        return false;
     }
 
     getElementRow(element) {

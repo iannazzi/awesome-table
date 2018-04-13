@@ -121,15 +121,15 @@ export class TableView {
     }
 
 
-    //all this needs to go!!!!
 
+    createElement(data, col_def, r, c) {
 
-    createElement(data, col_def, active_cell) {
-
+        this.r = r;
+        this.c = c;
         let db_field = col_def['db_field'];
         switch (col_def.type.toLowerCase()) {
             case 'date':
-                return this.createDateInput(col_def, data);
+                return this.createDateInput(col_def, data, );
                 break;
             case 'text':
                 return this.createTextInput(col_def, data);
@@ -184,7 +184,7 @@ export class TableView {
             let element = document.createElement("TEXTAREA");
             let self = this;
             element.addEventListener("keyup", function () {
-                self.inputChanged.notify({element, col_def})
+                self.addInputChangedNotify(element, col_def)
             });
             this.addEvents(col_def, element);
             this.addProperties(col_def, element);
@@ -210,8 +210,8 @@ export class TableView {
         //element.id = col_def.db_field + '_search';
         let self = this;
         element.addEventListener("change", function () {
-            console.log('checkbox click');
-            self.inputChanged.notify({element, col_def})
+            self.addInputChangedNotify(element, col_def)
+
         });
         this.addEvents(col_def, element);
         //element.onclick = function(){self.inputChanged.notify()}
@@ -239,8 +239,9 @@ export class TableView {
                 element.checked = true;
             }
             let self = this;
-            element.addEventListener("onclick", function () {
-                self.inputChanged.notify({element, col_def})
+            element.addEventListener("click", function () {
+                self.addInputChangedNotify(element, col_def)
+
             });
             this.addEvents(col_def, element);
             this.addProperties(col_def, element);
@@ -266,49 +267,21 @@ export class TableView {
             element.type = 'number';
             element.pattern = "[0-9. -]*"
             let self = this;
+
+
+
             element.addEventListener("keyup", function () {
-                self.inputChanged.notify({element, col_def})
+                self.addInputChangedNotify(element, col_def)
             });
             element.addEventListener("click", function () {
-                self.inputChanged.notify({element, col_def})
+                self.addInputChangedNotify(element, col_def)
             });
             element.addEventListener("change", function () {
-                self.inputChanged.notify({element, col_def})
+                self.addInputChangedNotify(element, col_def)
             });
             this.addEvents(col_def, element);
-            //do not mess with user input.... try to let the browser handle it
-            // element.onkeydown = function(evt){
-            //     //console.log(evt);
-            //     let e = evt || window.event;
-            //     let key = e.keyCode || e.which;
-            //
-            //     if (!e.shiftKey && !e.altKey && !e.ctrlKey &&
-            //         // numbers
-            //         key >= 48 && key <= 57 ||
-            //         // Numeric keypad
-            //         key >= 96 && key <= 105 ||
-            //         // Backspace and Tab and Enter
-            //         key == 8 || key == 9 || key == 13 ||
-            //         // Home and End
-            //         key == 35 || key == 36 ||
-            //         // left and right arrows
-            //         key == 37 || key == 39 ||
-            //         //  period dash and minus, . on keypad
-            //         key == 190 || key == 189 || key == 109 || key == 110 ||
-            //         // Del and Ins
-            //         key == 46 || key == 45) {
-            //         // input is VALID
-            //         console.log('valid')
-            //     }
-            //     else {
-            //         // input is INVALID
-            //         //console.log('invalid')
-            //         e.returnValue = false;
-            //         if (e.preventDefault) e.preventDefault();
-            //     }
-            //
-            //     //self.inputChanged.notify()
-            // };
+
+
             this.addProperties(col_def, element);
 
             this.addMinMax(col_def, element);
@@ -354,11 +327,13 @@ export class TableView {
 
             //this is ok....
             element.addEventListener("keyup", function () {
-                self.inputChanged.notify({element, col_def})
+                self.addInputChangedNotify(element, col_def)
+
             });
             //this is more like a set focus.... but really have no idea....could change....
             element.addEventListener("click", function () {
-                self.inputChanged.notify({element, col_def})
+                self.addInputChangedNotify(element, col_def)
+
             });
             this.addEvents(col_def, element);
             // element.onkeyup = function(){self.inputChanged.notify()}
@@ -383,7 +358,7 @@ export class TableView {
 
             let self = this;
             element.addEventListener("keyup", function () {
-                self.inputChanged.notify({element, col_def})
+                self.addInputChangedNotify(element, col_def)
             });
             this.addEvents(col_def, element);
             // element.onkeyup = function(){self.inputChanged.notify()}
@@ -407,13 +382,12 @@ export class TableView {
             }
             element.value = data;
             let self = this;
-            element.addEventListener("onchange", function () {
-                self.inputChanged.notify({element, col_def})
+            element.addEventListener("change", function () {
+                self.addInputChangedNotify(element, col_def)
+
             });
             this.addEvents(col_def, element);
-            element.onchange = function () {
-                self.inputChanged.notify()
-            }
+
             return element;
         }
         else {
@@ -483,7 +457,7 @@ export class TableView {
         element.name = col_def['db_field'] + '[]';
         let self = this;
         element.addEventListener("onclick", function () {
-            self.inputChanged.notify({element, col_def})
+           self.addInputChangedNotify(element, col_def)
         });
         this.addEvents(col_def, element);
 
@@ -499,28 +473,49 @@ export class TableView {
         }
         return element;
     }
+    addInputChangedNotify(element, col_def){
+        let custom_parameters = {}
+        custom_parameters.r = this.r;
+        custom_parameters.c = this.c;
+        custom_parameters.element = element
+        custom_parameters.col_def = col_def
 
+
+
+        this.inputChanged.notify(custom_parameters)
+    }
     addEvents(col_def, element) {
+        let custom_parameters = {}
+        custom_parameters.r = this.r;
+        custom_parameters.c = this.c;
+        custom_parameters.col_def = col_def
+
         if (typeof col_def['events'] !== 'undefined') {
             for (var key in col_def['events']) {
                 if (col_def['events'].hasOwnProperty(key)) {
-                    // console.log(key + " -> " + col_def['events'][key]);
-                    element.addEventListener(key, col_def['events'][key],);
+                    // element.addEventListener(key, col_def['events'][key],custom_parameters);
+                    // console.log(custom_parameters)
+                    element.addEventListener(key, function(e){
+                        let callback = col_def['events'][key];
+                        callback(e,custom_parameters)
+                    });
+
+
                 }
+
+
+                // col_def.events.forEach(event => {
+                //     for (let index in event)
+                //     {
+                //         let self = this;
+                //         // element.addEventListener(index, function(e){
+                //         //     e = e || window.event;
+                //         //     self[event[index]].notify(e);
+                //         // });
+                //         element.addEventListener(index, event[index], );
+                //     }
+                // });
             }
-
-
-            // col_def.events.forEach(event => {
-            //     for (let index in event)
-            //     {
-            //         let self = this;
-            //         // element.addEventListener(index, function(e){
-            //         //     e = e || window.event;
-            //         //     self[event[index]].notify(e);
-            //         // });
-            //         element.addEventListener(index, event[index], );
-            //     }
-            // });
         }
     }
 

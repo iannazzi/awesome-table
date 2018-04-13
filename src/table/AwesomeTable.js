@@ -149,6 +149,8 @@ export class AwesomeTable {
     }
 
     getRow(element) {
+
+
         let rc = this.controller.findElement(element);
         return rc[0];
 

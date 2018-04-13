@@ -205,8 +205,15 @@ export class CollectionTableEvents extends TableEvents {
         );
         controller.view.inputChanged.attach(
             function (sender, args) {
+
                 console.log('inputChanged Event...  copyTable then updateTotals ... then the cd event');
+                //I added in an r and c on the element, but for some reason it is always set to the r c of the last element in the table
+                // console.log(args.c);
+                // console.log(args);
+
+
                 let element = args.element;
+
 
                 //what is the elments row and column?
                 let cell = element.parentNode;
@@ -215,9 +222,13 @@ export class CollectionTableEvents extends TableEvents {
                 let row = cell.parentNode;
                 let r = row.sectionRowIndex;
 
+                //col def is here.....
+                // console.log(controller.view.tbody_cells[r][c])
+
+
                 self.copyTable()
-                self.view.updateTableValues()
-                // self.view.updateFooter()
+                //not a great place for this...the update should be called elsewhere....
+                // self.view.updateTableValues()
 
 
                 controller.active_row = r;
