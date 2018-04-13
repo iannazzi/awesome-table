@@ -432,10 +432,10 @@ export class CollectionTableView extends TableView {
     updateCellArray(r, c, cell, col_def, col = false) {
 
 
-        if(col !== false){
+        if (col !== false) {
             this.cells_by_name[r][col_def.db_field][col] = cell;
         }
-        else{
+        else {
             this.cells_by_name[r][col_def.db_field] = cell;
         }
 
@@ -488,23 +488,24 @@ export class CollectionTableView extends TableView {
                 if (this.showOnList(col_def)) {
                     if (this.isTableReadAndColumnRowCheckbox(col_def)) {
                         element = document.createElement('td')
-                        if (typeof col_def.footer !== 'undefined') {
+                        if (typeof col_def.footer !== 'undefined' && typeof col_def.footer[row] !== 'undefined') {
                             //draw an extended cell for anything before the footer... add the caption there.....
                             if (col_counter > 0) {
-
+                                
                                 element = document.createElement('td')
                                 tr.appendChild(element);
+                                element.classList.add('at-footer-label')
                                 element.colSpan = col_counter;
-                                if (typeof col_def.footer[row] !== 'undefined') {
-                                    element.innerHTML = col_def.footer[row].caption;
-
-                                }
+                                element.innerHTML = col_def.footer[row].caption;
                                 col_counter = 0;
-                            }
 
+                            }
                             element = document.createElement('td')
+                            element.classList.add('at-footer-data')
+
                             tr.appendChild(element);
                             this.footer_elements[col_def.db_field][row] = element;
+
 
                         }
                         else {
@@ -537,12 +538,11 @@ export class CollectionTableView extends TableView {
             if (typeof col_def.footer !== 'undefined') {
                 for (let i = 0; i < col_def.footer.length; i++) {
                     if (typeof col_def.footer[i].round !== 'undefined') {
-                        this.footer_elements[col_def.db_field][i].innerHTML = round2(col_def.footer[i].getValue(), 2);
+                        this.footer_elements[col_def.db_field][i].innerHTML = round2(col_def.footer[i].getValue(), col_def.footer[i].round);
 
                     }
                     else {
                         this.footer_elements[col_def.db_field][i].innerHTML = col_def.footer[i].getValue();
-
                     }
                 }
             }
@@ -841,7 +841,7 @@ export class CollectionTableView extends TableView {
             // for (let i = 0; i < this.tbody_cells.length; i++) {
             this.updateRowValues(i)
         }
-       this.updateTotals();
+        this.updateTotals();
     }
 
 
@@ -927,10 +927,12 @@ export class CollectionTableView extends TableView {
         //this is on only for a collection table
 
     }
-    updateTotals(){
+
+    updateTotals() {
         this.updateTotalsRow()
         this.updateFooter()
     }
+
     isColArray(col_def) {
         if (typeof col_def.caption !== 'undefined' && Array.isArray(col_def.caption)) {
             return true;

@@ -47,15 +47,12 @@
         let cost = awesomeTable.getValue('cost', row);
         let total = qty*cost;
         awesomeTable.setValue('total', row, total);
+        //totals will be called in set value
 
-        //now update the table total calculations....
     }
     let updateQuantity = function(row){
-        //update quantity whenever a size array value changes
         let sum = awesomeTable.model.sumArray('sizes',row);
-        //now set a value....
         awesomeTable.setValue('qty', row, sum);
-        //call update total..... how?
         updateTotalCol(row);
     }
 

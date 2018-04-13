@@ -115,12 +115,8 @@ export class ColumnDefinition {
     sizes(awesomeTable, updateQuantity) {
 
         let updateRow = function (event,custom_parameters) {
-
-            //get row goes to find element....
-            // console.log(custom_parameters)
-            //we could find the element this way....
-            //let r = awesomeTable.getRow(event.srcElement);
-            //but we have a row being passed in....
+            //we want to update values only if we are changing something that adjusts totals,
+            //otherwise I would need to call calculate blindly on all input...
             updateQuantity(custom_parameters.r)
         }
 
@@ -142,29 +138,6 @@ export class ColumnDefinition {
                 "keyup": updateRow,
                 "click": updateRow,
                 "change": updateRow,
-
-
-                // function(event){
-                //
-                // //we can update the quantity and total when the
-                // //order quantites change
-                // //however if the cost changes we need to update again....
-                //
-                // let rc = awesomeTable.controller.findElement(event.srcElement);
-                // let r = rc[0];
-                // let c = rc[1];
-                //
-                //
-                // let sum = adjustableColumn.model.sumArray('sizes',r);
-                // //now set a value....
-                // adjustableColumn.setValue('qty', r, sum);
-                // //now update the total for the line...
-                // let cost = adjustableColumn.getValue('cost', r);
-                // let total = sum*cost;
-                // adjustableColumn.setValue('total', r, total);
-
-
-                //}
             },
             "properties": [],
             "word_wrap": true
