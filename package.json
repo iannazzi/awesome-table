@@ -6,11 +6,6 @@
   "module": "dist/awesome-table.esm.js",
   "browser": "dist/awesome-table.umd.js",
   "scripts": {
-    "es6DemoStart": "webpack-dev-server --env development --config ./webpack/webpack.es6Demo.config.js",
-    "es6": "webpack --config ./webpack/webpack.es6Demo.config.js --mode development",
-    "es6Watch": "webpack --config ./webpack/webpack.es6Demo.config.js --mode development --watch",
-    "globalDemo": "webpack --config ./webpack/webpack.globalDemo.config.js --mode development",
-    "globalDemoWatch": "webpack --config ./webpack/webpack.globalDemo.config.js --mode development --watch",
     "dist": "webpack --config ./webpack/webpack.config.js --mode development",
     "watch": "webpack --config ./webpack/webpack.config.js --mode development --watch",
     "mocha": "mocha test/puppeteerBootstrap.js --recursive test",

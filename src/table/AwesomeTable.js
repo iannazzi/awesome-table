@@ -5,15 +5,23 @@ import {CollectionTableController}  from './CollectionTableController';
 import {TableModel}  from './TableModel';
 import {SearchTableView}  from './SearchTableView';
 import {SearchTableController}  from './SearchTableController';
+import {ColumnDefinition} from './ColumnDefinition';
+
 import './app.scss';
 
 export class AwesomeTable {
     constructor(type, name) {
 
+        //this is very useful for development with the table, however in production it is not necessary????
+        //maybe the consumer's processor will strip it out? possibly tree shaking? anyway the consumer may
+        //use this code to simplify table creation....
+        this.ColumnDefinition = new ColumnDefinition(this);
+
         //return access to a model view and controller ... then set your callbacks on these to interface with your app
         //
 
         this.type = type;
+
         switch (type) {
             case 'record':
                 this.model = new TableModel(name);
@@ -35,6 +43,13 @@ export class AwesomeTable {
         }
     }
 
+    columnDefinition(){
+        //how about some sensible default values?
+
+
+
+
+    }
     loadConfiguration(options) {
         this.model.td = options;
         this.model.loadColumnDefinition(options.column_definition);
