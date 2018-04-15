@@ -1,9 +1,25 @@
 Awesome Table
 =========
 
-A face melting mvc javascript/jquery table for creating, updating, deleting, displaying, sorting, and searching
+Awesome table is used to rapidly build tables to display, edit, sort, and search collections of records. 
 
-[![Build Status](https://travis-ci.org/iannazzi/awesome-table.svg?branch=master)](https://travis-ci.org/iannazzi/awesome-table)
+Awesome table is written in pure javascript with no library dependencies. 
+
+AwesomeTable is written using an MVC pattern and an Event pattern. 
+The M stands for Model. The Model holds the table definition and any table data. 
+The V stands for the View. The View renders the table.
+The C stands for Controller.  The Controller handles user interaction. 
+Event handling is also separated into files.
+
+The table is defined by a table definition object. The table columns are defined by a column definition object. Both a record table and a collection table can be defined using a single column definition. In other words, define the columns once, then build a searchable table, a collection table, and a record table with the single column definition. This optimizes display and editing of database records.
+
+Three different types of tables can be created:
+
+Record Table : Used to display individual records.
+Collection Table: Used to display an array of records, or a collection.
+Searchable Table: A collection table with a search table.
+ 
+ Basic stying is also included
 
 ## Installation
 
