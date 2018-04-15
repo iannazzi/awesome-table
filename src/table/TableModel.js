@@ -14,7 +14,10 @@ export class TableModel {
     constructor(name) {
 
         //first by is used for sorting.....
+        //might want this gone.....
         this.firstBy = require('thenby');
+
+
         this.sort = []; //[{name:'asc'},{name:'desc'}....]
 
 

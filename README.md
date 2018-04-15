@@ -1,9 +1,9 @@
 Awesome Table
 =========
 
-Awesome table is used to rapidly build tables to display, edit, sort, and search collections of records. 
+AwesomeTable is used to rapidly build HTML tables to display, edit, sort, and search collections of records. 
 
-Awesome table is written in pure javascript with no library dependencies. 
+AwesomeTable is written in pure javascript with no library dependencies. 
 
 AwesomeTable is written using an MVC pattern and an Event pattern. 
 The M stands for Model. The Model holds the table definition and any table data. 
@@ -32,7 +32,7 @@ check out the demos folder for usage examples.
 
 
 ## Tests
-  Setting up the testing tooling was a bit of a nightmare... so what I did is built the tests into the demo pages, and output success if they all pass. You can manually verify these tests by going to the individual pages and checking the test status at the bottom.
+  Setting up the testing tooling was a bit of a nightmare... so what I did is built the tests into the demo pages, and output success if they all pass. You can manually verify these tests by going to the individual pages in the demos folder and checking the test status at the bottom.
   
   I use nightwatch to run automated testing, however all this is doing is verifying the tests pass in the demo pages. To make it work you need selenium and the browser drivers for the browser you want to test. Checkout the documentation at nightwatch.io. 
   

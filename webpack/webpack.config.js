@@ -8,7 +8,6 @@ const SRC_DIR = path.resolve(__dirname,'../src');
 const DIST_DIR = path.resolve(__dirname, '../dist');
 
 module.exports = {
-    //entry: './src/table/AwesomeTable.js',
     entry: {
         app: SRC_DIR + '/table/AwesomeTable.js'
     },
