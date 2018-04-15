@@ -20,7 +20,7 @@ Homestead.yaml
 npm-debug.*
 /tests/file/tmpData
 /DataGitIgnore
-/dist
 /bin
+/reports
 
 _ide_helper*.php
