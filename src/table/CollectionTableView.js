@@ -430,16 +430,12 @@ export class CollectionTableView extends TableView {
     }
 
     updateCellArray(r, c, cell, col_def, col = false) {
-
-
         if (col !== false) {
             this.cells_by_name[r][col_def.db_field][col] = cell;
         }
         else {
             this.cells_by_name[r][col_def.db_field] = cell;
         }
-
-
         //I am using this one to find elements --- probably just broke it......
         this.elements_array[r][c] = cell;
         //this one will tie the col_def to the element, making working with the model easier

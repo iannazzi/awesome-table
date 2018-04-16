@@ -2,62 +2,8 @@
  * Created by embrasse-moi on 1/24/17.
  */
 
-export default class TableDefinition {
-    select_values(){
-        return [
-            {
-                'value': 1,
-                'name': 'liliana'
-            },
-            {
-                'value': 2,
-                'name': 'two'
-            }, {
-                'value': 3,
-                'name': 'three'
-            }, {
-                'value': 4,
-                'name': 'four'
-            }, {
-                'value': 5,
-                'name': 'five'
-            }, {
-                'value': 6,
-                'name': 'six'
-            }, {
-                'value': 7,
-                'name': 'seven'
-            }, {
-                'value': 8,
-                'name': 'eight'
-            }, {
-                'value': 9,
-                'name': 'nine'
-            },
-        ]
+export class TableDefinition {
 
-    }
-    tree_values_values(){
-       return [
-            {
-                "name": "one",
-                "value": "1",
-                "children": [
-                    {"name": "one_child_one", "value": "1_1"},
-                    {"name": "one_child_two", "value": "1_2"},
-                ]
-            },
-            {
-                "name": "two",
-                "value": "2",
-                "children": [
-                    {"name": "two_child_one", "value": "2_1"},
-                    {"name": "two_child_two", "value": "2_2"}
-                ]
-            }
-
-        ]
-    }
     td() {
         let td = {
             "name": "name",
@@ -68,7 +14,32 @@ export default class TableDefinition {
             "footer": [],
             "header": [],
             "column_definition": this.cd(),
-            onHeaderArrayClick : ''
+            onChange: function (args, r, c) {
+            },
+            onSaveClick(){
+                alert('save')
+            },
+            onSaveSuccess(){
+                alert('saved')
+            },
+            onDeleteClick(){
+                alert('delete');
+            },
+            onDeleteSuccess(){
+                alert('deleted');
+            },
+            onCreateSaved(id){
+                alert('deleted');
+            },
+            onCancelClick(){
+                //cancel create, cancel edit, anything else?
+                alert('canceled');
+            },
+            onCancelCreateClick(){
+                alert('canceled');
+            },
+            onHeaderArrayClick(args){
+            }
 
 
         };

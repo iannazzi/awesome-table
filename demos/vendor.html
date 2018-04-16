@@ -6,8 +6,9 @@
     <title>Awesome Table</title>
     <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css" >-->
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
-
+    <link rel="stylesheet" href="style.css" >
     <script src='../dist/awesome-table-dist.js'></script>
+
     <!--need to run column definition class through webpack so I can use it..... -->
 
 </head>
@@ -24,5 +25,352 @@
     }
 </style>
 <script>
+
+    //set up some data
+    //setup - get an instance of the table so we can set it up
+
+    //set up some data
+    let vendor = function (rows) {
+        let data = [];
+        for (let i = 0; i < rows; i++) {
+            data[i] = {};
+            data[i].id = i;
+
+            data[i].name = 'name_' + i;
+            data[i].check_name = 'check_name' + i;
+            data[i].account_number = 'account_number' + i;
+            data[i].main_email = 'email' + i + '@gmail.com';
+            data[i].active = 1;
+
+        }
+        return data;
+
+    }
+
+
+
+    let awesomeTable = new AwesomeTable.AwesomeTable('record');
+    //column defintion
+    let column_definition = [
+        {
+            "db_field": "id",
+            "type": "link",
+            "onClick": function (id) {
+                console.log('go somewhere')
+            },
+            "route": "vendors",
+            "caption": "Id",
+            "default_value": '',
+            "show_on_list": true,
+            "show_on_view": true,
+            "show_on_edit": true,
+            "show_on_create": true,
+            "td_tags": "",
+            "th_width": "40px",
+            "class": "",
+            "events": [],
+            "properties": [],
+
+            "word_wrap": true
+        },
+        {
+            "db_field": "name",
+            "type": "text",
+            "caption": "name",
+        },
+// {
+//            "db_field": "check_name",
+//            "type": "text",
+//            "caption": "Check Name",
+//            "array": 0,
+//            "default_value": '',
+//            "show_on_list": false,
+//            "show_on_view": true,
+//            "show_on_edit": true,
+//            "show_on_create": true,
+//            "td_tags": "",
+//            "class": "",
+//            "events": [],
+//            "properties": [],
+//            "word_wrap": true
+//        }, {
+//            "db_field": "account_number",
+//            "caption": "Account Number",
+//            "type": "text",
+//            "array": 0,
+//            "default_value": '',
+//            "show_on_list": true,
+//            "show_on_view": true,
+//            "show_on_edit": true,
+//            "show_on_create": true,
+//            "td_tags": "",
+//            "class": "",
+//            "events": [],
+//            "search": "LIKE ANY BETWEEN EXACT",
+//            "properties": [],
+//            "word_wrap": true,
+//            "th_width": "200px",
+//
+//        },
+//        {
+//            "db_field": "main_email",
+//            "caption": "Email",
+//            "type": "text",
+//            "array": 0,
+//            "default_value": '',
+//            "show_on_list": true,
+//            "show_on_view": true,
+//            "show_on_edit": true,
+//            "show_on_create": true,
+//            "td_tags": "",
+//            "class": "",
+//            "events": [],
+//            "properties": [],
+//            "word_wrap": true
+//        },
+//        {
+//            "db_field": "cc_email",
+//            "caption": "CC Email",
+//            "type": "text",
+//            "array": 0,
+//            "default_value": '',
+//            "show_on_list": false,
+//            "show_on_view": true,
+//            "show_on_edit": true,
+//            "show_on_create": true,
+//            "td_tags": "",
+//            "class": "",
+//            "events": [],
+//            "properties": [],
+//            "word_wrap": true
+//        }, {
+//            "db_field": "main_phone",
+//            "caption": "Phone #",
+//            "type": "text",
+//            "array": 0,
+//            "default_value": '',
+//            "show_on_list": true,
+//            "show_on_view": true,
+//            "show_on_edit": true,
+//            "show_on_create": true,
+//            "td_tags": "",
+//            "class": "",
+//            "events": [],
+//            "properties": [],
+//            "word_wrap": true
+//        }, {
+//            "db_field": "work_phone",
+//            "caption": "Work Phone #",
+//            "type": "text",
+//            "array": 0,
+//            "default_value": '',
+//            "show_on_list": false,
+//            "show_on_view": true,
+//            "show_on_edit": true,
+//            "show_on_create": true,
+//            "td_tags": "",
+//            "class": "",
+//            "events": [],
+//            "properties": [],
+//            "word_wrap": true
+//        }, {
+//            "db_field": "mobile",
+//            "caption": "Mobile #",
+//            "type": "text",
+//            "array": 0,
+//            "default_value": '',
+//            "show_on_list": false,
+//            "show_on_view": true,
+//            "show_on_edit": true,
+//            "show_on_create": true,
+//            "td_tags": "",
+//            "class": "",
+//            "events": [],
+//            "properties": [],
+//            "word_wrap": true
+//        }, {
+//            "db_field": "fax",
+//            "caption": "Fax #",
+//            "type": "text",
+//            "array": 0,
+//            "default_value": '',
+//            "show_on_list": false,
+//            "show_on_view": true,
+//            "show_on_edit": true,
+//            "show_on_create": true,
+//            "td_tags": "",
+//            "class": "",
+//            "events": [],
+//            "properties": [],
+//            "word_wrap": true
+//        },
+//        {
+//            "db_field": "address1",
+//            "caption": "Address 1",
+//            "type": "text",
+//            "show_on_list": false,
+//            "show_on_view": true,
+//            "show_on_edit": true,
+//            "show_on_create": true,
+//            "th_width": "150px",
+//            "td_tags": "",
+//            "class": "",
+//            "events": [],
+//            "search_default": "",
+//
+//            "properties": [],
+//            "word_wrap": true,
+//            "post": true
+//        },
+//        {
+//            "db_field": "address2",
+//            "caption": "Address 2",
+//            "type": "text",
+//            "show_on_list": false,
+//            "show_on_view": true,
+//            "show_on_edit": true,
+//            "show_on_create": true,
+//            "th_width": "150px",
+//            "td_tags": "",
+//            "class": "",
+//            "events": [],
+//            "search_default": "",
+//
+//            "properties": [],
+//            "word_wrap": true,
+//            "post": true
+//        },
+//        {
+//            "db_field": "address3",
+//            "caption": "Address 3",
+//            "type": "text",
+//            "show_on_list": false,
+//            "show_on_view": true,
+//            "show_on_edit": true,
+//            "show_on_create": true,
+//            "th_width": "150px",
+//            "td_tags": "",
+//            "class": "",
+//            "events": [],
+//            "search_default": "",
+//
+//            "properties": [],
+//            "word_wrap": true,
+//            "post": true
+//        },
+//        {
+//            "db_field": "city",
+//            "caption": "City",
+//            "type": "text",
+//            "show_on_list": false,
+//            "show_on_view": true,
+//            "show_on_edit": true,
+//            "show_on_create": true,
+//            "th_width": "150px",
+//            "td_tags": "",
+//            "class": "",
+//            "events": [],
+//            "search_default": "",
+//
+//            "properties": [],
+//            "word_wrap": true,
+//            "post": true
+//        },
+//        {
+//            "db_field": "state_id",
+//            "caption": "State",
+//            "type": "select",
+//            "select_values": awesomeTable.ColumnDefinition.select_values(),
+//            "show_on_list": false,
+//            "show_on_view": true,
+//            "show_on_edit": true,
+//            "show_on_create": true,
+//            "th_width": "150px",
+//            "td_tags": "",
+//            "class": "",
+//            "events": [],
+//            "search_default": "",
+//
+//            "properties": [],
+//            "word_wrap": true,
+//            "post": true
+//        },
+//        {
+//            "db_field": "zip",
+//            "caption": "Zip code",
+//            "type": "text",
+//            "show_on_list": false,
+//            "show_on_view": true,
+//            "show_on_edit": true,
+//            "show_on_create": true,
+//            "th_width": "150px",
+//            "td_tags": "",
+//            "class": "",
+//            "events": [],
+//            "search_default": "",
+//
+//            "properties": [],
+//            "word_wrap": true,
+//            "post": true
+//        },
+//        {
+//            "db_field": "active",
+//            "caption": "Active",
+//            "type": "checkbox",
+//            "array": 0,
+//            "default_value": 1,
+//            "show_on_list": true,
+//            "show_on_view": true,
+//            "show_on_edit": true,
+//            "show_on_create": true,
+//            "td_tags": "",
+//            "th_width": "80px",
+//            "class": "",
+//            "events": [],
+//            "search": "LIKE ANY BETWEEN EXACT",
+//            "properties": [],
+//            "word_wrap": true
+//        }, {
+//            "db_field": "comments",
+//            "caption": "Comments",
+//            "type": "textarea",
+//            "array": 0,
+//            "default_value": '',
+//            "show_on_list": true,
+//            "show_on_view": true,
+//            "show_on_edit": true,
+//            "show_on_create": true,
+//            "td_tags": "",
+//            "class": "",
+//            "events": [],
+//            "properties": [],
+//            "word_wrap": true
+//        },
+    ];
+    let data = vendor(1)    //do I want
+    let config = {
+        name: 'awesome-table',
+        data: data,
+        column_definition,
+        row_calculations: [], //fired on .draw() good for updating cell values
+        table_buttons: ['edit'],
+        access: 'read', //read vs write
+        onChange: function (args, r, c) {
+        },
+        onSaveClick(){
+            awesomeTable.model.saveBackupData();
+            let post_data = {data: awesomeTable.controller.getPostData(), _method: 'put'};
+            console.log(JSON.stringify(post_data))
+            awesomeTable.controller.makeReadable();
+        }
+
+    }
+    //once everything is defined we can load up the config then render.....
+    awesomeTable.loadConfiguration(config);
+    awesomeTable.addTo('table')
+
+
+
+
 
 </script>

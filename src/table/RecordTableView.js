@@ -15,6 +15,7 @@ export class RecordTableView extends TableView {
         this.recordTableDiv = this.createRecordTableDiv();
         this.table = this.createTableElement(name);
 
+
         this.recordTableDiv.appendChild(this.table);
 
         this.recordTableDiv.appendChild(this.createButtons());
@@ -62,7 +63,8 @@ export class RecordTableView extends TableView {
 
         let tbl = document.createElement('table');
         tbl.id = name + '_table';
-        tbl.className = 'record_table';
+        tbl.classList.add('awesome-record-table')
+        tbl.classList.add('table')
 
         return tbl;
 
@@ -124,12 +126,15 @@ export class RecordTableView extends TableView {
             }
             th.innerHTML = caption;
             tr.appendChild(th);
+            console.log(this.model.tdo);
             let data = this.model.tdo[0][col_def.db_field].data;
             let cell = tr.insertCell(-1);
             let element = this.createElement(data, col_def);
             element.awesomeTable = {};
             element.awesomeTable.col_def = col_def;
             this.elements[0][col_def.db_field] = element;
+            this.elements_array = [];
+            this.elements_array[0] = [];
             this.elements_array[0].push(element);
             cell.appendChild(element);
         }

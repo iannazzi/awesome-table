@@ -6,8 +6,10 @@ import {TableModel}  from './TableModel';
 import {SearchTableView}  from './SearchTableView';
 import {SearchTableController}  from './SearchTableController';
 import {ColumnDefinition} from './ColumnDefinition';
+import {TableDefinition} from './TableDefinition';
 
-import './app.scss';
+
+import './AwesomeTable.scss';
 
 export class AwesomeTable {
     constructor(type, name) {
@@ -16,6 +18,7 @@ export class AwesomeTable {
         //maybe the consumer's processor will strip it out? possibly tree shaking? anyway the consumer may
         //use this code to simplify table creation....
         this.ColumnDefinition = new ColumnDefinition(this);
+        this.TableDefinition = new TableDefinition(this);
 
         //return access to a model view and controller ... then set your callbacks on these to interface with your app
         //

@@ -1,12 +1,21 @@
 .recordTableView .btn-new
 {
 }
-.record_table {
+.awesome-record-table {
   width: 600px;
   margin: 5px 0px 5px 0px;
 }
+.awesome-record-table th {
+  border: 1px solid black;
+  text-align: left;
+}
+.awesome-record-table tbody td {
 
-.record_table tbody td {
+  border: 1px solid black;
+
+
+  text-align: right;
+
   white-space: pre-wrap;
   input {
     width: 100%;
