@@ -126,7 +126,6 @@ export class RecordTableView extends TableView {
             }
             th.innerHTML = caption;
             tr.appendChild(th);
-            console.log(this.model.tdo);
             let data = this.model.tdo[0][col_def.db_field].data;
             let cell = tr.insertCell(-1);
             let element = this.createElement(data, col_def);

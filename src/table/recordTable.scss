@@ -1,34 +1,18 @@
-.recordTableView .btn-new
-{
-}
-.awesome-record-table {
-  width: 600px;
-  margin: 5px 0px 5px 0px;
-}
+
 .awesome-record-table th {
   border: 1px solid black;
   text-align: left;
 }
 .awesome-record-table tbody td {
-
   border: 1px solid black;
-
-
   text-align: right;
-
   white-space: pre-wrap;
-  input {
-    width: 100%;
-  }
-  textarea{
-    width:100%;
-  }
 
 }
+
+
 .record_table_buttons button {
-
   margin: 5px 5px 5px 0px;
-
 }
 .record_table_buttons .edit {
   margin: 5px 5px 5px 0px;

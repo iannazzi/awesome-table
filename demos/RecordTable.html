@@ -6,7 +6,7 @@
     <title>Awesome Table</title>
     <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css" >-->
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
-    <link rel="stylesheet" href="style.css" >
+    <link rel="stylesheet" href="style.css">
     <script src='../dist/awesome-table-dist.js'></script>
 
     <!--need to run column definition class through webpack so I can use it..... -->
@@ -14,14 +14,14 @@
 </head>
 <body>
 <a href="../index.html">Home</a>
-<h1>Vendor</h1>
+<h1>Generic Record Table</h1>
 <div id='table'></div>
 <h1>Testing Results</h1>
 <div id='tdv'></div>
 </body>
 <style>
     #awesome-table_table {
-        width: 850px;
+        width: 600px;
     }
 </style>
 <script>
@@ -30,23 +30,16 @@
     //setup - get an instance of the table so we can set it up
 
     //set up some data
-    let vendor = function (rows) {
-        let data = [];
-        for (let i = 0; i < rows; i++) {
-            data[i] = {};
-            data[i].id = i;
-
-            data[i].name = 'name_' + i;
-            data[i].check_name = 'check_name' + i;
-            data[i].account_number = 'account_number' + i;
-            data[i].main_email = 'email' + i + '@gmail.com';
-            data[i].active = 1;
-
-        }
+    let data = function () {
+        let data = {};
+        data.id = 1;
+        data.name = 'name_' + 1;
+        data.check_name = 'check_name' + 1;
+        data.account_number = 'account_number' + 1;
+        data.main_email = 'email' + 1 + '@gmail.com';
+        data.active = 1;
         return data;
-
     }
-
 
 
     let awesomeTable = new AwesomeTable.AwesomeTable('record');
@@ -74,10 +67,89 @@
             "word_wrap": true
         },
         {
-            "db_field": "name",
+            "db_field": 'name',
+            "caption": "Name", //this can also be a 2-d array to match data that is in an array
             "type": "text",
-            "caption": "name",
         },
+        {
+            "db_field": 'html',
+            "caption": "HTML", //this can also be a 2-d array to match data that is in an array
+            "type": "html",
+            'default_value': 'default value is set',
+        },
+        {
+            "db_field": 'date',
+            "caption": "Date", //this can also be a 2-d array to match data that is in an array
+            "type": "date",
+            'min': '2018-04-11',   //add a minimum value
+            'max': '2020-01-12', //add a maximum value for the browser to handle
+        },
+        {
+            "db_field": 'time',
+            "caption": "time", //this can also be a 2-d array to match data that is in an array
+            "type": "time",
+            "placeholder":"HH:MM AM/PM or 24 Hr"
+        },
+        {
+            "db_field": 'password',
+            "caption": "password", //this can also be a 2-d array to match data that is in an array
+            "type": "password",
+        },
+        {
+            db_field: 'number',
+            caption: "number", //this can also be a 2-d array to match data that is in an array
+            type: "number",
+            min: 1,   //add a minimum value
+            max: 10, //add a maximum value for the browser to handle
+            round: 2
+        },
+        {
+            db_field: 'number',
+            caption: "number", //this can also be a 2-d array to match data that is in an array
+            type: "number",
+            min: 1,   //add a minimum value
+            max: 10, //add a maximum value for the browser to handle
+            round: 0
+        },
+        {
+            "db_field": 'textarea',
+            "caption": "textarea", //this can also be a 2-d array to match data that is in an array
+            "type": "textarea",
+        },
+        {
+            "db_field": 'checkbox',
+            "caption": "checkbox", //this can also be a 2-d array to match data that is in an array
+            "type": "checkbox",
+        },
+        {
+            "db_field": 'select',
+            "caption": "select", //this can also be a 2-d array to match data that is in an array
+            "type": "select",
+            'select_values': awesomeTable.ColumnDefinition.select_values(), //or this.tree_select_values();
+        },
+        {
+            "db_field": 'treeSelect',
+            "caption": "treeSelect", //this can also be a 2-d array to match data that is in an array
+            "type": "tree_select",
+            'select_values': awesomeTable.ColumnDefinition.tree_select_values(), //or this.tree_select_values();
+        },
+        {
+            "db_field": 'button',
+            "caption": "button",
+            "type": "button",
+            button_caption: 'Yo Yo Ma'
+        },
+        {
+            "db_field": 'link',
+            "caption": "link", //this can also be a 2-d array to match data that is in an array
+            "type": "link",
+        },
+        {
+            "db_field": 'radio',
+            "caption": "radio", //this can also be a 2-d array to match data that is in an array
+            "type": "radio",
+        }
+
 // {
 //            "db_field": "check_name",
 //            "type": "text",
@@ -347,10 +419,9 @@
 //            "word_wrap": true
 //        },
     ];
-    let data = vendor(1)    //do I want
     let config = {
         name: 'awesome-table',
-        data: data,
+        data: data(), //data comes in as key-value for the record table...
         column_definition,
         row_calculations: [], //fired on .draw() good for updating cell values
         table_buttons: ['edit'],
@@ -368,9 +439,6 @@
     //once everything is defined we can load up the config then render.....
     awesomeTable.loadConfiguration(config);
     awesomeTable.addTo('table')
-
-
-
 
 
 </script>

@@ -72,7 +72,6 @@ export class TableModel {
     }
 
     loadData(data) {
-        console.log(data);
         this.backup_data = data;
         this.tdo = [];
         // console.log('data');

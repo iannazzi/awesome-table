@@ -170,6 +170,9 @@ export class TableView {
             case 'link':
                 return this.createLink(col_def, data);
                 break;
+            case 'time':
+                return this.createTime(col_def, data);
+                break;
             default:
                 return document.createTextNode('type "' + col_def.type + '" has not been coded');
 
@@ -315,10 +318,8 @@ export class TableView {
 
     createTextInput(col_def, data) {
         if (this.checkWrite()) {
-            //can be text, number
             let element = document.createElement('input');
             element.type = 'text';
-            // element.name = col_def['db_field'] + '[]';
             if (typeof col_def.placeholder != 'undefined' && col_def.placeholder) {
                 element.placeholder = col_def.placeholder;
             }
@@ -396,7 +397,9 @@ export class TableView {
 
 
     }
-
+    createTime(col_def, data){
+        return this.createTextInput(col_def, data)
+    }
     createLink(col_def, data) {
         if (this.model.td.table_view == 'index') {
             let a = document.createElement('a');

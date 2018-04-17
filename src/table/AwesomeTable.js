@@ -58,7 +58,15 @@ export class AwesomeTable {
         this.model.loadColumnDefinition(options.column_definition);
         //if there is data load it....
         if (options.data !== 'undefined') {
-            this.model.loadData(options.data);
+            if (this.type == 'record')
+            {
+                this.model.loadData([options.data]);
+
+            }
+            else{
+                this.model.loadData(options.data);
+
+            }
         }
 
         //the table type is used to show/hide columns on edit, create, view ....
