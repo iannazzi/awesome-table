@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'/>
+
+    <title>Awesome Table</title>
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css" >-->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+    <link rel="stylesheet" href="style.css">
+
+    <script src='../dist/awesome-table-dist.js'></script>
+    <script src="commonColumnDefinitions.js"></script>
+</head>
+<body>
+<a href="../index.html">Home</a>
+<h1>Searchable Table</h1>
+<div id='table'></div>
+<h1>Testing Results</h1>
+<div id='tdv'></div>
+</body>
+<style>
+    #awesome-table_table {
+        width: 850px;
+    }
+    #awesome-table_search {
+        width: 850px;
+    }
+    #awesome-table_table thead th {
+        font-size:12px;
+    }
+</style>
+<script>
+    //setup - get an instance of the table so we can set it up
+    let datar = function (rows) {
+        let d = [];
+        for (let r = 0; r < rows; r++) {
+            d[r] = {};
+            d[r].name = r;
+            d[r].date = '2018-01-01'
+            d[r].select = r
+            d[r].tree_select = r
+            d[r].checkbox = 1;
+
+
+        }
+        return d;
+    }
+    let awesomeTable = new AwesomeTable.AwesomeTable('searchable');
+
+    let column_definition = allOptions(awesomeTable);
+
+    //    set up some data
+
+
+    //  add in row calculations....
+
+
+    //to start add the table like normal...
+    //the search table will render....
+    //now search and we need to render a table....
+    //
+
+
+
+    let config = {
+        name: 'awesome-table',
+        data: [],
+        column_definition,
+        row_calculations: [], //fired on .draw() good for updating cell values
+        table_buttons: [],
+        access: 'read', //read vs write
+        onSearchClick: function () {
+            awesomeTable.renderSearchResults(datar(10))
+        }
+
+
+    }
+    //once everything is defined we can load up the config then render.....
+    awesomeTable.loadConfiguration(config);
+    awesomeTable.addTo('table')
+
+    //wait.... how do I add this?
+
+
+
+    //test
+    let passing = true;
+    let handeled_errors = [];
+    let errors = [];
+    let expect_false, expect_true, test_val;
+    let test;
+
+    //check the search table rendered correctly
+
+    //get a search value - check default search value
+
+    //set a search value
+
+    //press search and see results
+
+    //send back zero results
+    
+    //search again
+
+
+    // I was planning on stripping these out, but on second thought why --- this functionality will almost always be needed....
+
+    //advanced features..... storage of search, populating values from the uri, call back function for retreiving data....
+
+    //search storage ----- hmmm i think i want something else for this????? but I would love to deal with this here???
+
+    //getData function? --- so the table would take a callback to gather the data... sounds messy?
+
+    //load data from the url ---- also sounds messy, but wouldn't I always want that functionality so I can pass around pages?
+
+
+
+</script>

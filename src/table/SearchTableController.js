@@ -86,7 +86,25 @@ export class SearchTableController extends CollectionTableController {
         })
     }
 
+    //this has to pull out..... table code does not get data....
+    renderSearch(data){
+        this.model.loadData(data)
+        if(data.length>0){
+            this.view.addDataTable();
+            this.setFocusToFirstInputOfSearch()
 
+        }
+        else{
+            this.view.addMessageInsteadOfTable(`There are no search results`)
+            this.setFocusToFirstInputOfSearch()
+
+
+        }
+        if(typeof this.model.td.onLoadPageComplete === 'function'){
+            this.model.td.onLoadPageComplete();
+        }
+        this.setFocusToFirstInputOfSearch()
+    }
     getAndRenderSearch(){
         let controller = this;
         controller.model.td.getData({
@@ -94,24 +112,7 @@ export class SearchTableController extends CollectionTableController {
             url: '/' + controller.model.td.search_route,
             entity: controller.getSearchPostData(),
             onSuccess: function (response) {
-
-                controller.model.loadData(response.data.records)
-                if(response.data.records.length>0){
-                    controller.view.addDataTable();
-                    controller.setFocusToFirstInputOfSearch()
-
-                }
-                else{
-                    controller.view.addMessageInsteadOfTable(`There are no search results`)
-                    controller.setFocusToFirstInputOfSearch()
-
-
-                }
-                if(typeof controller.model.td.onLoadPageComplete === 'function'){
-                    controller.model.td.onLoadPageComplete();
-                }
-                controller.setFocusToFirstInputOfSearch()
-
+                controller.renderSearch(response.data.records)
             }
 
         })

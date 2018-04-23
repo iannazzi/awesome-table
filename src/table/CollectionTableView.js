@@ -90,6 +90,7 @@ export class CollectionTableView extends TableView {
     }
 
     drawThead() {
+        //a better way to do this is just create the thead... then assign it...
         let self = this;
 
         this.checkTHeaderArray();

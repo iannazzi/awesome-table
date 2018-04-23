@@ -94,6 +94,10 @@ export class AwesomeTable {
         this.div.appendChild(this.getTable());
     }
 
+    renderSearchResults(data){
+        this.controller.renderSearch(data)
+    }
+
     getTable() {
         switch (this.type) {
             case 'record':

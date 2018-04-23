@@ -39,6 +39,9 @@ export class TableDefinition {
                 alert('canceled');
             },
             onHeaderArrayClick(args){
+            },
+            onSearchClick(){
+
             }
 
 

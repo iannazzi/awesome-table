@@ -4,7 +4,7 @@ export class ColumnDefinition {
         this.awesomeTable=awesomeTable;
     }
     cd() {
-        let td = {
+        let cd = {
             "db_field": 'replace',
             "caption": "replace", //this can also be a 2-d array to match data that is in an array
             "type": "html date time password text number textarea row_checkbox row_number checkbox select tree_select button link radio",
@@ -29,7 +29,7 @@ export class ColumnDefinition {
             'word_wrap': true,
             'post': true
         };
-        return td;
+        return cd;
     }
     allOptions() {
 
