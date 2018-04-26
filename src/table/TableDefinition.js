@@ -3,7 +3,17 @@
  */
 
 export class TableDefinition {
+    verifyTableDefinition(td){
+        let ok = true;
+        let errors = [];
+        if(typeof td.name === 'undefined'){
+            //problem
+            ok = false;
+            errors.push('name is not defined')
+        }
 
+
+    }
     td() {
         let td = {
             "name": "name",
@@ -14,6 +24,15 @@ export class TableDefinition {
             "footer": [],
             "header": [],
             "column_definition": this.cd(),
+            getData: function(){
+                //a callback funtion to return either an array or false.
+                //for example
+                let data = [];
+                data [0] = {};
+                data[0].name = 'name'
+                return data;
+                //or return false
+            },
             onChange: function (args, r, c) {
             },
             onSaveClick(){

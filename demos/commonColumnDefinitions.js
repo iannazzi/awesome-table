@@ -25,6 +25,7 @@ let allOptions = function(awesomeTable){
             "db_field": 'name',
             "caption": "Name", //this can also be a 2-d array to match data that is in an array
             search:true,
+            search_default:'hi',
             "type": "text",
         },
         {
@@ -78,7 +79,7 @@ let allOptions = function(awesomeTable){
             "caption": "checkbox", //this can also be a 2-d array to match data that is in an array
             "type": "checkbox",
             search:true,
-            search_default:0,
+            search_default:1,
         },
         {
             "db_field": 'select',

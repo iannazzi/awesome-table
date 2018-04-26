@@ -66,7 +66,9 @@ createSearchButtons(){
 
         let tbl = document.createElement('table');
         tbl.id = name + '_search';
-        tbl.className = 'search_table';
+        tbl.classList.add('awesome-search-table')
+        tbl.classList.add('table')
+
         return tbl;
     }
 
@@ -126,7 +128,9 @@ createSearchButtons(){
     updateSearchTbody(tbody) {
         let tr = tbody.insertRow();
         let col_counter = 0;
-        this.search_elements = [];
+        this.search_elements_array = [];
+        this.search_elements_by_name = {};
+
         this.model.cdo.forEach(col_def => {
             if (typeof col_def['search'] != 'undefined') {
                 let th_width = '';
@@ -139,8 +143,11 @@ createSearchButtons(){
                     element.type = 'date';
                     element.name = this.model.td.name + '_' + col_def['db_field'] + '_date_start';
                     cell.appendChild(element);
-                    this.search_elements.push(element)
+                    this.search_elements_array.push(element)
+                    this.search_elements_by_name[col_def['db_field'] + '_date_start']=element;
                     col_def['search_element'] = [];
+
+
                     col_def['search_element'][0] = element;
 
 
@@ -153,7 +160,9 @@ createSearchButtons(){
                     element2.type = 'date';
                     element2.name = this.model.td.name + '_' + col_def['db_field'] + '_date_end';
                     cell.appendChild(element2);
-                    this.search_elements.push(element2)
+                    this.search_elements_array.push(element2)
+                    this.search_elements_by_name[col_def['db_field'] + '_date_end']=element2;
+
                     col_def['search_element'][1] = element;
 
 
@@ -174,22 +183,26 @@ createSearchButtons(){
                     option.appendChild(document.createTextNode('Not Checked'));
                     element.appendChild(option);
                     cell.appendChild(element);
-                    this.search_elements.push(element);
+                    this.search_elements_array.push(element);
+                    this.search_elements_by_name[col_def['db_field']]=element;
                     col_def['search_element'] = element;
                 }
                 else if (col_def['type'] == 'select') {
                     let element = this.createSelect(col_def);
                     element.name = this.model.td.name + '_' + col_def['db_field']
                     cell.appendChild(element);
-                    this.search_elements.push(element)
+                    this.search_elements_array.push(element)
                     col_def['search_element'] = element;
+                    this.search_elements_by_name[col_def['db_field']]=element;
+
 
                 }
                 else if (col_def['type'] == 'tree_select') {
                     let element = this.createTreeSelect(col_def);
                     element.name = this.model.td.name + '_' + col_def['db_field']
                     cell.appendChild(element);
-                    this.search_elements.push(element)
+                    this.search_elements_array.push(element)
+                    this.search_elements_by_name[col_def['db_field']]=element;
                     col_def['search_element'] = element;
 
                 }
@@ -198,7 +211,8 @@ createSearchButtons(){
                     element.type = col_def.type;
                     element.name = this.model.td.name + '_' + col_def['db_field']
                     cell.appendChild(element);
-                    this.search_elements.push(element)
+                    this.search_elements_array.push(element)
+                    this.search_elements_by_name[col_def['db_field']]=element;
                     col_def['search_element'] = element;
 
                 }

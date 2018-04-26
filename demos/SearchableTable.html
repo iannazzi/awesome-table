@@ -49,19 +49,16 @@
 
     let column_definition = allOptions(awesomeTable);
 
-    //    set up some data
+
+    //get data.....
+    //how do I specify the return data...
+    //some one may ajax
+    // in this case i just want to return some garbadge....
 
 
-    //  add in row calculations....
-
-
-    //to start add the table like normal...
-    //the search table will render....
-    //now search and we need to render a table....
-    //
-
-
-
+    let getData = function(){
+        return datar(10)
+    }
     let config = {
         name: 'awesome-table',
         data: [],
@@ -69,8 +66,11 @@
         row_calculations: [], //fired on .draw() good for updating cell values
         table_buttons: [],
         access: 'read', //read vs write
+        getData,
         onSearchClick: function () {
-            awesomeTable.renderSearchResults(datar(10))
+
+            //go there with the query....
+            //awesomeTable.renderSearchResults(datar(10))
         }
 
 
@@ -79,7 +79,10 @@
     awesomeTable.loadConfiguration(config);
     awesomeTable.addTo('table')
 
-    //wait.... how do I add this?
+
+
+
+
 
 
 
@@ -91,6 +94,10 @@
     let test;
 
     //check the search table rendered correctly
+    let check = document.getElementsByName('awesome-table_checkbox').value;
+    console.log(check);
+
+
 
     //get a search value - check default search value
 
@@ -99,11 +106,14 @@
     //press search and see results
 
     //send back zero results
-    
+
     //search again
 
 
     // I was planning on stripping these out, but on second thought why --- this functionality will almost always be needed....
+
+
+
 
     //advanced features..... storage of search, populating values from the uri, call back function for retreiving data....
 

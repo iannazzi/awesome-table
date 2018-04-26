@@ -1,7 +1,6 @@
 import {CollectionTableController} from './CollectionTableController'
-import {parseQuery} from '../lib/url'
 import {SearchTableEvents} from './SearchTableEvents';
-import {UriController} from './UriController';
+import {SearchTableUriController} from './SearchTableUriController';
 
 
 export class SearchTableController extends CollectionTableController {
@@ -10,7 +9,7 @@ export class SearchTableController extends CollectionTableController {
         let self = this;
         this.show_records_autmatically_below = 50;
 
-        this.uri = new UriController(this);
+        this.uri = new SearchTableUriController(this);
 
 
         this.searchTableEvents = new SearchTableEvents(this);
@@ -28,7 +27,7 @@ export class SearchTableController extends CollectionTableController {
         let post_data = {};
         post_data['search_fields'] = {};
         post_data['table_name'] = this.model.td.name;
-        this.view.search_elements.forEach(element => {
+        this.view.search_elements_array.forEach(element => {
             post_data.search_fields[element.name] = element.value;
         })
         console.log('I need controller for testing.... search post data');
@@ -105,22 +104,33 @@ export class SearchTableController extends CollectionTableController {
         }
         this.setFocusToFirstInputOfSearch()
     }
+
+
+    //ok... this part is fucked.....
+
+
     getAndRenderSearch(){
         let controller = this;
-        controller.model.td.getData({
-            method: 'post',
-            url: '/' + controller.model.td.search_route,
-            entity: controller.getSearchPostData(),
-            onSuccess: function (response) {
-                controller.renderSearch(response.data.records)
-            }
+        //call a user supplied function to grab the data
+        let data = controller.model.td.getData(controller.getSearchPostData());
+        if(data !== false){
+            controller.renderSearch(data)
+        }
 
-        })
+        // controller.model.td.getData({
+        //     method: 'post',
+        //     url: '/' + controller.model.td.search_route,
+        //     entity: controller.getSearchPostData(),
+        //     onSuccess: function (response) {
+        //         controller.renderSearch(response.data.records)
+        //     }
+        //
+        // })
     }
 
 
     onReset() {
-        this.view.search_elements.forEach(element => {
+        this.view.search_elements_array.forEach(element => {
             switch (element.type) {
                 case 'tree_select':
                 case 'select-multiple':
@@ -140,12 +150,11 @@ export class SearchTableController extends CollectionTableController {
     getSearchFormValues() {
         let search_values = {};
 
-        this.view.search_elements.forEach(element => {
+        this.view.search_elements_array.forEach(element => {
             switch (element.type) {
                 case 'text':
                 case 'number':
                 case 'date':
-                    console.log(element);
                     name = element.name
                     search_values[name] = element.value;
                     if (element.value != '') {
@@ -166,17 +175,18 @@ export class SearchTableController extends CollectionTableController {
 
     }
     setFocusToFirstInputOfSearch() {
-        if(this.view.search_elements[0].nodeName.toLowerCase() === 'input'){
-            this.view.search_elements[0].focus();
-            this.view.search_elements[0].select();
+
+        if(this.view.search_elements_array[0].nodeName.toLowerCase() === 'input'){
+            this.view.search_elements_array[0].focus();
+            this.view.search_elements_array[0].select();
         }
-        else if (this.view.search_elements[0].nodeName.toLowerCase() === 'select'){
+        else if (this.view.search_elements_array[0].nodeName.toLowerCase() === 'select'){
             console.log('select.......');
-            this.view.search_elements[0].focus();
+            this.view.search_elements_array[0].focus();
         }
         else{
-            this.view.search_elements[0].focus();
-            this.view.search_elements[0].select();
+            this.view.search_elements_array[0].focus();
+            this.view.search_elements_array[0].select();
         }
 
     }

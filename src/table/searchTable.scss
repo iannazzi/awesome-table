@@ -1,6 +1,19 @@
-.search_table {
+.awesome-search-table {
   margin: 5px 0px 5px 0px;
 }
+
+.awesome-search-table thead th{
+  text-align: center;
+  vertical-align:center;
+  border: 1px solid gray;
+}
+.awesome-search-table tbody td {
+  border: 1px solid black;
+  text-align: right; /* center checkbox horizontally */
+  //vertical-align: middle; /* center checkbox vertically */
+}
+
+
 .search_buttons {
 
 }

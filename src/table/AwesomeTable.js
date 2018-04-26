@@ -92,6 +92,16 @@ export class AwesomeTable {
     addTo(div_id) {
         this.div = document.getElementById(div_id);
         this.div.appendChild(this.getTable());
+        //if it is searchable then we need to load values to the search table
+        if(this.type =='searchable'){
+            //now we need to decide on how to populate the search values
+            //
+            //url -- we entered a page with the url
+            //storage
+            //default
+            awesomeTable.controller.loadPageEvent.notify()
+        }
+
     }
 
     renderSearchResults(data){

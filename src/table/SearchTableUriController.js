@@ -1,6 +1,8 @@
-export class UriController{
+export class SearchTableUriController{
     constructor(controller){
         this.controller=controller;
+        window.JsUri = require('jsuri');
+
     }
     getStoredSortName(){
         return this.controller.model.td.name + '_sort';
@@ -13,9 +15,14 @@ export class UriController{
         let search_data = this.getSearchUrlData();
         return Object.assign(search_data , sort_data);
     }
+    setUri(){
+        let sort_data = this.getSortUri();
+        let search_data = this.getSearchUrlData();
+        
+    }
     getSearchUrlData(){
         let url_data = {};
-        this.controller.view.search_elements.forEach(element => {
+        this.controller.view.search_elements_array.forEach(element => {
             url_data[element.name] = element.value;
         })
         url_data['table_name'] = this.controller.model.td.name;
@@ -23,8 +30,8 @@ export class UriController{
     }
     checkUri(search_query) {
         let uri = new JsUri(search_query)
-        for (let i = 0; i < this.controller.view.search_elements.length; i++) {
-            if (uri.getQueryParamValue(this.controller.view.search_elements[i].name)) {
+        for (let i = 0; i < this.controller.view.search_elements_array.length; i++) {
+            if (uri.getQueryParamValue(this.controller.view.search_elements_array[i].name)) {
                 return true;
             }
         }
@@ -40,7 +47,7 @@ export class UriController{
 
         let uri = new JsUri(search_query)
 
-        this.controller.view.search_elements.forEach(element => {
+        this.controller.view.search_elements_array.forEach(element => {
             if (uri.getQueryParamValue(element.name)) {
                 element.value = uri.getQueryParamValue(element.name)
             }
@@ -123,12 +130,10 @@ export class UriController{
 
     }
     checkStorage() {
-        // console.log('checkStorageForSearch ' + this.getStoredSearchName());
-        return window.storage[this.getStoredSearchName()]
-
+        return window.localStorage[this.getStoredSearchName()]
     }
     retrieveSearch() {
-        return JSON.parse(window.storage[this.getStoredSearchName()]);
+        return JSON.parse(window.localStorage[this.getStoredSearchName()]);
     }
     storeSearch() {
         let search_values = this.controller.getSearchFormValues();
@@ -137,9 +142,9 @@ export class UriController{
     }
     loadSearchFromStorage() {
         console.log('loading search values from storage')
-        console.log(window.storage[this.getStoredSearchName()])
+        console.log(window.localStorage[this.getStoredSearchName()])
         let stored_values = this.retrieveSearch();
-        this.controller.view.search_elements.forEach(element => {
+        this.controller.view.search_elements_array.forEach(element => {
             if (stored_values[element.name]) {
                 element.value = stored_values[element.name]
             }
@@ -166,8 +171,8 @@ export class UriController{
     //     })
     // }
     loadSortFromStorage() {
-        if(window.storage[this.getStoredSortName()]){
-            this.controller.model.sort = JSON.parse(window.storage[this.getStoredSortName()]);
+        if(window.localStorage[this.getStoredSortName()]){
+            this.controller.model.sort = JSON.parse(window.localStorage[this.getStoredSortName()]);
         }
     }
     removeSort(name) {
@@ -185,8 +190,8 @@ export class UriController{
         //this.removeSortFromUri(uri);
         //console.log('pushing ' + uri.toString())
         //this.pushState(uri);
-        delete window.storage[this.getStoredSearchName()];
-        delete window.storage[this.getStoredSortName()];
+        delete window.localStorage[this.getStoredSearchName()];
+        delete window.localStorage[this.getStoredSortName()];
         this.resetStoredSort();
 
         //this callback should send it
@@ -211,7 +216,7 @@ export class UriController{
     // }
     // addSearchToUri(uri) {
     //     let search_values = this.controller.getSearchFormValues();
-    //     this.controller.view.search_elements.forEach(element => {
+    //     this.controller.view.search_elements_array.forEach(element => {
     //         uri.deleteQueryParam(element.name)
     //     })
     //     for (let i in search_values) {
@@ -219,8 +224,8 @@ export class UriController{
     //     }
     //
     // }
-    // deleteSearchValuesFromUri(uri, search_elements) {
-    //     this.controller.view.search_elements.forEach(element => {
+    // deleteSearchValuesFromUri(uri, search_elements_array) {
+    //     this.controller.view.search_elements_array.forEach(element => {
     //         uri.deleteQueryParam(element.name)
     //     })
     // }
