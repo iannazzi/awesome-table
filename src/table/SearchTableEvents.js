@@ -19,8 +19,6 @@ export class SearchTableEvents {
                 //shit url change really????? document.reload here????? that seems funcked up???
 
 
-
-
                 if (typeof controller.model.td.onSearchClick === 'function') {
                     controller.model.td.onSearchClick(search_fields);
                 }
@@ -54,17 +52,19 @@ export class SearchTableEvents {
                     //GO GET IT STORE THE SEARCH
 
 
+                //this gets set in the page wrapper.....the page gets the query for us....
+                let search_query = controller.model.td.search_query;
 
-                if (controller.uri.checkUri(controller.model.td.search_query)) {
+                if (controller.uri.checkUri(search_query)) {
                     console.log('there is data on the uri')
                     if (typeof controller.model.td.onLoadPageStart === 'function') {
                         controller.model.td.onLoadPageStart();
                     }
 
                     //this loads data to the search table fields
-                    //and the sort array
-                    controller.uri.loadFromUri(controller.model.td.search_query);
-                    controller.uri.storeSearch();
+
+                    //and the sort arraycontroller.model.td.search_query;
+                    controller.uri.loadFromUri(search_query);
 
                     if(typeof controller.model.td.onSearching=== 'function'){
                         controller.model.td.onSearching();
@@ -80,7 +80,6 @@ export class SearchTableEvents {
                     //     controller.model.td.onLoadPage()
                     // }
                 }
-
                 else if (controller.uri.checkStorage()) {
 
                     //Here we need to replace the route, then react to the route change....

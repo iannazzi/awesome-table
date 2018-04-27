@@ -9,7 +9,11 @@
     <link rel="stylesheet" href="style.css">
 
     <script src='../dist/awesome-table-dist.js'></script>
+    <script src='../node_modules/jsuri/Uri.js'></script>
+    <script src='../node_modules/urijs/src/URI.min.js'></script>
+
     <script src="commonColumnDefinitions.js"></script>
+
 </head>
 <body>
 <a href="../index.html">Home</a>
@@ -56,9 +60,19 @@
     // in this case i just want to return some garbadge....
 
 
-    let getData = function(){
-        return datar(10)
-    }
+    //wrapper stuff...
+
+
+
+    // get the parameters off the page
+    let jsuri = new Uri(window.location.href )
+    let urijs = URI(window.location.href )
+
+
+
+
+
+
     let config = {
         name: 'awesome-table',
         data: [],
@@ -66,8 +80,19 @@
         row_calculations: [], //fired on .draw() good for updating cell values
         table_buttons: [],
         access: 'read', //read vs write
-        getData,
-        onSearchClick: function () {
+        onPageLoad: function(){
+          //do I want this instead of setting a search query?
+
+
+        },
+        onSearchClick: function (query) {
+            //partial functionality as page load.....
+
+            console.log(query)
+//            urijs.query(query);
+//            console.log(urijs)
+            window.location.assign('SearchableTable.html?' + awesomeTable.controller.uri.getQueryString())
+
 
             //go there with the query....
             //awesomeTable.renderSearchResults(datar(10))
@@ -75,6 +100,21 @@
 
 
     }
+
+    //setup how to handle incoming search query, getting data
+    //this callback is used to return the data..... works pretty well....
+    config.getData = function(search_query){
+
+        console.log('what is the query?')
+        console.log(search_query)
+       // return false;
+           return datar(100)
+    }
+    //these values are set by the page
+    config.search_query =jsuri.query();
+    config.number_of_records_available = 100;
+    config.number_of_records_to_automatically_get = 200;
+
     //once everything is defined we can load up the config then render.....
     awesomeTable.loadConfiguration(config);
     awesomeTable.addTo('table')
@@ -95,7 +135,7 @@
 
     //check the search table rendered correctly
     let check = document.getElementsByName('awesome-table_checkbox').value;
-    console.log(check);
+//    console.log(check);
 
 
 

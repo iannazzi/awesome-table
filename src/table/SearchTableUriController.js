@@ -15,10 +15,24 @@ export class SearchTableUriController{
         let search_data = this.getSearchUrlData();
         return Object.assign(search_data , sort_data);
     }
+    getQueryString(){
+        let params = this.getUri();
+        var queryString = Object.keys(params).map(function(key) {
+            return key + '=' + params[key]
+        }).join('&');
+        return queryString;
+
+    }
     setUri(){
-        let sort_data = this.getSortUri();
-        let search_data = this.getSearchUrlData();
-        
+
+
+        //This module is not responsible for setting the uri.....
+        //if i remember corretly, this will mess with SPA's....
+        //it will do something like this:
+        //example.com?param=1#/spa_site?spa_param=2
+        //it will put the query in the wrong place,
+
+
     }
     getSearchUrlData(){
         let url_data = {};
@@ -41,6 +55,8 @@ export class SearchTableUriController{
         console.log('loading from uri')
         this.loadSearchValuesFromUri(search_query)
         this.loadSortFromUri(search_query);
+        this.storeSearch();
+
     }
     loadSearchValuesFromUri(search_query) {
         // console.log('loading search from uri')
