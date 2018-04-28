@@ -105,7 +105,19 @@ export class SearchTableController extends CollectionTableController {
         this.setFocusToFirstInputOfSearch()
     }
 
+    onSearchClicked(){
+        this.uri.storeSearch();
+        let search_fields = this.uri.getSearchUrlData()
 
+
+        //push a url change, then watch for the change, then fire page load event
+        //shit url change really????? document.reload here????? that seems funcked up???
+
+
+        if (typeof this.model.td.onSearchClick === 'function') {
+            this.model.td.onSearchClick(search_fields);
+        }
+    }
     //ok... this part is fucked.....
 
 

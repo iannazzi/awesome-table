@@ -159,6 +159,7 @@ createSearchButtons(){
                     let element2 = document.createElement('input');
                     element2.type = 'date';
                     element2.name = this.model.td.name + '_' + col_def['db_field'] + '_date_end';
+
                     cell.appendChild(element2);
                     this.search_elements_array.push(element2)
                     this.search_elements_by_name[col_def['db_field'] + '_date_end']=element2;
@@ -170,6 +171,7 @@ createSearchButtons(){
                 else if (col_def['type'] == 'checkbox') {
                     let element = document.createElement('select');
                     element.name = this.model.td.name + '_' + col_def['db_field']
+
                     let option = document.createElement('option');
                     option.value = 'null';
                     option.appendChild(document.createTextNode("Either"));

@@ -13,6 +13,7 @@
     <script src='../node_modules/urijs/src/URI.min.js'></script>
 
     <script src="commonColumnDefinitions.js"></script>
+    <script src="testFunctions.js"></script>
 
 </head>
 <body>
@@ -133,17 +134,59 @@
     let expect_false, expect_true, test_val;
     let test;
 
-    //check the search table rendered correctly
-    let check = document.getElementsByName('awesome-table_checkbox').value;
-//    console.log(check);
+
+    //at this point the search has not been populated...
+    test = 'No values have yet been populated: Checkbox select is set to value 0 ';
+    test_val = document.getElementsByName('awesome-table_checkbox');
+    if(test_val[0].value != 'null'){
+        passing=false;
+        errors.push(test)
+    }
+
+    test = 'Populate defaults: Checkbox select is set to value 1 ';
+    awesomeTable.controller.populateSearchValuesFromDefaultValues();
+    test_val = document.getElementsByName('awesome-table_checkbox');
+    if(test_val[0].value != '1'){
+        passing=false;
+        errors.push(test)
+    }
+
+    test = 'Name select is set to hi ';
+    test_val = document.getElementsByName('awesome-table_name');
+    if(test_val[0].value != 'hi'){
+        passing=false;
+        errors.push(test)
+    }
+
+    //check storage
+    test = 'storage should be empty';
+    test_val = awesomeTable.controller.uri.checkStorage()
+    if(typeof test_val != 'undefined'){
+        passing=false;
+        errors.push(test)
+    }
+
+
+    test = 'Set name field to boo ';
+    awesomeTable.view.search_elements_by_name['name'].value = 'boo'
+    test_val = document.getElementsByName('awesome-table_name');
+    if(test_val[0].value != 'boo'){
+        passing=false;
+        errors.push(test)
+    }
+
+    //set the url to something
+    test = 'Load page from query string ';
+    let query = 'awesome-table_name=lala&awesome-table_date_date_start=&awesome-table_date_date_end=&awesome-table_checkbox=1&awesome-table_select=null&awesome-table_tree_select=null&table_name=awesome-table';
+    awesomeTable.controller.uri.loadSearchValuesFromUri(query);
 
 
 
-    //get a search value - check default search value
-
-    //set a search value
 
     //press search and see results
+    //awesomeTable.controller.onSearchClicked()
+
+
 
     //send back zero results
 
@@ -163,6 +206,7 @@
 
     //load data from the url ---- also sounds messy, but wouldn't I always want that functionality so I can pass around pages?
 
+    printTestResults(passing,errors)
 
 
 </script>

@@ -10,6 +10,9 @@
 
     <script src='../dist/awesome-table-dist.js'></script>
 
+    <script src="testFunctions.js"></script>
+
+
 </head>
 <body>
     <a href="../index.html">Home</a>
@@ -545,30 +548,10 @@
 
 
 
-    //print out the test results.......
-    let tdv = document.getElementById('tdv');
-    let p = document.createElement('p');
-    p.id = 'test1';
-    if(passing){
-        p.innerHTML = "All Tests Passed";
-    }
-    else{
+    printTestResults(passing,errors)
 
-        p.innerHTML = "Failed " + errors.length + " tests";
-        let ul = document.createElement('ul');
-        p.appendChild(ul);
-        let li;
-        for(let t=0;t<errors.length;t++){
-            console.log(errors[t])
-            li = document.createElement('li');
-            li.innerHTML = errors[t];
-            ul.appendChild(li);
-        }
-    }
 
-    tdv.appendChild(p);
-
-//
+    //
 
 
     //now check the quantity

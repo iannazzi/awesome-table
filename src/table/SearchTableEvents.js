@@ -11,17 +11,7 @@ export class SearchTableEvents {
 
         controller.view.searchClicked.attach(
             function () {
-                controller.uri.storeSearch();
-                let search_fields = controller.uri.getSearchUrlData()
-
-
-                //push a url change, then watch for the change, then fire page load event
-                //shit url change really????? document.reload here????? that seems funcked up???
-
-
-                if (typeof controller.model.td.onSearchClick === 'function') {
-                    controller.model.td.onSearchClick(search_fields);
-                }
+                controller.onSearchClicked()
             }
         )
         controller.searching.attach(

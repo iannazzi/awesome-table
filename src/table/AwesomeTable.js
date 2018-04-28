@@ -99,7 +99,7 @@ export class AwesomeTable {
             //url -- we entered a page with the url
             //storage
             //default
-            awesomeTable.controller.loadPageEvent.notify()
+            //awesomeTable.controller.loadPageEvent.notify()
         }
 
     }
