@@ -1,7 +1,11 @@
 export class SearchTableUriController{
     constructor(controller){
+
+        //possible names
+        //SearchTableStorageController
+
         this.controller=controller;
-        window.JsUri = require('jsuri');
+        this.jsUri = require('jsuri');
 
     }
     getStoredSortName(){
@@ -12,7 +16,7 @@ export class SearchTableUriController{
     }
     getUri(){
         let sort_data = this.getSortUri();
-        let search_data = this.getSearchUrlData();
+        let search_data = this.getSearchFormData();
         return Object.assign(search_data , sort_data);
     }
     getQueryString(){
@@ -34,7 +38,7 @@ export class SearchTableUriController{
 
 
     }
-    getSearchUrlData(){
+    getSearchFormData(){
         let url_data = {};
         this.controller.view.search_elements_array.forEach(element => {
             url_data[element.name] = element.value;
@@ -59,10 +63,9 @@ export class SearchTableUriController{
 
     }
     loadSearchValuesFromUri(search_query) {
+        //pass in query starting with ?
         // console.log('loading search from uri')
-
-        let uri = new JsUri(search_query)
-
+        let uri = new this.jsUri(search_query)
         this.controller.view.search_elements_array.forEach(element => {
             if (uri.getQueryParamValue(element.name)) {
                 element.value = uri.getQueryParamValue(element.name)
@@ -129,7 +132,7 @@ export class SearchTableUriController{
         // console.log('loading sort from uri')
 
         //go through the params in order....
-        let uri = new JsUri(search_query);
+        let uri = new this.jsUri(search_query);
         let params = uri.queryPairs
         let self = this;
         params.forEach(param => {
@@ -147,6 +150,9 @@ export class SearchTableUriController{
     }
     checkStorage() {
         return window.localStorage[this.getStoredSearchName()]
+    }
+    clearStorage(){
+        delete window.localStorage[this.getStoredSearchName()];
     }
     retrieveSearch() {
         return JSON.parse(window.localStorage[this.getStoredSearchName()]);

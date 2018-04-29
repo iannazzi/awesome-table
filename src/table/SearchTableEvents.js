@@ -46,6 +46,8 @@ export class SearchTableEvents {
                 let search_query = controller.model.td.search_query;
 
                 if (controller.uri.checkUri(search_query)) {
+
+
                     console.log('there is data on the uri')
                     if (typeof controller.model.td.onLoadPageStart === 'function') {
                         controller.model.td.onLoadPageStart();

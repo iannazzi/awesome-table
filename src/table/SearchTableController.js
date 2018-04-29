@@ -107,15 +107,25 @@ export class SearchTableController extends CollectionTableController {
 
     onSearchClicked(){
         this.uri.storeSearch();
-        let search_fields = this.uri.getSearchUrlData()
-
+        let search_fields = this.uri.getSearchFormData()
 
         //push a url change, then watch for the change, then fire page load event
         //shit url change really????? document.reload here????? that seems funcked up???
 
 
+        //these look redundant..... probalbly go with onSearchClick...
+        //either case the data should be returned....
+        // if(typeof this.model.td.getData === 'function'){
+        //     this.model.td.getData(search_fields);
+        // }
         if (typeof this.model.td.onSearchClick === 'function') {
-            this.model.td.onSearchClick(search_fields);
+            let data = this.model.td.onSearchClick(search_fields);
+            if (data === false){
+                this.view.addMessageInsteadOfTable('no data')
+            }
+            else{
+                this.renderSearch(data)
+            }
         }
     }
     //ok... this part is fucked.....

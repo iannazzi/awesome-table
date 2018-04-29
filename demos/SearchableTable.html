@@ -81,25 +81,6 @@
         row_calculations: [], //fired on .draw() good for updating cell values
         table_buttons: [],
         access: 'read', //read vs write
-        onPageLoad: function(){
-          //do I want this instead of setting a search query?
-
-
-        },
-        onSearchClick: function (query) {
-            //partial functionality as page load.....
-
-            console.log(query)
-//            urijs.query(query);
-//            console.log(urijs)
-            window.location.assign('SearchableTable.html?' + awesomeTable.controller.uri.getQueryString())
-
-
-            //go there with the query....
-            //awesomeTable.renderSearchResults(datar(10))
-        }
-
-
     }
 
     //setup how to handle incoming search query, getting data
@@ -109,10 +90,30 @@
         console.log('what is the query?')
         console.log(search_query)
        // return false;
+
+        //so this was pulled from the controller it does not look right....
+        //controller.model.td.getData({
+        //     method: 'post',
+        //     url: '/' + controller.model.td.search_route,
+        //     entity: controller.getSearchPostData(),
+        //     onSuccess: function (response) {
+        //         controller.renderSearch(response.data.records)
+        //     }
+        //
+        // })
+
+
+
            return datar(100)
     }
-    //these values are set by the page
-    config.search_query =jsuri.query();
+    config.onSearchClick = function(query){
+        return datar(10);
+    }
+
+    // this line of code is shit.....
+    //config.search_query =jsuri.query();
+
+    //set these values for some auto searching...
     config.number_of_records_available = 100;
     config.number_of_records_to_automatically_get = 200;
 
@@ -160,6 +161,7 @@
 
     //check storage
     test = 'storage should be empty';
+    awesomeTable.controller.uri.clearStorage();
     test_val = awesomeTable.controller.uri.checkStorage()
     if(typeof test_val != 'undefined'){
         passing=false;
@@ -176,21 +178,63 @@
     }
 
     //set the url to something
-    test = 'Load page from query string ';
-    let query = 'awesome-table_name=lala&awesome-table_date_date_start=&awesome-table_date_date_end=&awesome-table_checkbox=1&awesome-table_select=null&awesome-table_tree_select=null&table_name=awesome-table';
-    awesomeTable.controller.uri.loadSearchValuesFromUri(query);
+    test = 'Load value from query string ';
+    let query = '?awesome-table_name=lala&awesome-table_date_date_start=&awesome-table_date_date_end=&awesome-table_checkbox=1&awesome-table_select=null&awesome-table_tree_select=null&table_name=awesome-table';
+    awesomeTable.controller.uri.loadFromUri(query);
+
+    test_val = document.getElementsByName('awesome-table_name');
+    if(test_val[0].value != 'lala'){
+        passing=false;
+        errors.push(test)
+    }
+
+    test = 'storage should not be empty?';
+    test_val = awesomeTable.controller.uri.checkStorage()
+    console.log(test_val)
+    if(typeof test_val == 'undefined'){
+        passing=false;
+        errors.push(test)
+    }
+
+    test = 'Load values from storage';
+    awesomeTable.view.search_elements_by_name['name'].value = 'boot'
+    awesomeTable.controller.uri.storeSearch();
+    awesomeTable.controller.uri.loadSearchFromStorage();
+
+    test_val = document.getElementsByName('awesome-table_name');
+    if(test_val[0].value != 'boot'){
+        passing=false;
+        errors.push(test)
+    }
+
+
+    test = 'press search and see results';
+    awesomeTable.controller.onSearchClicked();
+    test_val=document.getElementById('awesome-table_r0_name').innerHTML;
+    if(test_val != '0'){
+        passing=false;
+        errors.push(test)
+    }
+
+
+    test = 'press search and see no results';
+    awesomeTable.model.td.onSearchClick = function(query){
+        return false;
+    }
+    awesomeTable.controller.onSearchClicked();
+    test_val=document.getElementById('awesome-table_r0_name');
+    if(test_val !== null){
+        passing=false;
+        errors.push(test)
+    }
+
+    //ok now we need to test storage of sort....... hmmm........ need to test sort first on an easier set up.....
 
 
 
 
-    //press search and see results
-    //awesomeTable.controller.onSearchClicked()
 
 
-
-    //send back zero results
-
-    //search again
 
 
     // I was planning on stripping these out, but on second thought why --- this functionality will almost always be needed....
