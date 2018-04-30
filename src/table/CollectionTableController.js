@@ -3,6 +3,7 @@
  */
 import {TableController} from './TableController';
 import {CollectionTableEvents} from './CollectionTableEvents'
+import {SortController} from './SortController'
 
 
 export class CollectionTableController extends TableController {
@@ -13,6 +14,7 @@ export class CollectionTableController extends TableController {
         this.active_row = null;
         this.collectionTableEvents = new CollectionTableEvents(this);
         this.row_properties = []
+        this.sort = new SortController(this);
 
     }
 
@@ -201,6 +203,9 @@ export class CollectionTableController extends TableController {
         }
 
 
+
+    }
+    headerClick(name){
 
     }
     selectHeaderRow(db_field, header_row ) {

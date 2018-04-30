@@ -186,42 +186,66 @@ export class CollectionTableView extends TableView {
         }
     }
 
+    getHeaderCaption(db_field) {
+        let col_def = this.model.getColDef(db_field);
+        let caption = db_field;
+        if (typeof col_def.caption !== 'undefined') {
+            caption = col_def.caption;
+        }
+        return caption;
+    }
+
     updateHeaderSortView() {
+
+        for (var db_field in this.header_elements) {
+            let th = this.header_elements[db_field];
+            if (!Array.isArray(th)) {
+                th.innerHTML = this.getHeaderCaption(db_field)
+                th.classList.remove("thHighlight")
+                //th.childNodes[1].className = 'no_sort';
+                th.sort = 0;
+            }
+        }
+        //first reset everything.....
+
+        //
+
         //read the sort array and set the visuals
         let self = this;
 
         //first remove all formatting....
-        this.header_elements_array.forEach(th => {
-            if (!Array.isArray(th)) {
-                th.classList.remove("thHighlight")
-                th.childNodes[1].className = 'fa fa-sort';
-                th.sort = 0;
-            }
-        })
+        // this.header_elements_array.forEach(th => {
+        //     if (!Array.isArray(th)) {
+        //         th.classList.remove("thHighlight")
+        //         th.childNodes[1].className = 'no_sort';
+        //         th.sort = 0;
+        //     }
+        // })
         //now based on the sort set the format
         this.model.sort.forEach(sort_value => {
             //should be db_field : asc or desc
             let keys = Object.keys(sort_value);
             let db_field = keys[0];
 
+
             let th = self.header_elements[db_field];
 
             switch (sort_value[db_field]) {
                 case 'asc':
+                    th.innerHTML = this.getHeaderCaption(db_field) + ' &and;'
                     th.className = 'thHighlight';
-                    th.childNodes[1].className = 'fa fa-sort-asc';
+                    // th.childNodes[1].className = 'sort_up';
                     th.sort = 1;
                     break;
                 case 'desc':
+                    th.innerHTML = this.getHeaderCaption(db_field) + ' &or;'
+
                     th.className = 'thHighlight';
-                    th.childNodes[1].className = 'fa fa-sort-desc';
+                    // th.childNodes[1].className = 'sort_down';
                     th.sort = 2;
                     break;
             }
-
-
         })
-        //should be able to read an array to set the view parameters...
     }
 
     checkTHeaderArray() {

@@ -22,7 +22,14 @@ export class SearchTableController extends CollectionTableController {
         //     window.location.href = window.location.href;
         // };
     }
-
+    getSearchFormData(){
+        let url_data = {};
+        this.controller.view.search_elements_array.forEach(element => {
+            url_data[element.name] = element.value;
+        })
+        url_data['table_name'] = this.controller.model.td.name;
+        return url_data;
+    }
     getSearchPostData(){
         let post_data = {};
         post_data['search_fields'] = {};
@@ -107,7 +114,7 @@ export class SearchTableController extends CollectionTableController {
 
     onSearchClicked(){
         this.uri.storeSearch();
-        let search_fields = this.uri.getSearchFormData()
+        let search_fields = this.getSearchFormData()
 
         //push a url change, then watch for the change, then fire page load event
         //shit url change really????? document.reload here????? that seems funcked up???
@@ -128,8 +135,6 @@ export class SearchTableController extends CollectionTableController {
             }
         }
     }
-    //ok... this part is fucked.....
-
 
     getAndRenderSearch(){
         let controller = this;
@@ -151,7 +156,7 @@ export class SearchTableController extends CollectionTableController {
     }
 
 
-    onReset() {
+    onResetClicked() {
         this.view.search_elements_array.forEach(element => {
             switch (element.type) {
                 case 'tree_select':
@@ -165,7 +170,14 @@ export class SearchTableController extends CollectionTableController {
         })
         this.setFocusToFirstInputOfSearch()
         this.view.addMessageInsteadOfTable(`Press search to display results`)
-        this.uri.onReset();
+
+        this.uri.deleteStoredSearch();
+        this.deleteStoredSort();
+        this.resetStoredSort();
+
+        if(typeof this.controller.model.td.onResetClick === 'function'){
+            this.controller.model.td.onResetClick();
+        }
 
     }
 

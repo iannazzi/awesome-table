@@ -119,7 +119,7 @@ export class SearchTableEvents {
         )
         controller.view.resetClicked.attach(
             function () {
-                controller.onReset()
+                controller.onResetClicked()
             }
         )
     }

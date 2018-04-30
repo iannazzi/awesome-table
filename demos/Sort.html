@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'/>
+
+    <title>Awesome Table</title>
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css" >-->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+    <link rel="stylesheet" href="style.css">
+
+    //what to do about font awesome?^
+    &#9650; &#9660;
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
+
+    <script src='../dist/awesome-table-dist.js'></script>
+    <script src="commonColumnDefinitions.js"></script>
+    <script src="testFunctions.js"></script>
+
+</head>
+<body>
+<a href="../index.html">Home</a>
+<h1>Collection Table - Sorting</h1>
+<div id='table'></div>
+<h1>Testing Results</h1>
+<div id='tdv'></div>
+</body>
+<style>
+    #awesome-table_table {
+        width: 850px;
+    }
+
+    #awesome-table_search {
+        width: 850px;
+    }
+
+    #awesome-table_table thead th {
+        font-size: 12px;
+    }
+</style>
+<script>
+    //setup - get an instance of the table so we can set it up
+    let dataGenerator = function (rows) {
+        let d = [];
+        d[0] = {};
+        d[0].name = 'A';
+        d[0].date = '2018-01-01'
+        d[1] = {};
+        d[1].name = 'A';
+        d[1].date = '2018-01-02'
+        d[2] = {};
+        d[2].name = 'B';
+        d[2].date = '2018-01-01'
+        d[3] = {};
+        d[3].name = 'C';
+        d[3].date = '2018-01-01'
+        d[4] = {};
+        d[4].name = 'A';
+        d[4].date = '2018-01-03'
+        return d;
+    }
+    let awesomeTable = new AwesomeTable.AwesomeTable('collection');
+
+    let column_definition = allOptions(awesomeTable);
+
+
+    let config = {
+        name: 'awesome-table',
+        data: [],
+        column_definition,
+        row_calculations: [], //fired on .draw() good for updating cell values
+        table_buttons: [],
+        access: 'read', //read vs write
+    }
+
+
+    //once everything is defined we can load up the config then render.....
+    awesomeTable.loadConfiguration(config);
+    awesomeTable.addTo('table')
+    awesomeTable.addDataArray(dataGenerator(10));
+
+
+    //test
+    let passing = true;
+    let handeled_errors = [];
+    let errors = [];
+    let expect_false, expect_true, test_val;
+    let test;
+
+
+    test = 'Sort By Name';
+    awesomeTable.controller.sort.addSort('name', 'asc');
+    awesomeTable.controller.sort.renderSort();
+
+    test_val = document.getElementById('awesome-table_r4_name').innerHTML;
+    if (test_val !== 'C') {
+        passing = false;
+        errors.push(test)
+    }
+
+    test = 'Now Sort By Date';
+    awesomeTable.controller.sort.addSort('date', 'desc');
+    awesomeTable.controller.sort.renderSort();
+
+    test_val = document.getElementById('awesome-table_r4_name').innerHTML;
+    if (test_val !== 'C') {
+        passing = false;
+        errors.push(test)
+    }
+
+
+    printTestResults(passing, errors)
+
+
+</script>

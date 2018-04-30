@@ -1,52 +1,32 @@
 export class SearchTableUriController{
     constructor(controller){
-
         //possible names
         //SearchTableStorageController
-
         this.controller=controller;
         this.jsUri = require('jsuri');
 
     }
-    getStoredSortName(){
-        return this.controller.model.td.name + '_sort';
-    }
+
     getStoredSearchName(){
         return this.controller.model.td.name + '_search';
     }
-    getUri(){
-        let sort_data = this.getSortUri();
-        let search_data = this.getSearchFormData();
+    getQueryValues(){
+        //terrible name..... this returns an object of the paramaters that should be stored
+        let sort_data = this.controller.getSortUri();
+        let search_data = this.controller.getSearchFormData();
         return Object.assign(search_data , sort_data);
     }
     getQueryString(){
-        let params = this.getUri();
+        let params = this.getQueryValues();
         var queryString = Object.keys(params).map(function(key) {
             return key + '=' + params[key]
         }).join('&');
         return queryString;
 
     }
-    setUri(){
 
-
-        //This module is not responsible for setting the uri.....
-        //if i remember corretly, this will mess with SPA's....
-        //it will do something like this:
-        //example.com?param=1#/spa_site?spa_param=2
-        //it will put the query in the wrong place,
-
-
-    }
-    getSearchFormData(){
-        let url_data = {};
-        this.controller.view.search_elements_array.forEach(element => {
-            url_data[element.name] = element.value;
-        })
-        url_data['table_name'] = this.controller.model.td.name;
-        return url_data;
-    }
     checkUri(search_query) {
+        //what does this do?
         let uri = new JsUri(search_query)
         for (let i = 0; i < this.controller.view.search_elements_array.length; i++) {
             if (uri.getQueryParamValue(this.controller.view.search_elements_array[i].name)) {
@@ -58,7 +38,7 @@ export class SearchTableUriController{
     loadFromUri(search_query){
         console.log('loading from uri')
         this.loadSearchValuesFromUri(search_query)
-        this.loadSortFromUri(search_query);
+        this.controller.loadSortFromUri(search_query);
         this.storeSearch();
 
     }
@@ -73,85 +53,14 @@ export class SearchTableUriController{
         })
 
     }
-    onSort(args, search_query){
-        // console.log('uri on sort')
-        //coming in from click the header
-        //set the uri and stored uri
-        //let uri = new JsUri(search_query)
-        let event = args[0];
-        let th = args[1];
-        //this code is the tri-selector: switches between none, asc, and desc
-        let sort_array = ['none', 'asc', 'desc'];
-        let i = th.sort;
-        i = ++i % sort_array.length;
-        th.sort = i;
 
-        let name = th.col_def.db_field
-        let self = this;
-
-        if (!event.shiftKey) {
-            //this.removeSortFromUri(uri,th)
-            this.controller.view.header_elements_array.forEach(th_element => {
-                if (th != th_element) {
-                    self.removeSort(th_element.col_def.db_field);
-                }
-            })
-        }
-        console.log('sort array: ' + sort_array[i])
-        switch (sort_array[i]) {
-            case 'none':
-                // uri.deleteQueryParam(name + '_sort')
-                this.removeSort(name);
-                break;
-            case 'asc':
-                this.addSort(name, 'asc')
-                // uri.addQueryParam(name + '_sort', 'asc')
-                break;
-            case 'desc':
-                // uri.deleteQueryParam(name + '_sort')
-                // uri.addQueryParam(name + '_sort', 'desc')
-                this.removeSort(name)
-                this.addSort(name, 'desc')
-                break;
-        }
-        sessionStorage[this.getStoredSortName()] = JSON.stringify(this.controller.model.sort);
-        // this was bad.... this.pushState(uri);
-
-
-    }
-    getSortUri(){
-
-        let url_data = {};
-        this.controller.model.sort.forEach(sort => {
-            let keys = Object.keys(sort);
-            url_data[this.controller.view.name + '_' + keys[0] + '_sort'] = sort[keys[0]];
-        })
-        return url_data;
-    }
-    loadSortFromUri(search_query) {
-        // console.log('loading sort from uri')
-
-        //go through the params in order....
-        let uri = new this.jsUri(search_query);
-        let params = uri.queryPairs
-        let self = this;
-        params.forEach(param => {
-            let name = param[0];
-            if (name.includes('_sort')) {
-                name = name.replace('_sort', '')
-                //take  off the front
-                name = name.substring(this.controller.view.name.length +1, name.length);
-                let value = param[1];
-                //remove sort
-                self.addSort(name, value);
-            }
-        })
-
-    }
     checkStorage() {
         return window.localStorage[this.getStoredSearchName()]
     }
     clearStorage(){
+        delete window.localStorage[this.getStoredSearchName()];
+    }
+    deleteStoredSearch(){
         delete window.localStorage[this.getStoredSearchName()];
     }
     retrieveSearch() {
@@ -175,15 +84,7 @@ export class SearchTableUriController{
 
 
     }
-    addSort(name, value) {
-        let save = {};
-        save[name] = value;
-        this.controller.model.sort.push(save);
-        // console.log('this.controller.model.sort')
 
-        // console.log(this.controller.model.sort)
-
-    }
     // removeSortFromUri(uri, th = false) {
     //     this.controller.view.header_elements_array.forEach(th_element => {
     //         if (th != th_element) {
@@ -192,38 +93,9 @@ export class SearchTableUriController{
     //         }
     //     })
     // }
-    loadSortFromStorage() {
-        if(window.localStorage[this.getStoredSortName()]){
-            this.controller.model.sort = JSON.parse(window.localStorage[this.getStoredSortName()]);
-        }
-    }
-    removeSort(name) {
-        // console.log('remove sort' + name)
-        // console.log(JSON.stringify(this.controller.model.sort));
-        this.controller.model.sort = this.controller.model.sort.filter(function (el) {
-            let keys = Object.keys(el);
-            return keys[0] !== name;
-        });
-    }
-    onReset(){
 
-        //let uri = new JsUri(window.location.href)
-        //this.deleteSearchValuesFromUri(uri);
-        //this.removeSortFromUri(uri);
-        //console.log('pushing ' + uri.toString())
-        //this.pushState(uri);
-        delete window.localStorage[this.getStoredSearchName()];
-        delete window.localStorage[this.getStoredSortName()];
-        this.resetStoredSort();
 
-        //this callback should send it
-        if(typeof this.controller.model.td.onResetClick === 'function'){
-            this.controller.model.td.onResetClick();
-        }
-    }
-    resetStoredSort(){
-        this.controller.model.sort = [];
-    }
+
 
 
     //uri
