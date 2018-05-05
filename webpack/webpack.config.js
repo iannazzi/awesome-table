@@ -15,7 +15,7 @@ module.exports = {
         path: DIST_DIR,
         filename: 'awesome-table-dist.js',
         library: 'AwesomeTable',
-        // libraryTarget: 'window'
+        libraryTarget: 'window'
     },
     module: {
         rules: [

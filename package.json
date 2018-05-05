@@ -3,6 +3,7 @@
   "version": "1.0.2",
   "description": "javascript table to display, create, list, sort, search records",
   "main": "dist/awesome-table-dist.js",
+  "module": "dist/awesome-table-dist.js",
   "scripts": {
     "dist": "webpack --config ./webpack/webpack.config.js --mode development",
     "watch": "webpack --config ./webpack/webpack.config.js --mode development --watch",
