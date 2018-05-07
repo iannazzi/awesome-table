@@ -6,6 +6,7 @@
   "module": "src/table/AwesomeTable.js",
   "scripts": {
     "dist": "webpack --config ./webpack/webpack.config.js --mode development",
+    "css": "webpack --config ./webpack/webpack.css.config.js --mode development",
     "watch": "webpack --config ./webpack/webpack.config.js --mode development --watch",
     "prod": "webpack --config ./webpack/webpack.config.js --mode production",
     "start": "http-server -p 8081",

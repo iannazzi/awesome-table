@@ -38,7 +38,7 @@ export class SearchTableUriController{
     loadFromUri(search_query){
         console.log('loading from uri')
         this.loadSearchValuesFromUri(search_query)
-        this.controller.loadSortFromUri(search_query);
+        this.controller.sort.loadSortFromUri(search_query);
         this.storeSearch();
 
     }

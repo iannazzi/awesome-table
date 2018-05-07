@@ -24,10 +24,10 @@ export class SearchTableController extends CollectionTableController {
     }
     getSearchFormData(){
         let url_data = {};
-        this.controller.view.search_elements_array.forEach(element => {
+        this.view.search_elements_array.forEach(element => {
             url_data[element.name] = element.value;
         })
-        url_data['table_name'] = this.controller.model.td.name;
+        url_data['table_name'] = this.model.td.name;
         return url_data;
     }
     getSearchPostData(){

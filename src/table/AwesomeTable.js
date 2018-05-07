@@ -8,9 +8,6 @@ import {SearchTableController}  from './SearchTableController';
 import {ColumnDefinition} from './ColumnDefinition';
 import {TableDefinition} from './TableDefinition';
 
-
-import './AwesomeTable.scss';
-
 export class AwesomeTable {
     constructor(type, name) {
 

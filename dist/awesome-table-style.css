@@ -1,0 +1,160 @@
+.awesome-collection-table tfoot tr td {
+  text-align: right; }
+
+.awesome-collection-table th {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; }
+
+.awesome-collection-table th p {
+  display: inline-block;
+  text-align: center;
+  margin: auto; }
+
+.awesome-collection-table th i {
+  float: right;
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 5px; }
+
+.awesome-collection-table thead {
+  background-color: #fafafa; }
+
+.awesome-collection-table thead th {
+  text-align: center;
+  vertical-align: center;
+  border: 1px solid gray; }
+
+.at-footer-data {
+  border: 1px solid black; }
+
+.awesome-collection-table-tbody {
+  border: 1px solid black; }
+
+.awesome-collection-table-tbody td {
+  border: 1px solid black;
+  text-align: right;
+  /* center checkbox horizontally */ }
+
+.awesome-collection-table-tbody tr:nth-child(even) {
+  background: #EEE; }
+
+.awesome-collection-table-tbody tr:nth-child(odd) {
+  background: #FFF; }
+
+.awesome-collection-table-tbody tr:hover {
+  background: RGB(210, 210, 210); }
+
+.thHighlight {
+  background-color: yellow; }
+
+.sort_up {
+  background-color: green; }
+
+.sort_down {
+  background-color: blue; }
+
+.no_sort {
+  background-color: white; }
+
+.awesome-collection-table-totals tr {
+  text-align: right; }
+
+.awesome-collection-table-totals td {
+  border: 1px solid black; }
+
+.awesome-collection-table_edit_buttons button {
+  margin: 5px 5px 5px 0px; }
+
+.awesome-collection-table_edit_buttons .edit {
+  margin: 5px 5px 5px 0px; }
+
+.awesome-collection-table_edit_buttons .save {
+  margin: 5px 5px 5px 0px; }
+
+.awesome-collection-table_edit_buttons .cancel {
+  margin: 5px 5px 5px 0px; }
+
+.awesome-collection-table_edit_buttons .delete {
+  margin: 5px 5px 5px 0px; }
+
+.header_selected {
+  background-color: green; }
+
+.row_selected {
+  background-color: green; }
+
+.awesome-record-table th {
+  border: 1px solid black;
+  text-align: left; }
+
+.awesome-record-table tbody td {
+  border: 1px solid black;
+  text-align: right;
+  white-space: pre-wrap; }
+
+.record_table_buttons button {
+  margin: 5px 5px 5px 0px; }
+
+.record_table_buttons .edit {
+  margin: 5px 5px 5px 0px; }
+
+.record_table_buttons .save {
+  margin: 5px 5px 5px 0px; }
+
+.record_table_buttons .cancel {
+  margin: 5px 5px 5px 0px; }
+
+.record_table_buttons .delete {
+  margin: 5px 5px 5px 0px; }
+
+.awesome-search-table {
+  margin: 5px 0px 5px 0px; }
+
+.awesome-search-table thead th {
+  text-align: center;
+  vertical-align: center;
+  border: 1px solid gray; }
+
+.awesome-search-table tbody td {
+  border: 1px solid black;
+  text-align: right;
+  /* center checkbox horizontally */ }
+
+.search_buttons button {
+  margin: 5px 5px 5px 0px; }
+
+.search_buttons i {
+  display: inline-block;
+  vertical-align: middle;
+  padding-right: 5px; }
+
+.search_buttons p {
+  display: inline-block;
+  text-align: center;
+  margin: auto; }
+
+table {
+  margin: 5px 0px 5px 0px;
+  border-collapse: collapse;
+  border: 1px solid gray; }
+  table a {
+    text-decoration: underline; }
+
+input {
+  width: 90%;
+  text-align: right;
+  font-size: 20px; }
+
+.button {
+  color: black;
+  padding: 10px 10px;
+  border-radius: 2px;
+  margin: 10px 10px 0px 0px;
+  text-align: center;
+  font-size: 16px; }
+
+.button:hover {
+  background-color: #4CAF50;
+  /* Green */
+  color: white; }
