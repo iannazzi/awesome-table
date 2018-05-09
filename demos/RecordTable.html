@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="../dist/awesome-table-style.css" >
     <script src='../dist/awesome-table-dist.js'></script>
+    <script src="testFunctions.js"></script>
+
 
     <!--need to run column definition class through webpack so I can use it..... -->
 
@@ -41,7 +43,6 @@
         data.active = 1;
         return data;
     }
-
 
     let awesomeTable = new AwesomeTable.AwesomeTable('record');
     //column defintion
@@ -440,6 +441,17 @@
     //once everything is defined we can load up the config then render.....
     awesomeTable.loadConfiguration(config);
     awesomeTable.addTo('table')
+
+    //now some tests....
+    //test
+    let passing = true;
+    let handeled_errors = [];
+    let errors = [];
+    let expect_false,expect_true,test_val;
+    let test;
+
+    printTestResults(passing,errors)
+
 
 
 </script>

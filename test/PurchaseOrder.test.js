@@ -4,6 +4,15 @@ module.exports = {
             .url('http://localhost:8081/demos/PurchaseOrder.html')
             .waitForElementVisible('#tdv', 100)
             .assert.containsText("#test1", "All Tests Passed")
+            .url('http://localhost:8081/demos/RecordTable.html')
+            .waitForElementVisible('#tdv', 100)
+            .assert.containsText("#test1", "All Tests Passed")
+            .url('http://localhost:8081/demos/SearchableTable.html')
+            .waitForElementVisible('#tdv', 100)
+            .assert.containsText("#test1", "All Tests Passed")
+            .url('http://localhost:8081/demos/Sort.html')
+            .waitForElementVisible('#tdv', 100)
+            .assert.containsText("#test1", "All Tests Passed")
             .end();
     }
 };
