@@ -246,8 +246,8 @@ export class SearchTableController extends CollectionTableController {
     }
     storeSearch() {
         let search_values = this.getSearchFormValues();
-        window.localStorage[this.getStoredSearchName()] = JSON.stringify(search_values);
-        //sessionStorage[this.getStoredSearchName()] = JSON.stringify(search_values);
+        // window.localStorage[this.getStoredSearchName()] = JSON.stringify(search_values);
+        localStorage.setItem(this.getStoredSearchName(),JSON.stringify(search_values))
     }
     loadSearchFromStorage() {
         console.log('loading search values from storage')

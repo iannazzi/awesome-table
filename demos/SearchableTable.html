@@ -189,6 +189,7 @@
     test = 'Load values from storage';
     awesomeTable.view.search_elements_by_name['name'].value = 'boot'
     awesomeTable.controller.storeSearch();
+    awesomeTable.view.search_elements_by_name['name'].value = ''
     awesomeTable.controller.loadSearchFromStorage();
 
     test_val = document.getElementsByName('awesome-table_name');
