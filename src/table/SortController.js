@@ -82,7 +82,6 @@ export class SortController{
             return keys[0] !== name;
         });
     }
-
     getSortUri(){
         let url_data = {};
         this.controller.model.sort.forEach(sort => {

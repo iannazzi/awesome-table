@@ -96,7 +96,8 @@
 //           return datar(100)
 //    }
     config.onSearchClick = function(query){
-        return datar(10);
+        console.log('serach clicked')
+        awesomeTable.controller.renderSearch(datar(10))
     }
 
     // this line of code is shit.....
@@ -150,8 +151,8 @@
 
     //check storage
     test = 'storage should be empty';
-    awesomeTable.controller.uri.clearStorage();
-    test_val = awesomeTable.controller.uri.checkStorage()
+    awesomeTable.controller.clearStorage();
+    test_val = awesomeTable.controller.checkStorage()
     if(typeof test_val != 'undefined'){
         passing=false;
         errors.push(test)
@@ -169,7 +170,7 @@
     //set the url to something
     test = 'Load value from query string ';
     let query = '?awesome-table_name=lala&awesome-table_date_date_start=&awesome-table_date_date_end=&awesome-table_checkbox=1&awesome-table_select=null&awesome-table_tree_select=null&table_name=awesome-table';
-    awesomeTable.controller.uri.loadFromUri(query);
+    awesomeTable.controller.loadFromUri(query);
 
     test_val = document.getElementsByName('awesome-table_name');
     if(test_val[0].value != 'lala'){
@@ -178,7 +179,7 @@
     }
 
     test = 'storage should not be empty?';
-    test_val = awesomeTable.controller.uri.checkStorage()
+    test_val = awesomeTable.controller.checkStorage()
     console.log(test_val)
     if(typeof test_val == 'undefined'){
         passing=false;
@@ -187,8 +188,8 @@
 
     test = 'Load values from storage';
     awesomeTable.view.search_elements_by_name['name'].value = 'boot'
-    awesomeTable.controller.uri.storeSearch();
-    awesomeTable.controller.uri.loadSearchFromStorage();
+    awesomeTable.controller.storeSearch();
+    awesomeTable.controller.loadSearchFromStorage();
 
     test_val = document.getElementsByName('awesome-table_name');
     if(test_val[0].value != 'boot'){
@@ -208,7 +209,7 @@
 
     test = 'press search and see no results';
     awesomeTable.model.td.onSearchClick = function(query){
-        return false;
+        awesomeTable.view.addMessageInsteadOfTable('no data')
     }
     awesomeTable.controller.onSearchClicked();
     test_val=document.getElementById('awesome-table_r0_name');
@@ -218,6 +219,8 @@
     }
 
     //ok now we need to test storage of sort....... hmmm........ need to test sort first on an easier set up.....
+
+
 
 
 

@@ -1,26 +1,13 @@
 import {CollectionTableController} from './CollectionTableController'
 import {SearchTableEvents} from './SearchTableEvents';
-import {SearchTableUriController} from './SearchTableUriController';
 
 
 export class SearchTableController extends CollectionTableController {
     constructor(model, view) {
         super(model, view)
-        let self = this;
+        this.jsUri = require('jsuri');
         this.show_records_autmatically_below = 50;
-
-        this.uri = new SearchTableUriController(this);
-
-
         this.searchTableEvents = new SearchTableEvents(this);
-
-        //this piece of code rots... it is trying to reload the page
-        //when using the back button the url says the right thing, but page will not reload
-        //adding this code will allow the back button to work once.
-
-        // window.onpopstate = function (event) {
-        //     window.location.href = window.location.href;
-        // };
     }
     getSearchFormData(){
         let url_data = {};
@@ -41,7 +28,6 @@ export class SearchTableController extends CollectionTableController {
         console.log(JSON.stringify(post_data))
         return post_data;
     }
-
     onSearchReturned(data){
         // console.log(data)
         let ret_data = data.data;
@@ -75,8 +61,7 @@ export class SearchTableController extends CollectionTableController {
 
         }
     }
-    populateSearchValuesFromDefaultValues()
-    {
+    populateSearchValuesFromDefaultValues() {
         // console.log('populating search values');
         this.model.cdo.forEach(col_def => {
             if (typeof col_def['search'] != 'undefined' && typeof col_def['search_default'] != 'undefined') {
@@ -91,8 +76,6 @@ export class SearchTableController extends CollectionTableController {
             }
         })
     }
-
-    //this has to pull out..... table code does not get data....
     renderSearch(data){
         this.model.loadData(data)
         if(data.length>0){
@@ -111,26 +94,14 @@ export class SearchTableController extends CollectionTableController {
         }
         this.setFocusToFirstInputOfSearch()
     }
-
     onSearchClicked(){
-        this.uri.storeSearch();
+        this.storeSearch();
         let search_fields = this.getSearchFormData()
-        let query = this.uri.getQueryString();
-
-        //push a url change, then watch for the change, then fire page load event
-        //shit url change really????? document.reload here????? that seems funcked up???
-
-
-        //these look redundant..... probalbly go with onSearchClick...
-        //either case the data should be returned....
-        // if(typeof this.model.td.getData === 'function'){
-        //     this.model.td.getData(search_fields);
-        // }
+        let query = this.getQueryString();
         if (typeof this.model.td.onSearchClick === 'function') {
             this.model.td.onSearchClick(query);
         }
     }
-
     getAndRenderSearch(){
         let controller = this;
         //call a user supplied function to grab the data
@@ -149,8 +120,6 @@ export class SearchTableController extends CollectionTableController {
         //
         // })
     }
-
-
     onResetClicked() {
         this.view.search_elements_array.forEach(element => {
             switch (element.type) {
@@ -175,7 +144,6 @@ export class SearchTableController extends CollectionTableController {
         }
 
     }
-
     getSearchFormValues() {
         let search_values = {};
 
@@ -219,8 +187,79 @@ export class SearchTableController extends CollectionTableController {
         }
 
     }
+    getStoredSearchName(){
+        return this.model.td.name + '_search';
+    }
+    getQueryValues(){
+        //terrible name..... this returns an object of the paramaters that should be stored
+        let sort_data = this.sort.getSortUri();
+        let search_data = this.getSearchFormData();
+        return Object.assign(search_data , sort_data);
+    }
+    getQueryString(){
+        let params = this.getQueryValues();
+        var queryString = Object.keys(params).map(function(key) {
+            return key + '=' + params[key]
+        }).join('&');
+        return queryString;
+
+    }
+    checkUri(search_query) {
+        //what does this do?
+        let uri = new JsUri(search_query)
+        for (let i = 0; i < this.controller.view.search_elements_array.length; i++) {
+            if (uri.getQueryParamValue(this.controller.view.search_elements_array[i].name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    loadFromUri(search_query){
+        console.log('loading from uri')
+        this.loadSearchValuesFromUri(search_query)
+        this.sort.loadSortFromUri(search_query);
+        this.storeSearch();
+
+    }
+    loadSearchValuesFromUri(search_query) {
+        //pass in query starting with ?
+        // console.log('loading search from uri')
+        let uri = new this.jsUri(search_query)
+        this.view.search_elements_array.forEach(element => {
+            if (uri.getQueryParamValue(element.name)) {
+                element.value = uri.getQueryParamValue(element.name)
+            }
+        })
+
+    }
+    checkStorage() {
+        return window.localStorage[this.getStoredSearchName()]
+    }
+    clearStorage(){
+        delete window.localStorage[this.getStoredSearchName()];
+    }
+    deleteStoredSearch(){
+        delete window.localStorage[this.getStoredSearchName()];
+    }
+    retrieveSearch() {
+        return JSON.parse(window.localStorage[this.getStoredSearchName()]);
+    }
+    storeSearch() {
+        let search_values = this.getSearchFormValues();
+        window.localStorage[this.getStoredSearchName()] = JSON.stringify(search_values);
+        //sessionStorage[this.getStoredSearchName()] = JSON.stringify(search_values);
+    }
+    loadSearchFromStorage() {
+        console.log('loading search values from storage')
+        console.log(window.localStorage[this.getStoredSearchName()])
+        let stored_values = this.retrieveSearch();
+        this.view.search_elements_array.forEach(element => {
+            if (stored_values[element.name]) {
+                element.value = stored_values[element.name]
+            }
+        })
+        return stored_values;
 
 
-
-
+    }
 }
