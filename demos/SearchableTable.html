@@ -153,11 +153,12 @@
     test = 'storage should be empty';
     awesomeTable.controller.clearStorage();
     test_val = awesomeTable.controller.checkStorage()
-    if(typeof test_val != 'undefined'){
+    if(test_val !== null){
         passing=false;
         errors.push(test)
     }
 
+    //throw new error()
 
     test = 'Set name field to boo ';
     awesomeTable.view.search_elements_by_name['name'].value = 'boo'
@@ -168,8 +169,7 @@
     }
 
     //set the url to something
-    test = 'Load value from query string ';
-    let query = '?awesome-table_name=lala&awesome-table_date_date_start=&awesome-table_date_date_end=&awesome-table_checkbox=1&awesome-table_select=null&awesome-table_tree_select=null&table_name=awesome-table';
+    //let query = '?awesome-table_name=lala&awesome-table_date_date_start=&awesome-table_date_date_end=&awesome-table_checkbox=1&awesome-table_select=null&awesome-table_tree_select=null&table_name=awesome-table';
     let query_obj = {
         'awesome-table_name':'lala',
         'awesome-table_date_date_start':'',
@@ -180,13 +180,23 @@
         'table_name': 'awesome-table'
     }
 
-    awesomeTable.controller.loadFromUri(query);
+    test = 'Check Query ';
+    test_val = awesomeTable.controller.checkQuery(query_obj);
+    if(test_val != true){
+        passing=false;
+        errors.push(test)
+    }
+
+    test = 'Load value from query string ';
+
+    awesomeTable.controller.loadSearchValues(query_obj);
 
     test_val = document.getElementsByName('awesome-table_name');
     if(test_val[0].value != 'lala'){
         passing=false;
         errors.push(test)
     }
+
 
     test = 'storage should not be empty?';
     test_val = awesomeTable.controller.checkStorage()

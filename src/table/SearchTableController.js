@@ -204,11 +204,10 @@ export class SearchTableController extends CollectionTableController {
         return queryString;
 
     }
-    checkUri(search_query) {
-        //what does this do?
-        let uri = new JsUri(search_query)
-        for (let i = 0; i < this.controller.view.search_elements_array.length; i++) {
-            if (uri.getQueryParamValue(this.controller.view.search_elements_array[i].name)) {
+    checkQuery(search_query) {
+        //are there any key value pairs that match the search elements?
+        for (let i = 0; i < this.view.search_elements_array.length; i++) {
+            if (search_query[this.view.search_elements_array[i].name]) {
                 return true;
             }
         }
@@ -216,31 +215,29 @@ export class SearchTableController extends CollectionTableController {
     }
     loadFromUri(search_query){
         console.log('loading from uri')
-        this.loadSearchValuesFromUri(search_query)
+        this.loadSearchValues(search_query)
         //this.sort.loadSortFromUri(search_query);
         this.storeSearch();
 
     }
-    loadSearchValuesFromUri(search_query) {
+    loadSearchValues(search_query) {
         //pass in query starting with ?
         // console.log('loading search from uri')
         //let uri = new this.jsUri(search_query)
+        console.log(this.view.search_elements_array)
         this.view.search_elements_array.forEach(element => {
             if (search_query[element.name]) {
                 element.value = search_query[element.name]
             }
         })
-
     }
     checkStorage() {
-        return window.localStorage[this.getStoredSearchName()]
+        return window.localStorage.getItem(this.getStoredSearchName());
     }
     clearStorage(){
-        delete window.localStorage[this.getStoredSearchName()];
+        window.localStorage.removeItem(this.getStoredSearchName());
     }
-    deleteStoredSearch(){
-        delete window.localStorage[this.getStoredSearchName()];
-    }
+
     retrieveSearch() {
         return JSON.parse(window.localStorage[this.getStoredSearchName()]);
     }
