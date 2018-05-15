@@ -170,6 +170,16 @@
     //set the url to something
     test = 'Load value from query string ';
     let query = '?awesome-table_name=lala&awesome-table_date_date_start=&awesome-table_date_date_end=&awesome-table_checkbox=1&awesome-table_select=null&awesome-table_tree_select=null&table_name=awesome-table';
+    let query_obj = {
+        'awesome-table_name':'lala',
+        'awesome-table_date_date_start':'',
+        'awesome-table_date_date_end':'',
+        'awesome-table_checkbox':'1',
+        'awesome-table_select':'null',
+        'awesome-table_tree_select':'null',
+        'table_name': 'awesome-table'
+    }
+
     awesomeTable.controller.loadFromUri(query);
 
     test_val = document.getElementsByName('awesome-table_name');

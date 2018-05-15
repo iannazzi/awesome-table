@@ -217,17 +217,17 @@ export class SearchTableController extends CollectionTableController {
     loadFromUri(search_query){
         console.log('loading from uri')
         this.loadSearchValuesFromUri(search_query)
-        this.sort.loadSortFromUri(search_query);
+        //this.sort.loadSortFromUri(search_query);
         this.storeSearch();
 
     }
     loadSearchValuesFromUri(search_query) {
         //pass in query starting with ?
         // console.log('loading search from uri')
-        let uri = new this.jsUri(search_query)
+        //let uri = new this.jsUri(search_query)
         this.view.search_elements_array.forEach(element => {
-            if (uri.getQueryParamValue(element.name)) {
-                element.value = uri.getQueryParamValue(element.name)
+            if (search_query[element.name]) {
+                element.value = search_query[element.name]
             }
         })
 
