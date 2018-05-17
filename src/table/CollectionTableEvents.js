@@ -114,27 +114,7 @@ export class CollectionTableEvents extends TableEvents {
         view.onHeaderClick.attach(
             function (sender, args) {
                 console.log('collection table controller on sort');
-
-
                 controller.sort.onSort(args);
-
-
-                // let uri_array = controller.uri.getQueryValues();
-                // console.log('uri array')
-                // console.log(uri_array)
-                //
-                // //this will mofify the url....
-                // if (typeof controller.model.td.onSortClick === 'function') {
-                //     //this callback has router
-                //     controller.model.td.onSortClick(controller.uri.getQueryValues());
-                // }
-
-
-
-                //this function sucks, i think you want updateTableValues();
-                //controller.view.drawTable();
-
-
             }
         )
 

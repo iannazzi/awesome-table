@@ -55,16 +55,8 @@
     let awesomeTable = new AwesomeTable.AwesomeTable('searchable');
 
     let column_definition = allOptions(awesomeTable);
-
-
-
-
-
-
-
-
     let config = {
-        name: 'awesome-table',
+        name: 'awesometable',
         data: [],
         column_definition,
         row_calculations: [], //fired on .draw() good for updating cell values
@@ -72,36 +64,9 @@
         access: 'read', //read vs write
     }
 
-    //setup how to handle incoming search query, getting data
-    //this callback is used to return the data..... works pretty well....
-//    config.getData = function(search_query){
-//
-//        console.log('what is the query?')
-//        console.log(search_query)
-//       // return false;
-//
-//        //so this was pulled from the controller it does not look right....
-//        //controller.model.td.getData({
-//        //     method: 'post',
-//        //     url: '/' + controller.model.td.search_route,
-//        //     entity: controller.getSearchPostData(),
-//        //     onSuccess: function (response) {
-//        //         controller.renderSearch(response.data.records)
-//        //     }
-//        //
-//        // })
-//
-//
-//
-//           return datar(100)
-//    }
     config.onSearchClick = function(query){
-        console.log('serach clicked')
         awesomeTable.controller.renderSearch(datar(10))
     }
-
-    // this line of code is shit.....
-    //config.search_query =jsuri.query();
 
     //set these values for some auto searching...
     config.number_of_records_available = 100;
@@ -128,7 +93,7 @@
 
     //at this point the search has not been populated...
     test = 'No values have yet been populated: Checkbox select is set to value 0 ';
-    test_val = document.getElementsByName('awesome-table_checkbox');
+    test_val = document.getElementsByName('awesometable_checkbox');
     if(test_val[0].value != 'null'){
         passing=false;
         errors.push(test)
@@ -136,14 +101,14 @@
 
     test = 'Populate defaults: Checkbox select is set to value 1 ';
     awesomeTable.controller.populateSearchValuesFromDefaultValues();
-    test_val = document.getElementsByName('awesome-table_checkbox');
+    test_val = document.getElementsByName('awesometable_checkbox');
     if(test_val[0].value != '1'){
         passing=false;
         errors.push(test)
     }
 
     test = 'Name select is set to hi ';
-    test_val = document.getElementsByName('awesome-table_name');
+    test_val = document.getElementsByName('awesometable_name');
     if(test_val[0].value != 'hi'){
         passing=false;
         errors.push(test)
@@ -162,22 +127,22 @@
 
     test = 'Set name field to boo ';
     awesomeTable.view.search_elements_by_name['name'].value = 'boo'
-    test_val = document.getElementsByName('awesome-table_name');
+    test_val = document.getElementsByName('awesometable_name');
     if(test_val[0].value != 'boo'){
         passing=false;
         errors.push(test)
     }
 
     //set the url to something
-    //let query = '?awesome-table_name=lala&awesome-table_date_date_start=&awesome-table_date_date_end=&awesome-table_checkbox=1&awesome-table_select=null&awesome-table_tree_select=null&table_name=awesome-table';
+    //let query = '?awesometable_name=lala&awesometable_date_date_start=&awesometable_date_date_end=&awesometable_checkbox=1&awesometable_select=null&awesometable_tree_select=null&table_name=awesometable';
     let query_obj = {
-        'awesome-table_name':'lala',
-        'awesome-table_date_date_start':'',
-        'awesome-table_date_date_end':'',
-        'awesome-table_checkbox':'1',
-        'awesome-table_select':'null',
-        'awesome-table_tree_select':'null',
-        'table_name': 'awesome-table'
+        'awesometable_name':'lala',
+        'awesometable_date_date_start':'',
+        'awesometable_date_date_end':'',
+        'awesometable_checkbox':'1',
+        'awesometable_select':'null',
+        'awesometable_tree_select':'null',
+        'table_name': 'awesometable'
     }
 
     test = 'Check Query ';
@@ -191,7 +156,7 @@
 
     awesomeTable.controller.loadSearchValues(query_obj);
 
-    test_val = document.getElementsByName('awesome-table_name');
+    test_val = document.getElementsByName('awesometable_name');
     if(test_val[0].value != 'lala'){
         passing=false;
         errors.push(test)
@@ -199,20 +164,20 @@
 
 
     test = 'storage should not be empty?';
+    awesomeTable.controller.storeSearch();
     test_val = awesomeTable.controller.checkStorage()
-    console.log(test_val)
-    if(typeof test_val == 'undefined'){
+    if(test_val == null){
         passing=false;
         errors.push(test)
     }
 
-    test = 'Load values from storage';
+    test = 'Load search values from storage';
     awesomeTable.view.search_elements_by_name['name'].value = 'boot'
     awesomeTable.controller.storeSearch();
     awesomeTable.view.search_elements_by_name['name'].value = ''
     awesomeTable.controller.loadSearchFromStorage();
 
-    test_val = document.getElementsByName('awesome-table_name');
+    test_val = document.getElementsByName('awesometable_name');
     if(test_val[0].value != 'boot'){
         passing=false;
         errors.push(test)
@@ -221,7 +186,7 @@
 
     test = 'press search and see results';
     awesomeTable.controller.onSearchClicked();
-    test_val=document.getElementById('awesome-table_r0_name').innerHTML;
+    test_val=document.getElementById('awesometable_r0_name').innerHTML;
     if(test_val != '0'){
         passing=false;
         errors.push(test)
@@ -233,16 +198,89 @@
         awesomeTable.view.addMessageInsteadOfTable('no data')
     }
     awesomeTable.controller.onSearchClicked();
-    test_val=document.getElementById('awesome-table_r0_name');
+    test_val=document.getElementById('awesometable_r0_name');
     if(test_val !== null){
         passing=false;
         errors.push(test)
     }
 
-    //ok now we need to test storage of sort....... hmmm........ need to test sort first on an easier set up.....
+
+    //load up some data....
+    //pretend there is some query data available
+    //check that there is a valid sort in there...
+    //sort the data based on the url
+
+    test = 'sort by name'
+
+    awesomeTable.model.td.onSearchClick = function(query){
+        awesomeTable.controller.renderSearch(datar(10))
+    }
+    awesomeTable.controller.onSearchClicked();
+    awesomeTable.controller.sort.addSort('name','desc')
+    awesomeTable.controller.sort.renderSort();
+    test_val = document.getElementById('awesometable_r0_name').innerHTML
+    if(test_val != '9'){
+        passing=false;
+        errors.push(test)
+    }
+
+    test ='remove sort'
+    awesomeTable.controller.sort.addSort('name','asc')
+    awesomeTable.controller.sort.renderSort();
+    awesomeTable.controller.sort.removeAllSort();
+    test_val = document.getElementById('awesometable_r0_name').innerHTML
+    if(test_val != '0'){
+        passing=false;
+        errors.push(test)
+    }
+
+
+    test = 'load sort values from query'
+    let sort_query = {
+        'awesometable_name_sort':'desc',
+    }
+    awesomeTable.controller.sort.loadSortFromQuery(sort_query)
+    awesomeTable.controller.sort.renderSort();
+    test_val = document.getElementById('awesometable_r0_name').innerHTML
+    if(test_val != '9'){
+        passing=false;
+        errors.push(test)
+    }
+
+    //awesomeTable.controller.sort.removeAllSort();
+
+    test = 'store sort values to storage'
+    awesomeTable.controller.sort.storeSort();
+    test_val = awesomeTable.controller.sort.getSortFromStorage()
+    if( test_val['awesometable_name_sort'] != 'desc'){
+        passing=false;
+        errors.push(test)
+    }
+
+    awesomeTable.controller.sort.addSort('name','asc')
+    awesomeTable.controller.sort.renderSort();
+
+    test = 'load sort values from storage'
+    awesomeTable.controller.sort.loadSortFromStorage()
+    awesomeTable.controller.sort.renderSort();
+    test_val = document.getElementById('awesometable_r0_name').innerHTML
+    if(test_val != '0'){
+        passing=false;
+        errors.push(test)
+    }
 
 
 
+    test = 'load sort values from default'
+    awesomeTable.controller.sort.removeAllSort();
+    awesomeTable.controller.sort.renderSort();
+    awesomeTable.controller.sort.loadSortFromDefault()
+    awesomeTable.controller.sort.renderSort();
+    test_val = document.getElementById('awesometable_r0_name').innerHTML
+    if(test_val != '9'){
+        passing=false;
+        errors.push(test)
+    }
 
 
     printTestResults(passing,errors)

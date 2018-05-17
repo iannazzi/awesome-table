@@ -192,7 +192,7 @@ export class SearchTableController extends CollectionTableController {
     }
     getQueryValues(){
         //terrible name..... this returns an object of the paramaters that should be stored
-        let sort_data = this.sort.getSortUri();
+        let sort_data = this.sort.getSort();
         let search_data = this.getSearchFormData();
         return Object.assign(search_data , sort_data);
     }
@@ -221,10 +221,6 @@ export class SearchTableController extends CollectionTableController {
 
     }
     loadSearchValues(search_query) {
-        //pass in query starting with ?
-        // console.log('loading search from uri')
-        //let uri = new this.jsUri(search_query)
-        console.log(this.view.search_elements_array)
         this.view.search_elements_array.forEach(element => {
             if (search_query[element.name]) {
                 element.value = search_query[element.name]
@@ -232,14 +228,13 @@ export class SearchTableController extends CollectionTableController {
         })
     }
     checkStorage() {
-        return window.localStorage.getItem(this.getStoredSearchName());
+        return localStorage.getItem(this.getStoredSearchName());
     }
     clearStorage(){
-        window.localStorage.removeItem(this.getStoredSearchName());
+        localStorage.removeItem(this.getStoredSearchName());
     }
-
     retrieveSearch() {
-        return JSON.parse(window.localStorage[this.getStoredSearchName()]);
+        return JSON.parse(localStorage.getItem(this.getStoredSearchName()))
     }
     storeSearch() {
         let search_values = this.getSearchFormValues();
@@ -248,7 +243,6 @@ export class SearchTableController extends CollectionTableController {
     }
     loadSearchFromStorage() {
         console.log('loading search values from storage')
-        console.log(window.localStorage[this.getStoredSearchName()])
         let stored_values = this.retrieveSearch();
         this.view.search_elements_array.forEach(element => {
             if (stored_values[element.name]) {

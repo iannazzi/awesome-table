@@ -1,14 +1,16 @@
-export class SortController{
-    constructor(controller){
-        this.controller=controller;
+export class SortController {
+    constructor(controller) {
+        this.controller = controller;
         this.jsUri = require('jsuri');
 
     }
-    getStoredSortName(){
+
+    getStoredSortName() {
         return this.controller.model.td.name + '_sort';
     }
 
-    onSort(args, search_query){
+    onSort(args, search_query) {
+        console.log(args)
         let event = args[0];
         let th = args[1];
         //this code is the tri-selector: switches between none, asc, and desc
@@ -53,15 +55,17 @@ export class SortController{
 
 
     }
-    renderSort()
-    {
+
+    renderSort() {
         this.controller.model.sortData()
         this.controller.view.updateHeaderSortView();
         this.controller.view.drawTbody();
         this.controller.updateTable()
 
     }
+
     addSort(name, value) {
+        this.removeSort(name)
         let save = {};
         save[name] = value;
         this.controller.model.sort.push(save);
@@ -69,11 +73,28 @@ export class SortController{
         // console.log(this.controller.model.sort)
 
     }
-    loadSortFromStorage() {
-        if(window.localStorage[this.getStoredSortName()]){
-            this.controller.model.sort = JSON.parse(window.localStorage[this.getStoredSortName()]);
-        }
+
+    storeSort() {
+        let sort_values = this.getSort();
+        localStorage.setItem(this.getStoredSortName(), JSON.stringify(sort_values))
     }
+
+    getSortFromStorage() {
+        return JSON.parse(localStorage.getItem(this.getStoredSortName()));
+    }
+
+    loadSortFromStorage() {
+        this.loadSortFromQuery(this.getStoredSortName())
+    }
+    loadSortFromDefault(){
+        //go through the column definition and add each sort...
+        this.controller.model.cdo.forEach(col_def => {
+            if(typeof col_def.sort !== 'undefined'){
+                this.addSort(col_def.db_field, col_def.sort)
+            }
+        })
+    }
+
     removeSort(name) {
         // console.log('remove sort' + name)
         // console.log(JSON.stringify(this.controller.model.sort));
@@ -82,38 +103,40 @@ export class SortController{
             return keys[0] !== name;
         });
     }
-    getSortUri(){
-        let url_data = {};
+
+    removeAllSort() {
+        this.controller.model.sort = [];
+        this.renderSort();
+    }
+
+    getSort() {
+        let sort_data = {};
         this.controller.model.sort.forEach(sort => {
             let keys = Object.keys(sort);
-            url_data[this.controller.view.name + '_' + keys[0] + '_sort'] = sort[keys[0]];
+            sort_data[this.controller.model.td.name + '_' + keys[0] + '_sort'] = sort[keys[0]];
         })
-        return url_data;
+        return sort_data;
     }
-    loadSortFromUri(search_query) {
-        // console.log('loading sort from uri')
 
-        //go through the params in order....
-        let uri = new this.jsUri(search_query);
-        let params = uri.queryPairs
-        let self = this;
-        params.forEach(param => {
-            let name = param[0];
-            if (name.includes('_sort')) {
-                name = name.replace('_sort', '')
-                //take  off the front
-                name = name.substring(this.controller.view.name.length +1, name.length);
-                let value = param[1];
-                //remove sort
-                self.addSort(name, value);
+    loadSortFromQuery(query_pairs) {
+
+        for (var key in query_pairs) {
+            if (query_pairs.hasOwnProperty(key)) {
+                if (key.includes('_sort')) {
+                    let name = key.replace('_sort', '')
+                    name = name.substring(this.controller.model.td.name.length + 1, key.length);
+                    this.addSort(name, query_pairs[key]);
+                }
+
             }
-        })
-
+        }
     }
-    resetStoredSort(){
+
+    resetStoredSort() {
         this.controller.model.sort = [];
     }
-    deleteStoredSort(){
-        delete window.localStorage[this.getStoredSortName()];
+
+    deleteStoredSort() {
+        localStorage.removeItem(this.getStoredSortName());
     }
 }

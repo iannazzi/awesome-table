@@ -26,6 +26,7 @@ let allOptions = function(awesomeTable){
             "caption": "Name", //this can also be a 2-d array to match data that is in an array
             search:true,
             search_default:'hi',
+            sort:'desc',
             "type": "text",
         },
         {
