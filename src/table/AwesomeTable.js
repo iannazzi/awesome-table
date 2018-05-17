@@ -255,21 +255,11 @@ export class AwesomeTable {
 
     }
 
-    updateSearchPage() {
-        this.searchController.loadPageEvent.notify();
-    }
 
     removeResultsTable() {
         this.searchController.view.destroyCollectionTable();
     }
 
-    // showModal() {
-    //     this.viewModal.showModalTable();
-    // }
-    //
-    // hideModal() {
-    //     this.viewModal.hideModalTable();
-    // }
 
 
 }
