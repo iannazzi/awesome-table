@@ -30,6 +30,13 @@ export class SearchTableEvents {
             function () {
 
 
+
+                //this is all shot......
+
+
+
+                
+
                 //USER CAME IN FROM A LINK
                     //POPULATE SEARCH BOXES
                     //GO GET IT STORE THE SEARCH

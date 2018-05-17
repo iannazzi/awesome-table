@@ -135,12 +135,12 @@ export class SearchTableController extends CollectionTableController {
         this.setFocusToFirstInputOfSearch()
         this.view.addMessageInsteadOfTable(`Press search to display results`)
 
-        this.uri.deleteStoredSearch();
-        this.deleteStoredSort();
-        this.resetStoredSort();
+        this.clearStoredSearch();
+        this.sort.deleteStoredSort();
+        this.sort.resetStoredSort();
 
-        if(typeof this.controller.model.td.onResetClick === 'function'){
-            this.controller.model.td.onResetClick();
+        if(typeof this.model.td.onResetClick === 'function'){
+            this.model.td.onResetClick();
         }
 
     }
@@ -230,7 +230,7 @@ export class SearchTableController extends CollectionTableController {
     checkStorage() {
         return localStorage.getItem(this.getStoredSearchName());
     }
-    clearStorage(){
+    clearStoredSearch(){
         localStorage.removeItem(this.getStoredSearchName());
     }
     retrieveSearch() {
