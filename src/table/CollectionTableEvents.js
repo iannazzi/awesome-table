@@ -115,6 +115,9 @@ export class CollectionTableEvents extends TableEvents {
             function (sender, args) {
                 console.log('collection table controller on sort');
                 controller.sort.onSort(args);
+                if (typeof controller.model.td.onHeaderClick === 'function') {
+                    controller.model.td.onHeaderClick(args);
+                }
             }
         )
 

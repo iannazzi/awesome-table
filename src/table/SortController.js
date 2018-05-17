@@ -30,7 +30,7 @@ export class SortController {
                 }
             })
         }
-        console.log('sort array: ' + sort_array[i])
+        // console.log('sort array: ' + sort_array[i])
         switch (sort_array[i]) {
             case 'none':
                 // uri.deleteQueryParam(name + '_sort')
@@ -47,10 +47,7 @@ export class SortController {
                 this.addSort(name, 'desc')
                 break;
         }
-        //now store the sort for future use....
-        sessionStorage[this.getStoredSortName()] = JSON.stringify(this.controller.model.sort);
-        // this was bad.... this.pushState(uri);
-
+        this.storeSort();
         this.renderSort();
 
 
