@@ -1,7 +1,6 @@
 export class SortController {
     constructor(controller) {
         this.controller = controller;
-        this.jsUri = require('jsuri');
 
     }
 
@@ -73,26 +72,26 @@ export class SortController {
     storeSort() {
         let sort_values = this.getSort();
         // localStorage.setItem(this.getStoredSortName(), JSON.stringify(sort_values))
-        localStorage[this.getStoredSortName()] =  JSON.stringify(sort_values);
+        localStorage[this.getStoredSortName()] = JSON.stringify(sort_values);
 
     }
 
     getSortFromStorage() {
         // return JSON.parse(localStorage.getItem(this.getStoredSortName()));
-        console.log(localStorage[this.getStoredSortName()])
-        if(localStorage[this.getStoredSortName()]){
+        if (localStorage[this.getStoredSortName()]) {
             return JSON.parse(localStorage[this.getStoredSortName()]);
+        }
+        else {
+            return false
         }
 
     }
 
-    loadSortFromStorage() {
-        this.loadSortFromQuery(this.getStoredSortName())
-    }
-    loadSortFromDefault(){
+
+    loadSortFromDefault() {
         //go through the column definition and add each sort...
         this.controller.model.cdo.forEach(col_def => {
-            if(typeof col_def.sort !== 'undefined'){
+            if (typeof col_def.sort !== 'undefined') {
                 this.addSort(col_def.db_field, col_def.sort)
             }
         })
@@ -109,6 +108,7 @@ export class SortController {
 
     removeAllSort() {
         this.controller.model.sort = [];
+        this.deleteStoredSort();
         this.renderSort();
     }
 
@@ -122,7 +122,15 @@ export class SortController {
     }
 
     loadSortFromQuery(query_pairs) {
+        this.loadSortFromKvp(query_pairs)
+    }
 
+    loadSortFromStorage() {
+        console.log(this.getSortFromStorage())
+        this.loadSortFromKvp(this.getSortFromStorage())
+    }
+
+    loadSortFromKvp(query_pairs) {
         for (var key in query_pairs) {
             if (query_pairs.hasOwnProperty(key)) {
                 if (key.includes('_sort')) {
@@ -130,10 +138,10 @@ export class SortController {
                     name = name.substring(this.controller.model.td.name.length + 1, key.length);
                     this.addSort(name, query_pairs[key]);
                 }
-
             }
         }
     }
+
 
     resetStoredSort() {
         this.controller.model.sort = [];

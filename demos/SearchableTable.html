@@ -260,15 +260,15 @@
     awesomeTable.controller.sort.addSort('name','asc')
     awesomeTable.controller.sort.renderSort();
 
+
     test = 'load sort values from storage'
     awesomeTable.controller.sort.loadSortFromStorage()
     awesomeTable.controller.sort.renderSort();
     test_val = document.getElementById('awesometable_r0_name').innerHTML
-    if(test_val != '0'){
+    if(test_val != '9'){
         passing=false;
         errors.push(test)
     }
-
 
 
     test = 'load sort values from default'

@@ -5,7 +5,6 @@ import {SearchTableEvents} from './SearchTableEvents';
 export class SearchTableController extends CollectionTableController {
     constructor(model, view) {
         super(model, view)
-        this.jsUri = require('jsuri');
         this.show_records_autmatically_below = 50;
         this.searchTableEvents = new SearchTableEvents(this);
     }
@@ -80,6 +79,11 @@ export class SearchTableController extends CollectionTableController {
         this.model.loadData(data)
         if(data.length>0){
             this.view.addDataTable();
+
+            //what about sorting?
+
+
+
             this.setFocusToFirstInputOfSearch()
 
         }
@@ -92,7 +96,6 @@ export class SearchTableController extends CollectionTableController {
         if(typeof this.model.td.onLoadPageComplete === 'function'){
             this.model.td.onLoadPageComplete();
         }
-        this.setFocusToFirstInputOfSearch()
     }
     onSearchClicked(){
         this.storeSearch();
