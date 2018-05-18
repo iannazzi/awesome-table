@@ -117,8 +117,8 @@
     //check storage
     test = 'storage should be empty';
     awesomeTable.controller.clearStoredSearch();
-    test_val = awesomeTable.controller.checkStorage()
-    if(test_val !== null){
+    test_val = awesomeTable.controller.checkSearchStorage()
+    if(test_val !== false){
         passing=false;
         errors.push(test)
     }
@@ -165,8 +165,8 @@
 
     test = 'storage should not be empty?';
     awesomeTable.controller.storeSearch();
-    test_val = awesomeTable.controller.checkStorage()
-    if(test_val == null){
+    test_val = awesomeTable.controller.checkSearchStorage()
+    if(test_val == false){
         passing=false;
         errors.push(test)
     }
@@ -289,14 +289,19 @@
         passing=false;
         errors.push(test)
     }
-    test_val = awesomeTable.controller.checkStorage()
-    console.log(test_val)
-    if(test_val !== null){
+    test_val = awesomeTable.controller.checkSearchStorage()
+    if(test_val !== false){
         passing=false;
         errors.push(test)
     }
     test_val = awesomeTable.controller.sort.getSortFromStorage()
 
+
+    //finally search then sort
+    awesomeTable.controller.onSearchClicked();
+    awesomeTable.controller.sort.addSort('name','asc')
+    awesomeTable.controller.sort.renderSort();
+    awesomeTable.controller.sort.storeSort();
 
 
 

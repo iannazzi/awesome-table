@@ -227,19 +227,32 @@ export class SearchTableController extends CollectionTableController {
             }
         })
     }
-    checkStorage() {
-        return localStorage.getItem(this.getStoredSearchName());
+    checkSearchStorage() {
+        // return localStorage.getItem(this.getStoredSearchName());
+        if(localStorage[this.getStoredSearchName()]){
+            return localStorage[this.getStoredSearchName()];
+        }
+        else{
+            return false
+        }
+
     }
     clearStoredSearch(){
-        localStorage.removeItem(this.getStoredSearchName());
+        // localStorage.removeItem(this.getStoredSearchName());
+        delete localStorage[this.getStoredSearchName()];
+
     }
     retrieveSearch() {
-        return JSON.parse(localStorage.getItem(this.getStoredSearchName()))
+        // return JSON.parse(localStorage.getItem(this.getStoredSearchName()))
+        return JSON.parse(localStorage[this.getStoredSearchName()])
+
     }
     storeSearch() {
         let search_values = this.getSearchFormValues();
         // window.localStorage[this.getStoredSearchName()] = JSON.stringify(search_values);
-        localStorage.setItem(this.getStoredSearchName(),JSON.stringify(search_values))
+        // localStorage.setItem(this.getStoredSearchName(),JSON.stringify(search_values))
+        localStorage[this.getStoredSearchName()] =JSON.stringify(search_values)
+
     }
     loadSearchFromStorage() {
         console.log('loading search values from storage')

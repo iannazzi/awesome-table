@@ -10,7 +10,6 @@ export class SortController {
     }
 
     onSort(args, search_query) {
-        console.log(args)
         let event = args[0];
         let th = args[1];
         //this code is the tri-selector: switches between none, asc, and desc
@@ -73,11 +72,18 @@ export class SortController {
 
     storeSort() {
         let sort_values = this.getSort();
-        localStorage.setItem(this.getStoredSortName(), JSON.stringify(sort_values))
+        // localStorage.setItem(this.getStoredSortName(), JSON.stringify(sort_values))
+        localStorage[this.getStoredSortName()] =  JSON.stringify(sort_values);
+
     }
 
     getSortFromStorage() {
-        return JSON.parse(localStorage.getItem(this.getStoredSortName()));
+        // return JSON.parse(localStorage.getItem(this.getStoredSortName()));
+        console.log(localStorage[this.getStoredSortName()])
+        if(localStorage[this.getStoredSortName()]){
+            return JSON.parse(localStorage[this.getStoredSortName()]);
+        }
+
     }
 
     loadSortFromStorage() {
@@ -134,6 +140,7 @@ export class SortController {
     }
 
     deleteStoredSort() {
-        localStorage.removeItem(this.getStoredSortName());
+        // localStorage.removeItem(this.getStoredSortName());
+        delete localStorage[this.getStoredSortName()]
     }
 }
