@@ -80,6 +80,7 @@ export class TableController {
                 || col_def['type'] == 'textarea'
                 || col_def['type'] == 'date'
             ) {
+                //might not be on there... ex: password is only on create.....
                 if (array === false) {
                     this.model.tdo[r][col_def['db_field']]['data'] = element.value;
                 }

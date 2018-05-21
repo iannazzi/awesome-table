@@ -3,7 +3,7 @@ Awesome Table
 
 AwesomeTable is used to rapidly build HTML tables to display, edit, sort, and search collections of records. 
 
-AwesomeTable is written in pure javascript with very few library dependencies. One dependency is JSURI to parse a query string, and another is thenby to help with sorting.
+AwesomeTable is written in pure javascript with very one dependency. Thenby is used to help with multi level sorting.
 
 AwesomeTable is written using an MVC pattern and an Event pattern. 
 The M stands for Model. The Model holds the table definition and any table data. 

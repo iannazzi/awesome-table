@@ -36,6 +36,10 @@
   text-align: right;
   /* center checkbox horizontally */ }
 
+.awesome_table_record_id {
+  text-decoration: underline;
+  color: darkblue; }
+
 .awesome-collection-table-tbody tr:nth-child(even) {
   background: #EEE; }
 

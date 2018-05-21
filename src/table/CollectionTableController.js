@@ -201,6 +201,9 @@ export class CollectionTableController extends TableController {
         {
             this.view.highlightHeaderRow(key, header_array_data[key])
         }
+        if(typeof this.model.td.onRowClick === 'function'){
+            this.model.td.onRowClick(row);
+        }
 
 
 

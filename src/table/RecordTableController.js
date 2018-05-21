@@ -38,7 +38,8 @@ export class RecordTableController extends TableController {
 
         this.model.cdo.forEach((col_def) => {
             if(col_def.type != 'row_checkbox' && col_def.type != 'row_number'){
-                let element = this.view.elements[col_def.db_field];
+
+                let element = this.view.elements[0][col_def.db_field];
                 switch (this.model.td.table_view) {
                     case 'create':
                         if (col_def['show_on_create'] !== false){

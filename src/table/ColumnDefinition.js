@@ -7,7 +7,7 @@ export class ColumnDefinition {
         let cd = {
             "db_field": 'replace',
             "caption": "replace", //this can also be a 2-d array to match data that is in an array
-            "type": "html date time password text number textarea row_checkbox row_number checkbox select tree_select button link radio",
+            "type": "id html date time password text number textarea row_checkbox row_number checkbox select tree_select button link radio",
             'min': 1,   //add a minimum value
             'max': '2018-01-12', //add a maximum value for the browser to handle
             'readonly': true,

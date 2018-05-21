@@ -14,20 +14,8 @@ export class RecordTableView extends TableView {
         let name = this.model.td.name;
         this.recordTableDiv = this.createRecordTableDiv();
         this.table = this.createTableElement(name);
-
-
         this.recordTableDiv.appendChild(this.table);
-
         this.recordTableDiv.appendChild(this.createButtons());
-
-        //what to do about the modals?
-        // this.recordTableDiv.appendChild(this.waitModal);
-        // this.recordTableDiv.appendChild(this.confirmModal);
-        // this.recordTableDiv.appendChild(this.errorModal.createErrorModal());
-
-        // if (this.checkWrite()) {
-        //     this.setFocusToFirstInput();
-        // }
         this.drawTable();
 
         return this.recordTableDiv;
@@ -87,7 +75,6 @@ export class RecordTableView extends TableView {
         tbl.appendChild(tbody);
         this.tbody = tbody;
         this.model.cdo.forEach((col_def) => {
-
             switch (this.model.td.table_view) {
                 case 'create':
                     if (typeof col_def['show_on_create'] === 'undefined' || col_def['show_on_create']) {
@@ -129,6 +116,7 @@ export class RecordTableView extends TableView {
             let data = this.model.tdo[0][col_def.db_field].data;
             let cell = tr.insertCell(-1);
             let element = this.createElement(data, col_def);
+            element.id=this.model.td.name + '_' + col_def.db_field;
             element.awesomeTable = {};
             element.awesomeTable.col_def = col_def;
             this.elements[0][col_def.db_field] = element;

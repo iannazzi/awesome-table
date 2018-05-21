@@ -30,12 +30,36 @@ export class TableView {
 
 
     writeCellValue(col_def, cell, value) {
-        //can I write a value without the col_def?
-        //why would I ?
+
 
         if(this.checkRead()){
-            //this is a td
-            cell.innerHTML=value;
+            //this is weird? why do I have to redraw shit on read?
+            if (col_def['type'] == 'id') {
+                cell.innerHTML = value;
+                cell.classList.add('awesome_table_record_id')
+                if(typeof col_def.onClick !== 'undefined'){
+                    cell.addEventListener('click',function(){
+                        col_def.onClick(value)
+                    })
+                }
+            }
+            else if(col_def['type'] == 'link'){
+                cell.innerHTML = '<a href="' + value + '">'+value+'</a>';
+            }
+            // else  if(col_def['type'] == 'checkbox')
+            // {
+            //     cell.innerHTML = '';
+            //     cell.appendChild(this.createCheckBox(col_def, value))
+            // }
+            // else  if(col_def['type'] == 'radio')
+            // {
+            //     cell.innerHTML = '';
+            //     cell.appendChild(this.createRadio(col_def, value))
+            // }
+            else{
+                cell.innerHTML=value;
+
+            }
         }
         else{
             let element = cell.childNodes[0]
@@ -70,31 +94,6 @@ export class TableView {
     checkRead() {
         return !this.checkWrite();
     }
-
-    // createModalTable(table_dom_object){
-    //
-    //
-    //     if (this.model.td.edit_display == 'modal') {
-    //
-    //
-    //     }
-    //     else if (this.model.td.edit_display == 'modal_only') {
-    //
-    //
-    //     }
-    //     this.formModal.setBody(table_dom_object);
-    //     let div = document.createElement('div');
-    //     div.appendChild(this.createSaveButton());
-    //     div.appendChild(this.createCancelButton());
-    //     this.formModal.setFooter(div);
-    //     return this.formModal.get();
-    // }
-    // showModalTable(){
-    //     this.formModal.show();
-    // }
-    // hideModalTable(){
-    //     this.formModal.hide();
-    // }
 
     drawTableEditSaveButtons() {
 
@@ -169,6 +168,9 @@ export class TableView {
                 break;
             case 'link':
                 return this.createLink(col_def, data);
+                break;
+            case 'id':
+                return this.createId(col_def, data);
                 break;
             case 'time':
                 return this.createTime(col_def, data);
@@ -397,6 +399,7 @@ export class TableView {
 
 
     }
+
     createTime(col_def, data){
         return this.createTextInput(col_def, data)
     }
@@ -408,7 +411,6 @@ export class TableView {
 
 
             if (typeof col_def.onClick === 'function') {
-
                 a.addEventListener("click", function () {
                     col_def.onClick(data);
                 });
@@ -428,7 +430,26 @@ export class TableView {
 
 
     }
+    createId(col_def, data) {
+        if (this.model.td.table_view == 'index') {
+            let a = document.createElement('a');
+            let c = document.createTextNode(data);
+            a.appendChild(c);
+            if (typeof col_def.onClick === 'function') {
+                a.addEventListener("click", function () {
+                    col_def.onClick(data);
+                });
+            }
+            return a;
+        }
+        else {
+            //on the show page we do not want a link....
+            return this.createTextNode(col_def, data);
 
+        }
+
+
+    }
     createButton(col_def, data) {
         let element = document.createElement('button');
         //element.id = db_field + '_sr' + r;

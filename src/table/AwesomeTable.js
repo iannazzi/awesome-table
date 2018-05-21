@@ -69,7 +69,9 @@ export class AwesomeTable {
         //the table type is used to show/hide columns on edit, create, view ....
         switch (this.type) {
             case 'record':
-                this.model.td.table_view = 'show';
+                if(typeof options.table_view == 'undfined'){
+                    this.model.td.table_view = 'show';
+                }
                 break;
             case 'collection':
                 this.model.td.table_view = 'index';
