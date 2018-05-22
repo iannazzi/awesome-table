@@ -33,6 +33,10 @@ export class RecordTableController extends TableController {
         })
         return return_value;
     }
+    loadRecord(data){
+        this.model.loadData([data]);
+        this.view.drawTable();
+    }
     copyTable() {
         //for the record table igonore row_number and row_checkbox columns
 

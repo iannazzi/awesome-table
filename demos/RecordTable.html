@@ -33,17 +33,20 @@
     //setup - get an instance of the table so we can set it up
 
     //set up some data
-    let data = function () {
-        let data = {};
-        data.id = 1;
-        data.name = 'name_' + 1;
-        data.check_name = 'check_name' + 1;
-        data.account_number = 'account_number' + 1;
-        data.main_email = 'email' + 1 + '@gmail.com';
-        data.active = 1;
+    let dataGenerator = function (rows) {
+        let data = [];
+        for(let i=0;i<rows;i++){
+            data[i] = {};
+            data[i].id = i;
+            data[i].name = 'name_' + i;
+            data[i].check_name = 'check_name' + i;
+            data[i].account_number = 'account_number' + i;
+            data[i].main_email = 'email' + i + '@gmail.com';
+            data[i].active = 1;
+        }
         return data;
     }
-
+    let data = dataGenerator(10);
     let awesomeTable = new AwesomeTable.AwesomeTable('record');
     //column defintion
     let column_definition = [
@@ -423,7 +426,7 @@
     ];
     let config = {
         name: 'awesome-table',
-        data: data(), //data comes in as key-value for the record table...
+        data: data[0], //data comes in as key-value for the record table...
         column_definition,
         row_calculations: [], //fired on .draw() good for updating cell values
         table_buttons: ['edit'],
@@ -449,6 +452,16 @@
     let errors = [];
     let expect_false,expect_true,test_val;
     let test;
+
+    test="load up some data"
+    awesomeTable.controller.loadRecord(data[1])
+
+    test_val = document.getElementById('awesome-table_td_name').innerHTML;
+    if(test_val != 'name_1'){
+        passing = false;
+        errors.push(test)
+    }
+
 
     printTestResults(passing,errors)
 
