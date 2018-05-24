@@ -101,39 +101,6 @@ export class RecordTableEvents extends TableEvents {
                         controller.model.original_data = controller.getPostData();
                         view.drawTable();
 
-                        //modal or not
-
-
-                        // if (controller.model.td.edit_display == 'on_page') {
-                        //
-                        //     controller.model.td.table_view = 'show';
-                        //     controller.model.td.access = 'read';
-                        //     //set the original data to the new data
-                        //     controller.model.original_data = controller.getPostData();
-                        //     view.drawTable();
-                        //
-                        // }
-                        // else if (controller.model.td.edit_display == 'modal') {
-                        //
-                        //     controller.model.td.onSaveSuccess(result.id);
-                        //
-                        // }
-                        // else if (controller.model.td.edit_display == 'modal_only') {
-                        //
-                        //     console.log(result);
-                        //     console.log(JSON.stringify(controller.getPostData()))
-                        //     console.log(controller.model.td.table_view);
-                        //     console.log(controller.model.td.edit_display);
-                        //
-                        //
-                        //     console.log(JSON.stringify(controller.model.tdo))
-                        //
-                        //
-                        //     console.log(result.id)
-                        //     controller.model.td.onSaveSuccess(result.id);
-                        //
-                        //
-                        // }
 
 
                         break;

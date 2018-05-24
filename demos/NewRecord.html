@@ -424,15 +424,18 @@
             let post_data = {data: awesomeTable.controller.getPostData(), _method: 'put'};
             console.log(JSON.stringify(post_data))
             awesomeTable.controller.makeReadable();
+            return 'foo'
         },
         onCancelCreateClick(){
             return 'boo'
-        }
+        },
 
     }
     //once everything is defined we can load up the config then render.....
     awesomeTable.loadConfiguration(config);
     awesomeTable.addTo('table')
+    awesomeTable.controller.setFocusToFirstInput()
+
 
     //now some tests....
     //test
@@ -445,6 +448,14 @@
     test="cancel create callback"
     test_val = awesomeTable.controller.onCancelCreate()
     if(test_val != 'boo'){
+        passing = false;
+        errors.push(test)
+    }
+
+    //not the best test... not sure how to handle this????
+    test = "save new record callback"
+    test_val = awesomeTable.model.td.onSaveClick()
+    if(test_val != 'foo'){
         passing = false;
         errors.push(test)
     }

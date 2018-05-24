@@ -13,7 +13,7 @@ export class TableEvents {
         controller.view.onSaveClick.attach(
             function () {
                 if(typeof controller.model.td.onSaveClick === 'function'){
-                    controller.model.td.onSaveClick();
+                    return controller.model.td.onSaveClick();
                 }
 
             }

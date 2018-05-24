@@ -136,6 +136,7 @@ export class TableController {
     }
     setFocusToFirstInput(row) {
         // if(this.checkRead()) return;
+        console.log(this.view.elements_array)
         let elements = this.view.elements_array;
         for (let i = 0; i < elements.length; i++) {
 
@@ -147,7 +148,7 @@ export class TableController {
             ) {
                 console.log('setting focus to')
                 console.log(elements[i]);
-                $(elements[i]).focus();
+                elements[i].focus();
 
 //                elements[i].focus();
 //                 elements[i].select();
@@ -158,7 +159,7 @@ export class TableController {
                 || elements[i].type == 'select-multi'
 
             ) {
-                $(elements[i]).focus();
+                elements[i].focus();
                 // elements[i].select();
                 break;
             }

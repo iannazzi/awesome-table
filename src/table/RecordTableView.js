@@ -7,6 +7,8 @@ import {TableView} from './TableView';
 export class RecordTableView extends TableView {
     constructor(model) {
         super(model);
+        this.elements_array = [];
+
     }
 
 
@@ -121,9 +123,7 @@ export class RecordTableView extends TableView {
             element.awesomeTable = {};
             element.awesomeTable.col_def = col_def;
             this.elements[0][col_def.db_field] = element;
-            this.elements_array = [];
-            this.elements_array[0] = [];
-            this.elements_array[0].push(element);
+            this.elements_array.push(element);
             cell.appendChild(element);
         }
 

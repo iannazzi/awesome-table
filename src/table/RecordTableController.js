@@ -22,11 +22,13 @@ export class RecordTableController extends TableController {
         }
     }
     onCancelEdit(){
+        //kinda want a confirm here....
         this.model.loadBackupData();
         this.model.td.table_view = 'show';
         this.model.td.access = 'read';
         this.view.drawTable();
     }
+
     getSelectValueName(column_name, value){
         value = parseInt(value);
         let return_value = false;
