@@ -21,7 +21,7 @@ export class ColumnDefinition {
             "show_on_edit": true, //true or ommitted, false
             "th_width": 10,
             "search": "LIKE ANY BETWEEN EXACT",
-            "search_default" : "",
+            search_default : "",
             "total": 0,
             "round": 0,
             "events": [],

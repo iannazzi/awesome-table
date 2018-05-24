@@ -16,6 +16,9 @@ module.exports = {
             .url('http://localhost:8081/demos/OneColumnDefinitionMultipleTables.html')
             .waitForElementVisible('#tdv', 100)
             .assert.containsText("#test1", "All Tests Passed")
+            .url('http://localhost:8081/demos/NewRecord.html')
+            .waitForElementVisible('#tdv', 100)
+            .assert.containsText("#test1", "All Tests Passed")
             .end();
     }
 };

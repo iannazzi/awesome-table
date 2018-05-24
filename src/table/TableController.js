@@ -126,7 +126,7 @@ export class TableController {
     }
 
     makeReadable() {
-        this.model.td.table_view = 'edit';
+        this.model.td.table_view = 'show';
         this.model.td.access = 'read';
         this.view.drawTable();
         this.view.drawTableEditSaveButtons();

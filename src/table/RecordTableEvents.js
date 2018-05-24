@@ -67,49 +67,15 @@ export class RecordTableEvents extends TableEvents {
         view.onCancelClick = new TableEvent(view);
         view.onCancelClick.attach(
             function () {
-
-                //cancel was clicked
-                //hide the modal
-                //or set view to read
                 switch (controller.model.td.table_view) {
                     case 'edit':
-                        controller.model.loadBackupData();
-                        controller.model.td.table_view = 'show';
-                        controller.model.td.access = 'read';
-                        view.drawTable();
-
-                        // if (controller.model.td.edit_display == 'on_page') {
-                        //
-                        //     controller.model.td.table_view = 'show';
-                        //     controller.model.td.access = 'read';
-                        //     view.drawTable();
-                        //     //set the original data to the new data
-                        //
-                        // }
-                        // else if (controller.model.td.edit_display == 'modal') {
-                        //     controller.model.td.onCancelClick();
-                        // }
-                        // else if (controller.model.td.edit_display == 'modal_only') {
-                        //     controller.model.td.onCancelClick();
-                        // }
-
+                        controller.onCancelEdit();
                         break;
-
-
                     case 'create':
-                        if (typeof controller.model.td.onCancelCreateClick === 'function') {
-                            controller.model.td.onCancelCreateClick()
-                        }
-                        else {
-                            console.log('add onCancelCreateClick callback to option array')
-                        }
+                        controller.onCancelCreate();
                 }
-
-
             }
         );
-
-
 
         //##################   SAVE SUCCESS
         controller.onSaveSuccess = new TableEvent(controller);
@@ -185,42 +151,9 @@ export class RecordTableEvents extends TableEvents {
         //##################   DELETE CLICKED
         view.onDeleteClick = new TableEvent(view);
         view.onDeleteClick.attach(function () {
-
             if (typeof controller.model.td.onDeleteClick === 'function') {
                 controller.model.td.onDeleteClick();
             }
-            //this has to move
-            // controller.getConfirm('Are you sure about that delete?', function (result) {
-            //     if (result) {
-            //         let self = controller;
-            //         controller.view.showWaitModal(true);
-            //         //let self2 = self;
-            //         let post_data = {_method: 'delete', data: {id: self.model.tdo[0]['id']['data']}};
-            //         //console.log(JSON.stringify(data));
-            //         if (typeof controller.model.td.onDeleteClick === 'function') {
-            //             controller.model.td.onDeleteClick();
-            //         }
-            //
-            //
-            //         controller.model.td.getData(
-            //             {
-            //                 method: 'post',
-            //                 url: controller.model.td.route,
-            //                 entity: post_data,
-            //                 onSuccess(response) {
-            //                     self.view.showWaitModal(false);
-            //                     if (typeof controller.model.td.onDeleteSuccess === 'function') {
-            //                         controller.model.td.onDeleteSuccess();
-            //                     }
-            //                 },
-            //                 onError(response){
-            //
-            //                 }
-            //             }
-            //         );
-            //     }
-            //
-            // });
         });
 
     }

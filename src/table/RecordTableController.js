@@ -16,7 +16,17 @@ export class RecordTableController extends TableController {
 
     }
 
-
+    onCancelCreate(){
+        if (typeof this.model.td.onCancelCreateClick === 'function') {
+            return this.model.td.onCancelCreateClick()
+        }
+    }
+    onCancelEdit(){
+        this.model.loadBackupData();
+        this.model.td.table_view = 'show';
+        this.model.td.access = 'read';
+        this.view.drawTable();
+    }
     getSelectValueName(column_name, value){
         value = parseInt(value);
         let return_value = false;

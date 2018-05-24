@@ -32,21 +32,6 @@
     //set up some data
     //setup - get an instance of the table so we can set it up
 
-    //set up some data
-    let dataGenerator = function (rows) {
-        let data = [];
-        for(let i=0;i<rows;i++){
-            data[i] = {};
-            data[i].id = i;
-            data[i].name = 'name_' + i;
-            data[i].check_name = 'check_name' + i;
-            data[i].account_number = 'account_number' + i;
-            data[i].main_email = 'email' + i + '@gmail.com';
-            data[i].active = 1;
-        }
-        return data;
-    }
-    let data = dataGenerator(10);
     let awesomeTable = new AwesomeTable.AwesomeTable('record');
     //column defintion
     let column_definition = [
@@ -426,11 +411,12 @@
     ];
     let config = {
         name: 'awesome-table',
-        data: data[0], //data comes in as key-value for the record table...
+        data:[],
+        table_view: 'create',
         column_definition,
         row_calculations: [], //fired on .draw() good for updating cell values
         table_buttons: ['edit'],
-        access: 'read', //read vs write
+        access: 'write', //read vs write
         onChange: function (args, r, c) {
         },
         onSaveClick(){
@@ -438,6 +424,9 @@
             let post_data = {data: awesomeTable.controller.getPostData(), _method: 'put'};
             console.log(JSON.stringify(post_data))
             awesomeTable.controller.makeReadable();
+        },
+        onCancelCreateClick(){
+            return 'boo'
         }
 
     }
@@ -453,15 +442,12 @@
     let expect_false,expect_true,test_val;
     let test;
 
-    test="load up some data"
-    awesomeTable.controller.loadRecord(data[1])
-
-    test_val = document.getElementById('awesome-table_td_name').innerHTML;
-    if(test_val != 'name_1'){
+    test="cancel create callback"
+    test_val = awesomeTable.controller.onCancelCreate()
+    if(test_val != 'boo'){
         passing = false;
         errors.push(test)
     }
-
 
 
 
