@@ -876,7 +876,6 @@ export class CollectionTableView extends TableView {
         // }
 
 
-        //loop through the elements for some reason this refuses to work?????
         let row = this.tbody_cells[r];
 
         for (let c = 0; c < row.length; c++) {

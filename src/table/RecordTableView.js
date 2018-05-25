@@ -101,7 +101,13 @@ export class RecordTableView extends TableView {
 
     }
 
-
+    updateRowValues(row){
+        //THIS could be more elegant, but a redraw seems fine.....
+        this.drawTable()
+    }
+   updateTotals(){
+        //dummy function do not delete.....
+   }
 
 
 
