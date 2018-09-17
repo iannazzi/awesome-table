@@ -29,13 +29,20 @@ export class TableView {
 
     getTimeValue(mess_string){
         
-        if(mess_string.indexOf("T")){
+        if(mess_string)
+        {
+            if(mess_string.indexOf("T")){
             return (mess_string.substring(mess_string.indexOf("T")+1,mess_string.length))
 
+            }
+            else{
+                return mess_string;
+            } 
         }
         else{
             return mess_string;
         }
+        
 
         //could be date time
         //could be a time....
@@ -51,7 +58,14 @@ export class TableView {
      getDateValue(mess_string){
 
         //incoming string ****has to be yyyy-mm-dd *******
+        if(mess_string){
         return mess_string.substring(0,10);
+
+        }
+        else
+        {
+            return mess_string;
+        }
 
         // var dt = new Date(mess_string);
         // // var hr = dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds();

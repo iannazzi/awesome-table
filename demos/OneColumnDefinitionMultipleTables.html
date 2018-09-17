@@ -37,7 +37,8 @@
             return_data[i].id = i;
             return_data[i].checkbox = 1;
             return_data[i].radio = 0;
-
+            return_data[i].time = '2018-01-01T10:00:0' + i;
+            return_data[i].date = '2018-01-01T10:00:0' + i;
             return_data[i].name = 'name ' + i;
 
             return_data[i].html = i;
@@ -49,6 +50,17 @@
 
     }
     let sample_data = data(10);
+    sample_data[0].time = null;
+    sample_data[1].time = "10:00";
+    sample_data[2].time = "11:00:00"
+    sample_data[3].time = "";
+    sample_data[4].time = "23:00:00"
+
+    sample_data[0].date = null;
+    sample_data[1].date = "2018-01-02";
+    sample_data[2].date = "";
+
+
     //set up some different times....
  
 
