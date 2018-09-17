@@ -3,6 +3,9 @@ export class ColumnDefinition {
     constructor(awesomeTable) {
         this.awesomeTable=awesomeTable;
     }
+    //where do I put some specs on time?
+    //time: pass in a date, time, datetime in many formats...
+    //date: pass in a  date, time, datetime in many formats....
     cd() {
         let cd = {
             "db_field": 'replace',

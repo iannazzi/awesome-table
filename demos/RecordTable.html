@@ -16,12 +16,12 @@
 
 </head>
 <body>
-<a href="../index.html">Home</a>
-<h1>Generic Record Table</h1>
-<div id='table'></div>
-<h1>Testing Results</h1>
-<div id='tdv'></div>
-</body>
+    <a href="../index.html">Home</a>
+    <h1>Generic Record Table</h1>
+    <div id='table'></div>
+    <h1>Testing Results</h1>
+    <div id='tdv'></div>
+
 <style>
     #awesome-table_table {
         width: 600px;
@@ -32,14 +32,15 @@
     //set up some data
     //setup - get an instance of the table so we can set it up
 
-    //set up some data
     let dataGenerator = function (rows) {
         let data = [];
         for(let i=0;i<rows;i++){
             data[i] = {};
             data[i].id = i;
             data[i].name = 'name_' + i;
-            data[i].check_name = 'check_name' + i;
+            data[i].time = '2018-01-01T10:00:0' + i;
+            data[i].date = '2018-01-01T10:00:0' + i;
+
             data[i].account_number = 'account_number' + i;
             data[i].main_email = 'email' + i + '@gmail.com';
             data[i].active = 1;
@@ -155,274 +156,6 @@
             "type": "radio",
         }
 
-// {
-//            "db_field": "check_name",
-//            "type": "text",
-//            "caption": "Check Name",
-//            "array": 0,
-//            "default_value": '',
-//            "show_on_list": false,
-//            "show_on_view": true,
-//            "show_on_edit": true,
-//            "show_on_create": true,
-//            "td_tags": "",
-//            "class": "",
-//            "events": [],
-//            "properties": [],
-//            "word_wrap": true
-//        }, {
-//            "db_field": "account_number",
-//            "caption": "Account Number",
-//            "type": "text",
-//            "array": 0,
-//            "default_value": '',
-//            "show_on_list": true,
-//            "show_on_view": true,
-//            "show_on_edit": true,
-//            "show_on_create": true,
-//            "td_tags": "",
-//            "class": "",
-//            "events": [],
-//            "search": "LIKE ANY BETWEEN EXACT",
-//            "properties": [],
-//            "word_wrap": true,
-//            "th_width": "200px",
-//
-//        },
-//        {
-//            "db_field": "main_email",
-//            "caption": "Email",
-//            "type": "text",
-//            "array": 0,
-//            "default_value": '',
-//            "show_on_list": true,
-//            "show_on_view": true,
-//            "show_on_edit": true,
-//            "show_on_create": true,
-//            "td_tags": "",
-//            "class": "",
-//            "events": [],
-//            "properties": [],
-//            "word_wrap": true
-//        },
-//        {
-//            "db_field": "cc_email",
-//            "caption": "CC Email",
-//            "type": "text",
-//            "array": 0,
-//            "default_value": '',
-//            "show_on_list": false,
-//            "show_on_view": true,
-//            "show_on_edit": true,
-//            "show_on_create": true,
-//            "td_tags": "",
-//            "class": "",
-//            "events": [],
-//            "properties": [],
-//            "word_wrap": true
-//        }, {
-//            "db_field": "main_phone",
-//            "caption": "Phone #",
-//            "type": "text",
-//            "array": 0,
-//            "default_value": '',
-//            "show_on_list": true,
-//            "show_on_view": true,
-//            "show_on_edit": true,
-//            "show_on_create": true,
-//            "td_tags": "",
-//            "class": "",
-//            "events": [],
-//            "properties": [],
-//            "word_wrap": true
-//        }, {
-//            "db_field": "work_phone",
-//            "caption": "Work Phone #",
-//            "type": "text",
-//            "array": 0,
-//            "default_value": '',
-//            "show_on_list": false,
-//            "show_on_view": true,
-//            "show_on_edit": true,
-//            "show_on_create": true,
-//            "td_tags": "",
-//            "class": "",
-//            "events": [],
-//            "properties": [],
-//            "word_wrap": true
-//        }, {
-//            "db_field": "mobile",
-//            "caption": "Mobile #",
-//            "type": "text",
-//            "array": 0,
-//            "default_value": '',
-//            "show_on_list": false,
-//            "show_on_view": true,
-//            "show_on_edit": true,
-//            "show_on_create": true,
-//            "td_tags": "",
-//            "class": "",
-//            "events": [],
-//            "properties": [],
-//            "word_wrap": true
-//        }, {
-//            "db_field": "fax",
-//            "caption": "Fax #",
-//            "type": "text",
-//            "array": 0,
-//            "default_value": '',
-//            "show_on_list": false,
-//            "show_on_view": true,
-//            "show_on_edit": true,
-//            "show_on_create": true,
-//            "td_tags": "",
-//            "class": "",
-//            "events": [],
-//            "properties": [],
-//            "word_wrap": true
-//        },
-//        {
-//            "db_field": "address1",
-//            "caption": "Address 1",
-//            "type": "text",
-//            "show_on_list": false,
-//            "show_on_view": true,
-//            "show_on_edit": true,
-//            "show_on_create": true,
-//            "th_width": "150px",
-//            "td_tags": "",
-//            "class": "",
-//            "events": [],
-//            "search_default": "",
-//
-//            "properties": [],
-//            "word_wrap": true,
-//            "post": true
-//        },
-//        {
-//            "db_field": "address2",
-//            "caption": "Address 2",
-//            "type": "text",
-//            "show_on_list": false,
-//            "show_on_view": true,
-//            "show_on_edit": true,
-//            "show_on_create": true,
-//            "th_width": "150px",
-//            "td_tags": "",
-//            "class": "",
-//            "events": [],
-//            "search_default": "",
-//
-//            "properties": [],
-//            "word_wrap": true,
-//            "post": true
-//        },
-//        {
-//            "db_field": "address3",
-//            "caption": "Address 3",
-//            "type": "text",
-//            "show_on_list": false,
-//            "show_on_view": true,
-//            "show_on_edit": true,
-//            "show_on_create": true,
-//            "th_width": "150px",
-//            "td_tags": "",
-//            "class": "",
-//            "events": [],
-//            "search_default": "",
-//
-//            "properties": [],
-//            "word_wrap": true,
-//            "post": true
-//        },
-//        {
-//            "db_field": "city",
-//            "caption": "City",
-//            "type": "text",
-//            "show_on_list": false,
-//            "show_on_view": true,
-//            "show_on_edit": true,
-//            "show_on_create": true,
-//            "th_width": "150px",
-//            "td_tags": "",
-//            "class": "",
-//            "events": [],
-//            "search_default": "",
-//
-//            "properties": [],
-//            "word_wrap": true,
-//            "post": true
-//        },
-//        {
-//            "db_field": "state_id",
-//            "caption": "State",
-//            "type": "select",
-//            "select_values": awesomeTable.ColumnDefinition.select_values(),
-//            "show_on_list": false,
-//            "show_on_view": true,
-//            "show_on_edit": true,
-//            "show_on_create": true,
-//            "th_width": "150px",
-//            "td_tags": "",
-//            "class": "",
-//            "events": [],
-//            "search_default": "",
-//
-//            "properties": [],
-//            "word_wrap": true,
-//            "post": true
-//        },
-//        {
-//            "db_field": "zip",
-//            "caption": "Zip code",
-//            "type": "text",
-//            "show_on_list": false,
-//            "show_on_view": true,
-//            "show_on_edit": true,
-//            "show_on_create": true,
-//            "th_width": "150px",
-//            "td_tags": "",
-//            "class": "",
-//            "events": [],
-//            "search_default": "",
-//
-//            "properties": [],
-//            "word_wrap": true,
-//            "post": true
-//        },
-//        {
-//            "db_field": "active",
-//            "caption": "Active",
-//            "type": "checkbox",
-//            "array": 0,
-//            "default_value": 1,
-//            "show_on_list": true,
-//            "show_on_view": true,
-//            "show_on_edit": true,
-//            "show_on_create": true,
-//            "td_tags": "",
-//            "th_width": "80px",
-//            "class": "",
-//            "events": [],
-//            "search": "LIKE ANY BETWEEN EXACT",
-//            "properties": [],
-//            "word_wrap": true
-//        }, {
-//            "db_field": "comments",
-//            "caption": "Comments",
-//            "type": "textarea",
-//            "array": 0,
-//            "default_value": '',
-//            "show_on_list": true,
-//            "show_on_view": true,
-//            "show_on_edit": true,
-//            "show_on_create": true,
-//            "td_tags": "",
-//            "class": "",
-//            "events": [],
-//            "properties": [],
-//            "word_wrap": true
-//        },
     ];
     let config = {
         name: 'awesome-table',
@@ -453,14 +186,20 @@
     let expect_false,expect_true,test_val;
     let test;
 
-    test="load up some data"
-    awesomeTable.controller.loadRecord(data[1])
+     test="load up some data"
+     awesomeTable.controller.loadRecord(data[1])
 
-    test_val = document.getElementById('awesome-table_td_name').innerHTML;
-    if(test_val != 'name_1'){
-        passing = false;
-        errors.push(test)
-    }
+    // test_val = document.getElementById('awesome-table_td_name').innerHTML;
+    // if(test_val != 'name_1'){
+    //     passing = false;
+    //     errors.push(test)
+    // }
+
+
+    //now make it editable....
+   // awesomeTable.controller.makeEditable()
+   // awesomeTable.setValue('name',0,'booo')
+   //  awesomeTable.controller.makeReadable()
 
 
 
@@ -470,3 +209,5 @@
 
 
 </script>
+</body>
+</html>

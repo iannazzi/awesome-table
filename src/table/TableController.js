@@ -114,13 +114,16 @@ export class TableController {
     }
 
     makeEditable() {
+        //shared by collection and record view....
+
         this.model.td.table_view = 'edit';
         this.model.td.access = 'write';
         this.view.drawTable();
-        this.view.drawTableEditSaveButtons();
-        this.setFocusToFirstInput();
         //collection table might want table modify buttons...
+      
         this.view.showRowModifyButtons();
+        this.setFocusToFirstInput();
+
 
 
     }
@@ -129,9 +132,10 @@ export class TableController {
         this.model.td.table_view = 'show';
         this.model.td.access = 'read';
         this.view.drawTable();
-        this.view.drawTableEditSaveButtons();
         //collection table might want table modify buttons...
         this.view.hideRowModifyButtons();
+        this.setFocusToFirstInput();
+
 
     }
     setFocusToFirstInput(row) {

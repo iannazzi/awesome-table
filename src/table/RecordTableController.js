@@ -47,7 +47,7 @@ export class RecordTableController extends TableController {
     }
     loadRecord(data){
         this.model.loadData([data]);
-        this.view.drawTable();
+        this.view.updateTableValues();
     }
     copyTable() {
         //for the record table igonore row_number and row_checkbox columns

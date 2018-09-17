@@ -163,12 +163,6 @@ export class AwesomeTable {
 
         this.controller.updateCellValue(column_name, row, value)
 
-        // if(this.options.edit_display == 'on_page'){
-        //     this.controller.updateCellValue(column, value, row)
-        // }
-        // else{
-        //     this.controllerModal.updateCellValue(column, value, row)
-        // }
     }
 
 

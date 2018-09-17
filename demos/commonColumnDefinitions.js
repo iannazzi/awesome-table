@@ -163,6 +163,20 @@ let oneTableMultiView = function (awesomeTable) {
             sort: 'desc',
             "type": "text",
         },
+         {
+            "db_field": 'date',
+            "caption": "Date", //this can also be a 2-d array to match data that is in an array
+            "type": "date",
+            search: true,
+            'min': '2018-04-11',   //add a minimum value
+            'max': '2020-01-12', //add a maximum value for the browser to handle
+        },
+        {
+            "db_field": 'time',
+            "caption": "time", //this can also be a 2-d array to match data that is in an array
+            "type": "time",
+            "placeholder": "HH:MM AM/PM or 24 Hr"
+        },
         {
             "db_field": 'password',
             "caption": "password", //this can also be a 2-d array to match data that is in an array
