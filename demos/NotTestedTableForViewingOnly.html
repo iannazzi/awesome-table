@@ -39,6 +39,8 @@
             return_data[i].radio = 0;
 
             return_data[i].name = 'name ' + i;
+            return_data[i].time;
+            return_data[i].date;
 
             return_data[i].html = i;
             return_data[i].password = i;
@@ -49,8 +51,23 @@
 
     }
     let sample_data = data(10);
+
     //set up some different times....
- 
+    sample_data[0].time = "2018-01-01T10:00:00"
+    sample_data[1].time = "2015-03-25T12:00:00Z"
+    sample_data[2].time = "2015-03-25T12:00:00-06:30"
+    sample_data[3].time = "2018-01-01 10:00:00"
+    sample_data[4].time = "2018-01-01 10:00:00:000"
+
+    //sample_data[3].time = "04 Dec 1995 00:12:00 GMT"
+
+    sample_data[0].date = "2018-01-01T10:00:00"
+    sample_data[1].date = "2015-03-25T12:00:00Z"
+    sample_data[2].date = "2015-03-25T12:00:00-06:30"
+    sample_data[0].date = "2018-01-01T10:00:00"
+    sample_data[3].date = "2018-01-01 10:00:00"
+    sample_data[4].date = "2018-01-01 10:00:00:000"    
+    //sample_data[3].date = "04 Dec 1995 00:12:00 GMT"
 
 
     
@@ -113,42 +130,6 @@
 
 
 
-    //test
-    let passing = true;
-    let handeled_errors = [];
-    let errors = [];
-    let expect_false, expect_true, test_val;
-    let test;
-
-    //how to handle id? --- should it be a link
-    //should it be something very special like id
-    //
-
-    test = 'Password is only on Create';
-    test_val = document.getElementById('create_password');
-    if(test_val === null){
-        passing=false;
-        errors.push(test)
-    }
-
-
-    //the click thing is weird...
-    //I would like tr to be clickable... it kinda is....
-
-    //drawing the writable table
-    //updating the cell values
-    //drawing the read table  is all fucked
-
-//    test = 'ID is clickable';
-//
-//    test_val = document.getElementById('collection_r0_id').click();
-//    console.log(test_val)
-//
-//    test = 'row is clickable'
-//    test_val = document.getElementById('collection_r0').click();
-//    console.log(test_val)
-
-    printTestResults(passing,errors)
 
 
 

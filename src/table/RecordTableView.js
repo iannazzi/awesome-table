@@ -62,6 +62,13 @@ export class RecordTableView extends TableView {
 
 
     drawTable() {
+        this.drawTbody();
+        this.drawTableEditSaveButtons();
+
+        this.updateTableValues();
+
+    }
+    drawTbody() {
         let tbl = this.table;
         tbl.innerHTML = '';
         //this.elements = {};
@@ -70,6 +77,7 @@ export class RecordTableView extends TableView {
         this.elements = [];
         this.elements[0] = {};
         this.elements_array = [];
+        this.tbody_cells = [];
 
 
 
@@ -97,13 +105,25 @@ export class RecordTableView extends TableView {
                     console.log('error in the column definition - table_view was not set....');
             }
         })
-        this.drawTableEditSaveButtons();
+
 
     }
+    updateTableValues() {
 
-    updateRowValues(row){
-        //THIS could be more elegant, but a redraw seems fine.....
-        this.drawTable()
+    
+        this.updateRowValues(0)
+       
+    }
+    updateRowValues(row_number = 0){
+
+
+        let row = this.tbody_cells;
+        for (let c = 0; c < row.length; c++) {
+            let col_def = row[c].col_def;
+
+            let data = this.model.tdo[row_number][col_def.db_field].data
+            this.writeCellValue(col_def, row[c], data)
+        }
     }
    updateTotals(){
         //dummy function do not delete.....
@@ -112,6 +132,7 @@ export class RecordTableView extends TableView {
 
 
     addRow(tbody, col_def) {
+        
         if (col_def.type != 'row_checkbox' && col_def.type != 'row_number') {
             let tr = tbody.insertRow();
             let th = document.createElement('th');
@@ -124,6 +145,8 @@ export class RecordTableView extends TableView {
             let data = this.model.tdo[0][col_def.db_field].data;
             let cell = tr.insertCell(-1);
             cell.id = this.model.td.name + '_td_' + col_def.db_field;
+            this.tbody_cells.push(cell);
+            cell.col_def = col_def;
             let element = this.createElement(data, col_def);
             element.id=this.model.td.name + '_' + col_def.db_field;
             element.awesomeTable = {};

@@ -671,8 +671,8 @@ export class CollectionTableView extends TableView {
         this.drawFooter();
         this.drawTableEditSaveButtons();
 
-        //now write the data run row calculations and totals
         this.updateTableValues();
+
     }
 
     highlightRow(row) {

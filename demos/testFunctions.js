@@ -2,6 +2,7 @@
 let printTestResults = function(passing, errors){
 
     let tdv = document.getElementById('tdv');
+    tdv.innerHTML = "";
     let p = document.createElement('p');
     p.id = 'test1';
     if(passing){

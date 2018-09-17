@@ -27,7 +27,40 @@ export class TableView {
         // this.name = this.id;
     }
 
+    getTimeValue(mess_string){
+        
+        if(mess_string.indexOf("T")){
+            return (mess_string.substring(mess_string.indexOf("T")+1,mess_string.length))
 
+        }
+        else{
+            return mess_string;
+        }
+
+        //could be date time
+        //could be a time....
+        //return mess_string;
+        // var dt = new Date(mess_string);
+        // var hr = dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds();
+        // var hr = dt.toLocaleTimeString();
+        // var hr = dt.toTimeString();
+
+        
+         // return hr;
+    }
+     getDateValue(mess_string){
+
+        //incoming string ****has to be yyyy-mm-dd *******
+        return mess_string.substring(0,10);
+
+        // var dt = new Date(mess_string);
+        // // var hr = dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds();
+        // // var hr = dt.getFullYear() + '-' + dt.getMonth() + '-' + dt.getDate();
+        // var hr = dt.toISOString();
+
+        
+        //  return hr;
+    }
 
     writeCellValue(col_def, cell, value) {
 
@@ -42,6 +75,14 @@ export class TableView {
                         col_def.onClick(value)
                     })
                 }
+            }
+            else if (col_def.type == 'date'){
+
+               cell.innerHTML = this.getDateValue(value);
+                
+            }
+            else if (col_def.type == 'time'){
+               cell.innerHTML = this.getTimeValue(value);
             }
             else if(col_def['type'] == 'link'){
                 cell.innerHTML = '<a href="' + value + '">'+value+'</a>';
@@ -77,8 +118,23 @@ export class TableView {
             else if (col_def.type == 'row_number'){
                 cell.innerHTML=value;
             }
+            else if (col_def.type == 'link'){
+                cell.innerHTML=value;
+            }
+            else if (col_def.type == 'time'){
+                //cell.innerHTML=value;
+               element.value = this.getTimeValue(value);
+
+            }
+            else if (col_def.type == 'date'){
+
+               element.value = this.getDateValue(value);
+                
+            }
             else {
                 element.value = value;
+
+
             }
         }
 
@@ -128,52 +184,52 @@ export class TableView {
         let db_field = col_def['db_field'];
         switch (col_def.type.toLowerCase()) {
             case 'date':
-                return this.createDateInput(col_def, data, );
+                return this.createDateInput(col_def);
                 break;
             case 'text':
-                return this.createTextInput(col_def, data);
+                return this.createTextInput(col_def);
                 break;
             case 'password':
-                return this.createPasswordInput(col_def, data);
+                return this.createPasswordInput(col_def);
                 break;
             case 'textarea':
-                return this.createTextArea(col_def, data);
+                return this.createTextArea(col_def);
                 break;
             case 'number':
-                return this.createNumberInput(col_def, data);
+                return this.createNumberInput(col_def);
                 break;
             case 'checkbox':
-                return this.createCheckBox(col_def, data);
+                return this.createCheckBox(col_def);
                 break;
             case 'row_checkbox':
-                return this.createRowCheckbox(col_def, data);
+                return this.createRowCheckbox(col_def);
                 break;
             case 'row_number':
-                return this.createRowNumber(col_def, data);
+                return this.createRowNumber(col_def);
                 break;
             case 'select':
-                return this.createDataTableSelect(col_def, data);
+                return this.createDataTableSelect(col_def);
                 break;
             case 'tree_select':
-                return this.createDataTableTreeSelect(col_def, data);
+                return this.createDataTableTreeSelect(col_def);
                 break;
             case 'html':
-                return this.createTextNode(col_def, data);
+                return this.createTextNode(col_def);
                 break;
             case 'radio':
-                return this.createRadio(col_def, data);
+                return this.createRadio(col_def);
                 break;
             case 'button':
-                return this.createButton(col_def, data);
+                return this.createButton(col_def);
                 break;
             case 'link':
-                return this.createLink(col_def, data);
+                return this.createLink(col_def);
                 break;
             case 'id':
-                return this.createId(col_def, data);
+                return this.createId(col_def);
                 break;
             case 'time':
-                return this.createTime(col_def, data);
+                return this.createTime(col_def);
                 break;
             default:
                 return document.createTextNode('type "' + col_def.type + '" has not been coded');
@@ -184,7 +240,7 @@ export class TableView {
 
     }
 
-    createTextArea(col_def, data) {
+    createTextArea(col_def) {
         if (this.checkWrite()) {
             let element = document.createElement("TEXTAREA");
             let self = this;
@@ -194,21 +250,18 @@ export class TableView {
             this.addEvents(col_def, element);
             this.addProperties(col_def, element);
 
-            element.value = data;
 
             return element;
         }
         else {
-            if (data) {
-                return document.createTextNode(data);
-            }
+           
             return document.createTextNode('');
         }
 
 
     }
 
-    createCheckBox(col_def, data) {
+    createCheckBox(col_def) {
         let element = document.createElement('input');
         element.type = 'checkbox';
         //element.name = col_def.db_field + '[]';
@@ -220,9 +273,9 @@ export class TableView {
         });
         this.addEvents(col_def, element);
         //element.onclick = function(){self.inputChanged.notify()}
-        if (data == true || data == "1" || data == 1 || data == "true") {
-            element.checked = true;
-        }
+        // if (data == true || data == "1" || data == 1 || data == "true") {
+        //     element.checked = true;
+        // }
 
         if (this.checkWrite()) {
             this.addProperties(col_def, element);
@@ -234,15 +287,15 @@ export class TableView {
         return element;
     }
 
-    createRowCheckbox(col_def, data) {
+    createRowCheckbox(col_def) {
         if (this.checkWrite()) {
             let element = document.createElement('input');
             element.type = 'checkbox';
             //element.name = col_def.db_field + '[]';
             //element.id = col_def.db_field + '_search';
-            if (data) {
-                element.checked = true;
-            }
+            // if (data) {
+            //     element.checked = true;
+            // }
             let self = this;
             element.addEventListener("click", function () {
                 self.addInputChangedNotify(element, col_def)
@@ -250,7 +303,7 @@ export class TableView {
             });
             this.addEvents(col_def, element);
             this.addProperties(col_def, element);
-            element.value = data;
+            //element.value = data;
             // element.onclick = function(){self.inputChanged.notify()};
             return element;
         }
@@ -260,12 +313,12 @@ export class TableView {
         }
     }
 
-    createRowNumber(col_def, data) {
-        let element = document.createTextNode(data);
+    createRowNumber(col_def) {
+        let element = document.createTextNode('');
         return element;
     }
 
-    createNumberInput(col_def, data) {
+    createNumberInput(col_def) {
         if (this.checkWrite()) {
             //can be text, number
             let element = document.createElement('input');
@@ -293,19 +346,19 @@ export class TableView {
 
             if (typeof col_def['round'] != 'undefined') {
                 //if(isNumber(data)) {
-                data = myParseFloat(data);
-                data = round2(data, col_def['round']);
+                // data = myParseFloat(data);
+                // data = round2(data, col_def['round']);
                 //}
             }
-            element.value = data;
+            //element.value = data;
             return element;
         }
         else {
             if (typeof col_def['round'] != 'undefined') {
-                data = myParseFloat(data);
-                data = round2(data, col_def['round']);
+               // data = myParseFloat(data);
+               // data = round2(data, col_def['round']);
             }
-            return document.createTextNode(data);
+            return document.createTextNode('');
         }
     }
 
@@ -318,7 +371,7 @@ export class TableView {
         }
     }
 
-    createTextInput(col_def, data) {
+    createTextInput(col_def) {
         if (this.checkWrite()) {
             let element = document.createElement('input');
             element.type = 'text';
@@ -341,18 +394,18 @@ export class TableView {
             this.addEvents(col_def, element);
             // element.onkeyup = function(){self.inputChanged.notify()}
             this.addProperties(col_def, element);
-            element.value = data;
+           // element.value = data;
             return element;
         }
         else {
-            if (data) {
-                return document.createTextNode(data);
-            }
+            // if (data) {
+            //     return document.createTextNode(data);
+            // }
             return document.createTextNode('');
         }
     }
 
-    createPasswordInput(col_def, data) {
+    createPasswordInput(col_def, ) {
         if (this.checkWrite()) {
             //can be text, number
             let element = document.createElement('input');
@@ -366,15 +419,22 @@ export class TableView {
             this.addEvents(col_def, element);
             // element.onkeyup = function(){self.inputChanged.notify()}
             this.addProperties(col_def, element);
-            element.value = data;
+            //element.value = data;
             return element;
         }
         else {
-            return document.createTextNode(data);
+            return document.createTextNode('');
         }
     }
 
-    createDateInput(col_def, data) {
+    createDateInput(col_def) {
+
+        //var dt = new Date(data);
+
+        //console.log(dt);
+        //var hr = dt.toISOString();
+        //console.log(hr);
+
         if (this.checkWrite()) {
             let element = document.createElement('input');
             element.type = 'date';
@@ -383,7 +443,7 @@ export class TableView {
             if (typeof col_def.placeholder != 'undefined' && col_def.placeholder) {
                 element.placeholder = col_def.placeholder;
             }
-            element.value = data;
+            //element.value = data;
             let self = this;
             element.addEventListener("change", function () {
                 self.addInputChangedNotify(element, col_def)
@@ -394,25 +454,56 @@ export class TableView {
             return element;
         }
         else {
-            return document.createTextNode(data);
+            return document.createTextNode('');
         }
 
 
     }
 
-    createTime(col_def, data){
-        return this.createTextInput(col_def, data)
+    createTime(col_def){
+
+
+        if (this.checkWrite()) {
+            let element = document.createElement('input');
+            element.type = 'time';
+            if (typeof col_def.placeholder != 'undefined' && col_def.placeholder) {
+                element.placeholder = col_def.placeholder;
+            }
+
+            let self = this;
+
+            //this is ok....
+            element.addEventListener("keyup", function () {
+                self.addInputChangedNotify(element, col_def)
+
+            });
+            //this is more like a set focus.... but really have no idea....could change....
+            element.addEventListener("click", function () {
+                self.addInputChangedNotify(element, col_def)
+
+            });
+            this.addEvents(col_def, element);
+            this.addProperties(col_def, element);
+            // element.value = hr;
+            return element;
+        }
+        else {
+            // if (data) {
+            //     return document.createTextNode();
+            // }
+            return document.createTextNode('');
+        }
     }
-    createLink(col_def, data) {
+    createLink(col_def) {
         if (this.model.td.table_view == 'index') {
             let a = document.createElement('a');
-            let c = document.createTextNode(data);
+            let c = document.createTextNode('');
             a.appendChild(c);
 
 
             if (typeof col_def.onClick === 'function') {
                 a.addEventListener("click", function () {
-                    col_def.onClick(data);
+                    col_def.onClick();
                 });
             }
             else {
@@ -424,33 +515,34 @@ export class TableView {
         }
         else {
             //on the show page we do not want a link....
-            return this.createTextNode(col_def, data);
+            return this.createTextNode('');
 
         }
 
 
+
     }
-    createId(col_def, data) {
+    createId(col_def) {
         if (this.model.td.table_view == 'index') {
             let a = document.createElement('a');
-            let c = document.createTextNode(data);
+            let c = document.createTextNode('');
             a.appendChild(c);
             if (typeof col_def.onClick === 'function') {
                 a.addEventListener("click", function () {
-                    col_def.onClick(data);
+                    //col_def.onClick(data);
                 });
             }
             return a;
         }
         else {
             //on the show page we do not want a link....
-            return this.createTextNode(col_def, data);
+            return this.createTextNode(col_def);
 
         }
 
 
     }
-    createButton(col_def, data) {
+    createButton(col_def) {
         let element = document.createElement('button');
         //element.id = db_field + '_sr' + r;
         element.className = "button";
@@ -464,18 +556,18 @@ export class TableView {
         return element;
     }
 
-    createTextNode(col_def, data) {
-        if (typeof col_def['round'] != 'undefined') {
-            if (isNumber(data)) {
-                data = myParseFloat(data);
-                data = round2(data, col_def['round']);
-            }
+    createTextNode(col_def) {
+        // if (typeof col_def['round'] != 'undefined') {
+        //     if (isNumber(data)) {
+        //         data = myParseFloat(data);
+        //         data = round2(data, col_def['round']);
+        //     }
 
-        }
-        return document.createTextNode(data);
+        // }
+        return document.createTextNode("");
     }
 
-    createRadio(col_def, data) {
+    createRadio(col_def) {
         let element = document.createElement('input');
         element.type = 'radio';
         element.name = col_def['db_field'] + '[]';
@@ -486,9 +578,9 @@ export class TableView {
         this.addEvents(col_def, element);
 
         // element.onclick = function(){self.inputChanged.notify()};
-        if (data == 1) {
-            element.checked = true;
-        }
+        // if (data == 1) {
+        //     element.checked = true;
+        // }
         if (this.checkWrite()) {
             this.addProperties(col_def, element);
         }
@@ -574,7 +666,7 @@ export class TableView {
         }
     }
 
-    createDataTableSelect(col_def, data) {
+    createDataTableSelect(col_def) {
 
         if (typeof col_def.select_values === 'undefined') {
             console.log('select_values are not defined');
@@ -599,22 +691,22 @@ export class TableView {
             }
             this.addProperties(col_def, element);
             this.addEvents(col_def, element);
-            element.value = data + '';
+            //element.value = data + '';
             return element;
         }
         else {
             //bad things happen comparing sting to int....
-            let name = '';
-            col_def.select_values.forEach(select_value => {
-                if (select_value.value == data) {
-                    name = select_value.name;
-                }
-            })
+            // let name = '';
+            // col_def.select_values.forEach(select_value => {
+            //     if (select_value.value == data) {
+            //         name = select_value.name;
+            //     }
+            // })
 
             // console.log('data ' + data)
             // console.log('index ' + index);
             // console.log('value ' + value);
-            return document.createTextNode(name);
+            return document.createTextNode('');
         }
     }
 
@@ -656,7 +748,7 @@ export class TableView {
         }
     }
 
-    createDataTableTreeSelect(col_def, data) {
+    createDataTableTreeSelect(col_def) {
         if (this.checkWrite()) {
             let element = this.createTreeSelect(col_def)
             let self = this;
@@ -664,13 +756,13 @@ export class TableView {
                 self.inputChanged.notify()
             }
             this.addProperties(col_def, element);
-            element.value = data;
+            //element.value = data;
             return element;
         }
         else {
-            let value = this.findTreeSelectValue(col_def.select_values, data);
-            if (!value) value = '';
-            return document.createTextNode(value);
+            // let value = this.findTreeSelectValue(col_def.select_values, data);
+            // if (!value) value = '';
+            return document.createTextNode('');
         }
     }
 
