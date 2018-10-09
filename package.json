@@ -1,6 +1,6 @@
 {
   "name": "@iannazzi/awesome-table",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "description": "javascript table to display, create, list, sort, search records",
   "main": "dist/awesome-table-dist.js",
   "module": "src/table/AwesomeTable.js",
