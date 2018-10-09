@@ -61,24 +61,16 @@ export class SearchTableController extends CollectionTableController {
         }
     }
     populateSearchValuesFromDefaultValues() {
-        // console.log('populating search values');
-                    console.log('populateSearchValuesFromDefaultValues')
+        console.log('SearchTableController: populating search values from default');
 
         this.model.cdo.forEach(col_def => {
             if (typeof col_def['search'] != 'undefined' && typeof col_def['search_default'] != 'undefined') {
                 if (col_def['type'] == 'date'){
                     if(typeof col_def['search_default'].start != 'undefined'){
-                        console.log('adding start date to')
-                        console.log(col_def.search_element[0]);
-                        console.log(col_def.search_default.start)
                         col_def.search_element[0].value = col_def.search_default.start;
                     }
                     if(typeof col_def['search_default'].end != 'undefined')
                     {
-                            console.log(col_def.search_element)
-                        console.log('adding end date to')
-                        console.log(col_def.search_element[1]);
-                        console.log(col_def.search_default.end)
                         col_def.search_element[1].value = col_def.search_default.end;
                     }
                 }
