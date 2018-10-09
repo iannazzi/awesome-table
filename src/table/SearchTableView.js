@@ -164,7 +164,7 @@ createSearchButtons(){
                     this.search_elements_array.push(element2)
                     this.search_elements_by_name[col_def['db_field'] + '_date_end']=element2;
 
-                    col_def['search_element'][1] = element;
+                    col_def['search_element'][1] = element2;
 
 
                 }

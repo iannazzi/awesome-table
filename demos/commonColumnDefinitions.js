@@ -40,6 +40,7 @@ let allOptions = function (awesomeTable) {
             "caption": "Date", //this can also be a 2-d array to match data that is in an array
             "type": "date",
             search: true,
+            search_default:{start: '2018-05-05', end: '2020-01-01'},
             'min': '2018-04-11',   //add a minimum value
             'max': '2020-01-12', //add a maximum value for the browser to handle
         },

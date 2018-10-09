@@ -78,7 +78,6 @@
 
 
 
-
     //test
     let passing = true;
     let handeled_errors = [];
@@ -103,6 +102,22 @@
         errors.push(test)
     }
 
+    test = 'Populate defaults: Date start is set to value  ';
+    test_val = document.getElementsByName('awesometable_date_date_start');
+    if(test_val[0].value != '2018-05-05'){
+        passing=false;
+        errors.push(test)
+    }
+
+    test = 'Populate defaults: Date end is set to value  ';
+    test_val = document.getElementsByName('awesometable_date_date_end');
+    if(test_val[0].value != '2020-01-01'){
+        passing=false;
+        errors.push(test)
+    }
+
+
+
     test = 'Name select is set to hi ';
     test_val = document.getElementsByName('awesometable_name');
     if(test_val[0].value != 'hi'){
@@ -119,7 +134,6 @@
         errors.push(test)
     }
 
-    //throw new error()
 
     test = 'Set name field to boo ';
     awesomeTable.view.search_elements_by_name['name'].value = 'boo'
