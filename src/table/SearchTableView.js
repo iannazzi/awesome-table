@@ -43,7 +43,7 @@ createSearchButtons(){
 
     this.searchResetButton.innerHTML = '<p>Reset</p>';
     this.searchResetButton.className = 'reset'
-    this.searchButton.id = 'reset_' + this.model.td.name
+    this.searchResetButton.id = 'reset_' + this.model.td.name
 
     this.searchButtonDiv.appendChild(this.searchResetButton);
     return this.searchButtonDiv;
