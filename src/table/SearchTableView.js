@@ -29,6 +29,8 @@ createSearchButtons(){
     this.searchButtonDiv.className = "search_buttons";
     this.searchButton = document.createElement('button');
     this.searchButton.className = 'search'
+    this.searchButton.id = 'search_' + this.model.td.name
+
     this.searchButton.onclick = function () {
         self.searchClicked.notify();
     }
@@ -41,6 +43,7 @@ createSearchButtons(){
 
     this.searchResetButton.innerHTML = '<p>Reset</p>';
     this.searchResetButton.className = 'reset'
+    this.searchButton.id = 'reset_' + this.model.td.name
 
     this.searchButtonDiv.appendChild(this.searchResetButton);
     return this.searchButtonDiv;
